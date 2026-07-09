@@ -1056,7 +1056,60 @@
     display: none;
   }
 
+  .examHeaderLeft {
+    min-width: auto;
+  }
+
+  .headerLogo {
+    width: 24px;
+    height: 24px;
+  }
+
+  .headerSnpmb {
+    font-size: 14px;
+  }
+
   .examHeaderCenter {
+    font-size: 11px;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .examHeaderRight {
+    min-width: auto;
+    gap: 8px;
+  }
+
+  .headerIp {
+    display: none;
+  }
+
+  .headerLatency {
+    display: none;
+  }
+
+  .questionFooter {
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  .footerLeft {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .footerRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .btnNav, .btnRagu {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
     font-size: 12px;
   }
 
