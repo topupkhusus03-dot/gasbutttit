@@ -1051,7 +1051,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 992px) {
   .examSidebar {
     display: none;
   }
@@ -1080,6 +1080,8 @@
   .examHeaderRight {
     min-width: auto;
     gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .headerIp {
@@ -1099,18 +1101,23 @@
   .footerLeft {
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .footerRight {
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .btnNav, .btnRagu {
     flex: 1;
     text-align: center;
-    padding: 8px 4px;
-    font-size: 12px;
+    padding: 10px 4px;
+    font-size: 13px;
+    min-width: 60px;
   }
 
   .questionArea {
