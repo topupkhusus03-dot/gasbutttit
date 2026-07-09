@@ -144,7 +144,7 @@ function PengumumanHasilContent() {
           
           {/* Header */}
           <div style={{ marginBottom: '20px' }}>
-            <img src="/logo.png" alt="Logo SNPMB" style={{ height: '70px', objectFit: 'contain' }} />
+            <img src="/logo.png" alt="Logo Daily Study" style={{ height: '70px', objectFit: 'contain' }} />
           </div>
 
           {/* Title */}
@@ -200,7 +200,7 @@ function PengumumanHasilContent() {
                   border: 'none',
                   borderRadius: '2px'
                 }}>
-                  UNDUH PENGUMUMAN KETUA SNPMB (PDF)
+                  UNDUH HASIL TRYOUT (PDF)
                 </Link>
               </div>
             </div>

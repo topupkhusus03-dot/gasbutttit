@@ -239,7 +239,7 @@ export default function CertificatePage() {
             </div>
 
             <p className={styles.certStatement}>
-              Telah mengikuti UTBK pada tanggal {formatTanggal(session.tanggal_tes)} dan berlaku untuk penerimaan mahasiswa baru 2027 dengan hasil sebagai berikut:
+              Telah mengikuti UTBK pada tanggal {formatTanggal(session.tanggal_tes)} dan berlaku untuk evaluasi tryout 2027 dengan hasil sebagai berikut:
             </p>
 
             <div className={styles.certScores}>

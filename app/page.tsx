@@ -205,7 +205,7 @@ export default function HomePage() {
       <footer className={styles.footer}>
         <div className="container">
           <p className={styles.footerText}>
-            TryoutSNBT bukan bagian resmi dari SNPMB. Platform ini dibuat untuk keperluan latihan.
+            TryoutSNBT bukan bagian resmi dari instansi pemerintah mana pun. Platform ini dibuat untuk keperluan latihan mandiri.
           </p>
         </div>
       </footer>

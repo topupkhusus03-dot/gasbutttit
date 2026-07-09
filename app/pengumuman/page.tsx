@@ -110,7 +110,7 @@ export default function PengumumanPage() {
     return (
       <div className="container" id="countdown-screen" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ background: '#97aabf', padding: '50px', width: '100%', maxWidth: '750px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-          <img src="/logo.png" alt="Logo SNPMB" style={{ maxHeight: '70px', objectFit: 'contain', marginBottom: '30px' }} />
+          <img src="/logo.png" alt="Logo Daily Study" style={{ maxHeight: '70px', objectFit: 'contain', marginBottom: '30px' }} />
           
           <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#ffffff', marginBottom: '40px', letterSpacing: '1px', textTransform: 'uppercase' }}>
             PENGUMUMAN HASIL TRYOUT SNBT 2027

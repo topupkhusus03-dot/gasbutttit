@@ -69,8 +69,8 @@ export default function SebSplashScreen() {
       </div>
 
       <div className={styles.footer}>
-        <strong>SNPMB</strong>
-        <div>Seleksi Nasional Penerimaan Mahasiswa Baru</div>
+        <strong>DAILY STUDY</strong>
+        <div>Tryout UTBK SNBT 2027</div>
       </div>
     </div>
   );
