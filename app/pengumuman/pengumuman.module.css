@@ -1,0 +1,132 @@
+.container {
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-inter);
+}
+
+.header {
+  background-color: #003366;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.headerLogo {
+  height: 48px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.headerTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 500px;
+  overflow: hidden;
+}
+
+.cardHeader {
+  background-color: #003366;
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.cardBody {
+  padding: 2rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+.errorBox {
+  background-color: #fee2e2;
+  border-left: 4px solid #ef4444;
+  color: #991b1b;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.btnSubmit {
+  width: 100%;
+  background-color: #0052cc;
+  color: white;
+  border: none;
+  padding: 0.875rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnSubmit:hover {
+  background-color: #003d99;
+}
+
+.btnSubmit:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.footer {
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+}

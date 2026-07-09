@@ -1,0 +1,2785 @@
+{
+  "universities": [
+    {
+      "nama_universitas": "Universitas Indonesia",
+      "kode_universitas": "UI",
+      "jenis": "PTN Akademik",
+      "provinsi": "DKI Jakarta"
+    },
+    {
+      "nama_universitas": "Institut Teknologi Bandung",
+      "kode_universitas": "ITB",
+      "jenis": "PTN Akademik",
+      "provinsi": "Jawa Barat"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SYIAH KUALA",
+      "kode_universitas": "1111",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS MALIKUSSALEH",
+      "kode_universitas": "1112",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS TEUKU UMAR",
+      "kode_universitas": "1113",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SAMUDRA",
+      "kode_universitas": "1114",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "ISBI ACEH",
+      "kode_universitas": "1115",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN AR-RANIRY",
+      "kode_universitas": "1116",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SUMATERA UTARA",
+      "kode_universitas": "1121",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI MEDAN",
+      "kode_universitas": "1122",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SUMATERA UTARA",
+      "kode_universitas": "1123",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SYEKH ALI HASAN AHMAD ADDARY PADANGSIDIMPUAN",
+      "kode_universitas": "1124",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS RIAU",
+      "kode_universitas": "1131",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SULTAN SYARIF KASIM",
+      "kode_universitas": "1132",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS MARITIM RAJA ALI HAJI",
+      "kode_universitas": "1133",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS ANDALAS",
+      "kode_universitas": "1141",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI PADANG",
+      "kode_universitas": "1142",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "ISI PADANG PANJANG",
+      "kode_universitas": "1143",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN IMAM BONJOL PADANG",
+      "kode_universitas": "1144",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS JAMBI",
+      "kode_universitas": "1151",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SULTAN THAHA SAIFUDDIN JAMBI",
+      "kode_universitas": "1152",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS BENGKULU",
+      "kode_universitas": "1161",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SRIWIJAYA",
+      "kode_universitas": "1171",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN RADEN FATAH",
+      "kode_universitas": "1172",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS BANGKA BELITUNG",
+      "kode_universitas": "1181",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS LAMPUNG",
+      "kode_universitas": "1191",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "INSTITUT TEKNOLOGI SUMATERA",
+      "kode_universitas": "1192",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN RADEN INTAN LAMPUNG",
+      "kode_universitas": "1193",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN MAHMUD YUNUS BATUSANGKAR",
+      "kode_universitas": "1194",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SJECH M. DJAMIL DJAMBEK BUKITTINGGI",
+      "kode_universitas": "1195",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SULTAN AGENG TIRTAYASA",
+      "kode_universitas": "1311",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SULTAN MAULANA HASANUDDIN BANTEN",
+      "kode_universitas": "1312",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS INDONESIA",
+      "kode_universitas": "1321",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN JAKARTA",
+      "kode_universitas": "1322",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI JAKARTA",
+      "kode_universitas": "1323",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UPN \"VETERAN\" JAKARTA",
+      "kode_universitas": "1324",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SINGAPERBANGSA KARAWANG",
+      "kode_universitas": "1331",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "INSTITUT TEKNOLOGI BANDUNG",
+      "kode_universitas": "1332",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS PADJADJARAN",
+      "kode_universitas": "1333",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS PENDIDIKAN INDONESIA",
+      "kode_universitas": "1334",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "ISBI BANDUNG",
+      "kode_universitas": "1335",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SUNAN GUNUNG DJATI",
+      "kode_universitas": "1336",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "INSTITUT PERTANIAN BOGOR",
+      "kode_universitas": "1341",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SILIWANGI",
+      "kode_universitas": "1342",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS JENDERAL SOEDIRMAN",
+      "kode_universitas": "1351",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS TIDAR",
+      "kode_universitas": "1352",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SEBELAS MARET",
+      "kode_universitas": "1353",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "ISI SURAKARTA",
+      "kode_universitas": "1354",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS DIPONEGORO",
+      "kode_universitas": "1355",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI SEMARANG",
+      "kode_universitas": "1356",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN WALISONGO",
+      "kode_universitas": "1357",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN RADEN MAS SAID SURAKARTA",
+      "kode_universitas": "1358",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS GADJAH MADA",
+      "kode_universitas": "1361",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI YOGYAKARTA",
+      "kode_universitas": "1362",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UPN \"VETERAN\" YOGYAKARTA",
+      "kode_universitas": "1363",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "ISI YOGYAKARTA",
+      "kode_universitas": "1364",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SUNAN KALIJAGA",
+      "kode_universitas": "1365",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN PROFESOR KIAI HAJI SAIFUDDIN ZUHRI PURWOKERTO",
+      "kode_universitas": "1366",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SALATIGA",
+      "kode_universitas": "1367",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN K.H. ABDURRAHMAN WAHID PEKALONGAN",
+      "kode_universitas": "1368",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS JEMBER",
+      "kode_universitas": "1371",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS BRAWIJAYA",
+      "kode_universitas": "1372",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI MALANG",
+      "kode_universitas": "1373",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN MALANG",
+      "kode_universitas": "1374",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS AIRLANGGA",
+      "kode_universitas": "1381",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "INSTITUT TEKNOLOGI SEPULUH NOPEMBER",
+      "kode_universitas": "1382",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI SURABAYA",
+      "kode_universitas": "1383",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS TRUNOJOYO MADURA",
+      "kode_universitas": "1384",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UPN \"VETERAN\" JAWA TIMUR",
+      "kode_universitas": "1385",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SUNAN AMPEL SURABAYA",
+      "kode_universitas": "1386",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS TANJUNGPURA",
+      "kode_universitas": "1511",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS PALANGKARAYA",
+      "kode_universitas": "1521",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS LAMBUNG MANGKURAT",
+      "kode_universitas": "1531",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN ANTASARI BANJARMASIN",
+      "kode_universitas": "1532",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS MULAWARMAN",
+      "kode_universitas": "1541",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "INSTITUT TEKNOLOGI KALIMANTAN",
+      "kode_universitas": "1542",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS BORNEO TARAKAN",
+      "kode_universitas": "1551",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN SULTAN AJI MUHAMMAD IDRIS SAMARINDA",
+      "kode_universitas": "1571",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS UDAYANA",
+      "kode_universitas": "1611",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS PENDIDIKAN GANESHA",
+      "kode_universitas": "1612",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "ISI BALI",
+      "kode_universitas": "1613",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS MATARAM",
+      "kode_universitas": "1621",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN MATARAM",
+      "kode_universitas": "1622",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NUSA CENDANA",
+      "kode_universitas": "1631",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS TIMOR",
+      "kode_universitas": "1632",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS HASANUDDIN",
+      "kode_universitas": "1711",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI MAKASSAR",
+      "kode_universitas": "1712",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN ALAUDDIN",
+      "kode_universitas": "1713",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "INSTITUT TEKNOLOGI BJ. HABIBIE SULAWESI SELATAN",
+      "kode_universitas": "1718",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SAM RATULANGI",
+      "kode_universitas": "1721",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI MANADO",
+      "kode_universitas": "1722",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS TADULAKO",
+      "kode_universitas": "1731",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UIN DATOKARAMA PALU",
+      "kode_universitas": "1732",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SULAWESI BARAT",
+      "kode_universitas": "1741",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS HALUOLEO",
+      "kode_universitas": "1751",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS NEGERI GORONTALO",
+      "kode_universitas": "1752",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS SEMBILAN BELAS NOVEMBER KOLAKA",
+      "kode_universitas": "1753",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS PATTIMURA",
+      "kode_universitas": "1811",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS KHAIRUN",
+      "kode_universitas": "1821",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS CENDERAWASIH",
+      "kode_universitas": "1911",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS MUSAMUS MERAUKE",
+      "kode_universitas": "1912",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "ISBI TANAH PAPUA",
+      "kode_universitas": "1913",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "UNIVERSITAS PAPUA",
+      "kode_universitas": "1921",
+      "jenis": "PTN Akademik",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI LHOKSEUMAWE",
+      "kode_universitas": "2221",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI MEDAN",
+      "kode_universitas": "2222",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI BATAM",
+      "kode_universitas": "2231",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI BENGKALIS",
+      "kode_universitas": "2232",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI PADANG",
+      "kode_universitas": "2241",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK PERTANIAN NEGERI PAYAKUMBUH",
+      "kode_universitas": "2242",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI SRIWIJAYA",
+      "kode_universitas": "2271",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK MANUFAKTUR NEGERI BANGKA BELITUNG",
+      "kode_universitas": "2281",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI LAMPUNG",
+      "kode_universitas": "2291",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI JAKARTA",
+      "kode_universitas": "2421",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI MEDIA KREATIF",
+      "kode_universitas": "2422",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI BANDUNG",
+      "kode_universitas": "2431",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK MANUFAKTUR BANDUNG",
+      "kode_universitas": "2432",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI INDRAMAYU",
+      "kode_universitas": "2433",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI SUBANG",
+      "kode_universitas": "2434",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI SEMARANG",
+      "kode_universitas": "2452",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI CILACAP",
+      "kode_universitas": "2453",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK MARITIM NEGERI INDONESIA",
+      "kode_universitas": "2454",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI BANYUWANGI",
+      "kode_universitas": "2471",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI JEMBER",
+      "kode_universitas": "2472",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI MADIUN",
+      "kode_universitas": "2473",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI MALANG",
+      "kode_universitas": "2474",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK PERKAPALAN NEGERI SURABAYA",
+      "kode_universitas": "2481",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK ELEKTRONIKA NEGERI SURABAYA (PENS)",
+      "kode_universitas": "2482",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI MADURA",
+      "kode_universitas": "2483",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI PONTIANAK",
+      "kode_universitas": "2515",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI KETAPANG",
+      "kode_universitas": "2516",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI SAMBAS",
+      "kode_universitas": "2517",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI BANJARMASIN",
+      "kode_universitas": "2536",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI TANAH LAUT",
+      "kode_universitas": "2537",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI NUNUKAN",
+      "kode_universitas": "2552",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK PERTANIAN NEGERI SAMARINDA",
+      "kode_universitas": "2561",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI SAMARINDA",
+      "kode_universitas": "2562",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI BALIKPAPAN",
+      "kode_universitas": "2563",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI BALI",
+      "kode_universitas": "2617",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI KUPANG",
+      "kode_universitas": "2641",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK PERTANIAN NEGERI KUPANG",
+      "kode_universitas": "2642",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI UJUNG PANDANG",
+      "kode_universitas": "2716",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK PERTANIAN NEGERI PANGKAJENE KEPULAUAN",
+      "kode_universitas": "2717",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI MANADO",
+      "kode_universitas": "2727",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI NUSA UTARA",
+      "kode_universitas": "2728",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI AMBON",
+      "kode_universitas": "2831",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK PERIKANAN NEGERI TUAL",
+      "kode_universitas": "2832",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    },
+    {
+      "nama_universitas": "POLITEKNIK NEGERI FAKFAK",
+      "kode_universitas": "2931",
+      "jenis": "PTN Vokasi",
+      "provinsi": "Lainnya"
+    }
+  ],
+  "programs": [
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Hukum",
+      "kode_prodi": "UI-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 171
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Psikologi",
+      "kode_prodi": "UI-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 99
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Pendidikan Dokter",
+      "kode_prodi": "UI-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 90
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Manajemen",
+      "kode_prodi": "UI-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 90
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Akuntansi",
+      "kode_prodi": "UI-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 90
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Keperawatan",
+      "kode_prodi": "UI-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 75
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Komputer",
+      "kode_prodi": "UI-7",
+      "jenis": "Sarjana",
+      "daya_tampung": 75
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sistem Informasi",
+      "kode_prodi": "UI-8",
+      "jenis": "Sarjana",
+      "daya_tampung": 75
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Industri",
+      "kode_prodi": "UI-9",
+      "jenis": "Sarjana",
+      "daya_tampung": 71
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Kesehatan Masyarakat",
+      "kode_prodi": "UI-10",
+      "jenis": "Sarjana",
+      "daya_tampung": 68
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Mesin",
+      "kode_prodi": "UI-11",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Sipil",
+      "kode_prodi": "UI-12",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Farmasi",
+      "kode_prodi": "UI-13",
+      "jenis": "Sarjana",
+      "daya_tampung": 59
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Metalurgi dan Material",
+      "kode_prodi": "UI-14",
+      "jenis": "Sarjana",
+      "daya_tampung": 51
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Administrasi Negara",
+      "kode_prodi": "UI-15",
+      "jenis": "Sarjana",
+      "daya_tampung": 50
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Administrasi Niaga",
+      "kode_prodi": "UI-16",
+      "jenis": "Sarjana",
+      "daya_tampung": 50
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Administrasi Fiskal",
+      "kode_prodi": "UI-17",
+      "jenis": "Sarjana",
+      "daya_tampung": 50
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Ekonomi",
+      "kode_prodi": "UI-18",
+      "jenis": "Sarjana",
+      "daya_tampung": 50
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Pendidikan Dokter Gigi",
+      "kode_prodi": "UI-19",
+      "jenis": "Sarjana",
+      "daya_tampung": 45
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Elektro",
+      "kode_prodi": "UI-20",
+      "jenis": "Sarjana",
+      "daya_tampung": 45
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Komunikasi",
+      "kode_prodi": "UI-21",
+      "jenis": "Sarjana",
+      "daya_tampung": 44
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Kimia",
+      "kode_prodi": "UI-22",
+      "jenis": "Sarjana",
+      "daya_tampung": 44
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Geografi",
+      "kode_prodi": "UI-23",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Kimia",
+      "kode_prodi": "UI-24",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Fisika",
+      "kode_prodi": "UI-25",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Biologi",
+      "kode_prodi": "UI-26",
+      "jenis": "Sarjana",
+      "daya_tampung": 41
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Perkapalan",
+      "kode_prodi": "UI-27",
+      "jenis": "Sarjana",
+      "daya_tampung": 39
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Lingkungan",
+      "kode_prodi": "UI-28",
+      "jenis": "Sarjana",
+      "daya_tampung": 36
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Komputer",
+      "kode_prodi": "UI-29",
+      "jenis": "Sarjana",
+      "daya_tampung": 33
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Keselamatan dan Kesehatan Kerja",
+      "kode_prodi": "UI-30",
+      "jenis": "Sarjana",
+      "daya_tampung": 27
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Arsitektur",
+      "kode_prodi": "UI-31",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Arkeologi Indonesia",
+      "kode_prodi": "UI-32",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Sejarah",
+      "kode_prodi": "UI-33",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Geofisika",
+      "kode_prodi": "UI-34",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Geologi",
+      "kode_prodi": "UI-35",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Statistika",
+      "kode_prodi": "UI-36",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Aktuaria",
+      "kode_prodi": "UI-37",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sosiologi",
+      "kode_prodi": "UI-38",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Kesejahteraan Sosial",
+      "kode_prodi": "UI-39",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Antropologi Sosial",
+      "kode_prodi": "UI-40",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Politik",
+      "kode_prodi": "UI-41",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Perpustakaan",
+      "kode_prodi": "UI-42",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Filsafat",
+      "kode_prodi": "UI-43",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Indonesia",
+      "kode_prodi": "UI-44",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Daerah untuk Sastra Jawa",
+      "kode_prodi": "UI-45",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Jepang",
+      "kode_prodi": "UI-46",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Cina",
+      "kode_prodi": "UI-47",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Arab",
+      "kode_prodi": "UI-48",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Inggris",
+      "kode_prodi": "UI-49",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Belanda",
+      "kode_prodi": "UI-50",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Rusia",
+      "kode_prodi": "UI-51",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Matematika",
+      "kode_prodi": "UI-52",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Kriminologi",
+      "kode_prodi": "UI-53",
+      "jenis": "Sarjana",
+      "daya_tampung": 23
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknologi Bioproses",
+      "kode_prodi": "UI-54",
+      "jenis": "Sarjana",
+      "daya_tampung": 21
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Gizi",
+      "kode_prodi": "UI-55",
+      "jenis": "Sarjana",
+      "daya_tampung": 20
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Kesehatan Lingkungan",
+      "kode_prodi": "UI-56",
+      "jenis": "Sarjana",
+      "daya_tampung": 20
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Hubungan Internasional",
+      "kode_prodi": "UI-57",
+      "jenis": "Sarjana",
+      "daya_tampung": 18
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Kecerdasan Artifisial",
+      "kode_prodi": "UI-58",
+      "jenis": "Sarjana",
+      "daya_tampung": 18
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Bahasa dan Kebudayaan Korea",
+      "kode_prodi": "UI-59",
+      "jenis": "Sarjana",
+      "daya_tampung": 17
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Perancis",
+      "kode_prodi": "UI-60",
+      "jenis": "Sarjana",
+      "daya_tampung": 17
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Sastra Jerman",
+      "kode_prodi": "UI-61",
+      "jenis": "Sarjana",
+      "daya_tampung": 17
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Arsitektur Interior",
+      "kode_prodi": "UI-62",
+      "jenis": "Sarjana",
+      "daya_tampung": 15
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Teknik Biomedis",
+      "kode_prodi": "UI-63",
+      "jenis": "Sarjana",
+      "daya_tampung": 15
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Ilmu Ekonomi Islam",
+      "kode_prodi": "UI-64",
+      "jenis": "Sarjana",
+      "daya_tampung": 15
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Bisnis Islam",
+      "kode_prodi": "UI-65",
+      "jenis": "Sarjana",
+      "daya_tampung": 15
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Bisnis Kreatif",
+      "kode_prodi": "UI-66",
+      "jenis": "D4",
+      "daya_tampung": 47
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Produksi Media",
+      "kode_prodi": "UI-67",
+      "jenis": "D4",
+      "daya_tampung": 47
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Fisioterapi",
+      "kode_prodi": "UI-68",
+      "jenis": "D4",
+      "daya_tampung": 47
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Manajemen Bisnis Pariwisata",
+      "kode_prodi": "UI-69",
+      "jenis": "D4",
+      "daya_tampung": 47
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Manajemen Rekod dan Arsip",
+      "kode_prodi": "UI-70",
+      "jenis": "D4",
+      "daya_tampung": 47
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Terapi Okupasi",
+      "kode_prodi": "UI-71",
+      "jenis": "D4",
+      "daya_tampung": 47
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Hubungan Masyarakat",
+      "kode_prodi": "UI-72",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Akuntansi",
+      "kode_prodi": "UI-73",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Administrasi Rumah Sakit",
+      "kode_prodi": "UI-74",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Administrasi Perpajakan",
+      "kode_prodi": "UI-75",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Periklanan Kreatif",
+      "kode_prodi": "UI-76",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Penyiaran Multimedia",
+      "kode_prodi": "UI-77",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Administrasi Keuangan dan Perbankan",
+      "kode_prodi": "UI-78",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Administrasi Perkantoran",
+      "kode_prodi": "UI-79",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "UI",
+      "nama_prodi": "Administrasi Asuransi dan Aktuaria",
+      "kode_prodi": "UI-80",
+      "jenis": "D3",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)",
+      "kode_prodi": "ITB-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 160
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknologi Industri (FTI) - Kampus Ganesha",
+      "kode_prodi": "ITB-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 140
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Ilmu dan Teknologi Kebumian (FITB) - Kampus Ganesha",
+      "kode_prodi": "ITB-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 140
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknik Sipil dan Lingkungan (FTSL) - Kampus Ganesha",
+      "kode_prodi": "ITB-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 130
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknik Pertambangan dan Perminyakan (FTTM) - Kampus Ganesha",
+      "kode_prodi": "ITB-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 125
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Seni Rupa dan Desain (FSRD) - Kampus Ganesha",
+      "kode_prodi": "ITB-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 110
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknik Mesin dan Dirgantara (FTMD)",
+      "kode_prodi": "ITB-7",
+      "jenis": "Sarjana",
+      "daya_tampung": 100
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Ilmu dan Teknologi Hayati - Program Rekayasa (SITH-R)",
+      "kode_prodi": "ITB-8",
+      "jenis": "Sarjana",
+      "daya_tampung": 100
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Teknik Elektro dan Informatika (STEI) - Komputasi",
+      "kode_prodi": "ITB-9",
+      "jenis": "Sarjana",
+      "daya_tampung": 90
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Bisnis dan Manajemen (SBM)",
+      "kode_prodi": "ITB-10",
+      "jenis": "Sarjana",
+      "daya_tampung": 90
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Arsitektur Perencanaan dan Pengembangan Kebijakan (SAPPK) - Kampus Ganesha",
+      "kode_prodi": "ITB-11",
+      "jenis": "Sarjana",
+      "daya_tampung": 70
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Teknik Elektro dan Informatika (STEI) - Rekayasa",
+      "kode_prodi": "ITB-12",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Ilmu dan Teknologi Hayati - Program Sains (SITH-S)",
+      "kode_prodi": "ITB-13",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Farmasi (SF)",
+      "kode_prodi": "ITB-14",
+      "jenis": "Sarjana",
+      "daya_tampung": 50
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknologi Industri (FTI) - Kampus Jatinangor",
+      "kode_prodi": "ITB-15",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknik Sipil dan Lingkungan (FTSL) - Kampus Jatinangor",
+      "kode_prodi": "ITB-16",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Ilmu dan Teknologi Kebumian (FITB) - Kampus Cirebon",
+      "kode_prodi": "ITB-17",
+      "jenis": "Sarjana",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknik Pertambangan dan Perminyakan (FTTM) - Kampus Cirebon",
+      "kode_prodi": "ITB-18",
+      "jenis": "Sarjana",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Teknologi Industri (FTI) - Kampus Cirebon",
+      "kode_prodi": "ITB-19",
+      "jenis": "Sarjana",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Sekolah Arsitektur Perencanaan dan Pengembangan Kebijakan (SAPPK) - Kampus Cirebon",
+      "kode_prodi": "ITB-20",
+      "jenis": "Sarjana",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "ITB",
+      "nama_prodi": "Fakultas Seni Rupa dan Desain (FSRD) - Kampus Cirebon",
+      "kode_prodi": "ITB-21",
+      "jenis": "Sarjana",
+      "daya_tampung": 30
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN DOKTER HEWAN",
+      "kode_prodi": "1111-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 84
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK SIPIL",
+      "kode_prodi": "1111-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 98
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK MESIN",
+      "kode_prodi": "1111-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK KIMIA",
+      "kode_prodi": "1111-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 63
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ARSITEKTUR",
+      "kode_prodi": "1111-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK ELEKTRO",
+      "kode_prodi": "1111-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "AGROTEKNOLOGI",
+      "kode_prodi": "1111-7",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "AGRIBISNIS",
+      "kode_prodi": "1111-8",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PETERNAKAN",
+      "kode_prodi": "1111-9",
+      "jenis": "Sarjana",
+      "daya_tampung": 46
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNOLOGI HASIL PERTANIAN",
+      "kode_prodi": "1111-10",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK PERTANIAN",
+      "kode_prodi": "1111-11",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN BIOLOGI",
+      "kode_prodi": "1111-12",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN MATEMATIKA",
+      "kode_prodi": "1111-13",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN FISIKA",
+      "kode_prodi": "1111-14",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN KIMIA",
+      "kode_prodi": "1111-15",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN DOKTER",
+      "kode_prodi": "1111-16",
+      "jenis": "Sarjana",
+      "daya_tampung": 88
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ILMU KEPERAWATAN",
+      "kode_prodi": "1111-17",
+      "jenis": "Sarjana",
+      "daya_tampung": 126
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN DOKTER GIGI",
+      "kode_prodi": "1111-18",
+      "jenis": "Sarjana",
+      "daya_tampung": 35
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "MATEMATIKA",
+      "kode_prodi": "1111-19",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "FISIKA",
+      "kode_prodi": "1111-20",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "KIMIA",
+      "kode_prodi": "1111-21",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "BIOLOGI",
+      "kode_prodi": "1111-22",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ILMU KELAUTAN",
+      "kode_prodi": "1111-23",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "BUDIDAYA PERAIRAN",
+      "kode_prodi": "1111-24",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK INDUSTRI",
+      "kode_prodi": "1111-25",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "INFORMATIKA",
+      "kode_prodi": "1111-26",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "FARMASI",
+      "kode_prodi": "1111-27",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK GEOFISIKA",
+      "kode_prodi": "1111-28",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK PERTAMBANGAN",
+      "kode_prodi": "1111-29",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "STATISTIKA",
+      "kode_prodi": "1111-30",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PEMANFAATAN SUMBERDAYA PERIKANAN",
+      "kode_prodi": "1111-31",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ILMU TANAH",
+      "kode_prodi": "1111-32",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK GEOLOGI",
+      "kode_prodi": "1111-33",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "AGROTEKNOLOGI (PSDKU GAYO LUES)",
+      "kode_prodi": "1111-34",
+      "jenis": "Sarjana",
+      "daya_tampung": 14
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN BIOLOGI (PSDKU GAYO LUES)",
+      "kode_prodi": "1111-35",
+      "jenis": "Sarjana",
+      "daya_tampung": 14
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "KEHUTANAN (PSDKU GAYO LUES)",
+      "kode_prodi": "1111-36",
+      "jenis": "Sarjana",
+      "daya_tampung": 21
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PROTEKSI TANAMAN",
+      "kode_prodi": "1111-37",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PERENCANAAN WILAYAH DAN KOTA",
+      "kode_prodi": "1111-38",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "KEHUTANAN",
+      "kode_prodi": "1111-39",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK KOMPUTER",
+      "kode_prodi": "1111-40",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "EKONOMI PEMBANGUNAN",
+      "kode_prodi": "1111-41",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "MANAJEMEN",
+      "kode_prodi": "1111-42",
+      "jenis": "Sarjana",
+      "daya_tampung": 70
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "AKUNTANSI",
+      "kode_prodi": "1111-43",
+      "jenis": "Sarjana",
+      "daya_tampung": 70
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ILMU HUKUM",
+      "kode_prodi": "1111-44",
+      "jenis": "Sarjana",
+      "daya_tampung": 196
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN PANCASILA DAN KEWARGANEGARAAN",
+      "kode_prodi": "1111-45",
+      "jenis": "Sarjana",
+      "daya_tampung": 49
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN SEJARAH",
+      "kode_prodi": "1111-46",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN EKONOMI",
+      "kode_prodi": "1111-47",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN GEOGRAFI",
+      "kode_prodi": "1111-48",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN BAHASA INDONESIA",
+      "kode_prodi": "1111-49",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN BAHASA INGGRIS",
+      "kode_prodi": "1111-50",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN SENI DRAMA TARI DAN MUSIK",
+      "kode_prodi": "1111-51",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN KESEJAHTERAAN KELUARGA",
+      "kode_prodi": "1111-52",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PEND. JASMANI KESEHATAN DAN REKREASI",
+      "kode_prodi": "1111-53",
+      "jenis": "Sarjana",
+      "daya_tampung": 70
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "BIMBINGAN KONSELING",
+      "kode_prodi": "1111-54",
+      "jenis": "Sarjana",
+      "daya_tampung": 53
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN GURU SEKOLAH DASAR",
+      "kode_prodi": "1111-55",
+      "jenis": "Sarjana",
+      "daya_tampung": 81
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PSIKOLOGI",
+      "kode_prodi": "1111-56",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ILMU POLITIK",
+      "kode_prodi": "1111-57",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "SOSIOLOGI",
+      "kode_prodi": "1111-58",
+      "jenis": "Sarjana",
+      "daya_tampung": 42
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ILMU KOMUNIKASI",
+      "kode_prodi": "1111-59",
+      "jenis": "Sarjana",
+      "daya_tampung": 63
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "PENDIDIKAN GURU PAUD",
+      "kode_prodi": "1111-60",
+      "jenis": "Sarjana",
+      "daya_tampung": 49
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "ILMU PEMERINTAHAN",
+      "kode_prodi": "1111-61",
+      "jenis": "Sarjana",
+      "daya_tampung": 63
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "EKONOMI ISLAM",
+      "kode_prodi": "1111-62",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "MANAJEMEN (PSDKU GAYO LUES)",
+      "kode_prodi": "1111-63",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNOLOGI INDUSTRI HASIL PERIKANAN",
+      "kode_prodi": "1111-64",
+      "jenis": "Sarjana",
+      "daya_tampung": 18
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "BISNIS DIGITAL",
+      "kode_prodi": "1111-65",
+      "jenis": "Sarjana",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "AKUNTANSI PERPAJAKAN",
+      "kode_prodi": "1111-66",
+      "jenis": "D4",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "KESEHATAN HEWAN",
+      "kode_prodi": "1111-67",
+      "jenis": "D3",
+      "daya_tampung": 11
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "MANAJEMEN AGRIBISNIS",
+      "kode_prodi": "1111-68",
+      "jenis": "D3",
+      "daya_tampung": 35
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK LISTRIK",
+      "kode_prodi": "1111-69",
+      "jenis": "D3",
+      "daya_tampung": 14
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "BUDIDAYA PETERNAKAN",
+      "kode_prodi": "1111-70",
+      "jenis": "D3",
+      "daya_tampung": 21
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK MESIN",
+      "kode_prodi": "1111-71",
+      "jenis": "D3",
+      "daya_tampung": 14
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "TEKNIK SIPIL",
+      "kode_prodi": "1111-72",
+      "jenis": "D3",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "SEKRETARI",
+      "kode_prodi": "1111-73",
+      "jenis": "D3",
+      "daya_tampung": 14
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "MANAJEMEN PERUSAHAAN",
+      "kode_prodi": "1111-74",
+      "jenis": "D3",
+      "daya_tampung": 14
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "AKUNTANSI",
+      "kode_prodi": "1111-75",
+      "jenis": "D3",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "KEUANGAN DAN PERBANKAN",
+      "kode_prodi": "1111-76",
+      "jenis": "D3",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1111",
+      "nama_prodi": "MANAJEMEN INFORMATIKA",
+      "kode_prodi": "1111-77",
+      "jenis": "D3",
+      "daya_tampung": 28
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK SIPIL",
+      "kode_prodi": "1112-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 120
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK MESIN",
+      "kode_prodi": "1112-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK KIMIA",
+      "kode_prodi": "1112-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK ELEKTRO",
+      "kode_prodi": "1112-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK INDUSTRI",
+      "kode_prodi": "1112-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK INFORMATIKA",
+      "kode_prodi": "1112-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 120
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK ARSITEKTUR",
+      "kode_prodi": "1112-7",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "AGROEKOTEKNOLOGI",
+      "kode_prodi": "1112-8",
+      "jenis": "Sarjana",
+      "daya_tampung": 120
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "AGRIBISNIS",
+      "kode_prodi": "1112-9",
+      "jenis": "Sarjana",
+      "daya_tampung": 120
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "AKUAKULTUR",
+      "kode_prodi": "1112-10",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "KEDOKTERAN",
+      "kode_prodi": "1112-11",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "SISTEM INFORMASI",
+      "kode_prodi": "1112-12",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "TEKNIK MATERIAL",
+      "kode_prodi": "1112-13",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "ILMU KELAUTAN",
+      "kode_prodi": "1112-14",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "ILMU HUKUM",
+      "kode_prodi": "1112-15",
+      "jenis": "Sarjana",
+      "daya_tampung": 250
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "ILMU KOMUNIKASI",
+      "kode_prodi": "1112-16",
+      "jenis": "Sarjana",
+      "daya_tampung": 150
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "ILMU POLITIK",
+      "kode_prodi": "1112-17",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "ADMINISTRASI PUBLIK",
+      "kode_prodi": "1112-18",
+      "jenis": "Sarjana",
+      "daya_tampung": 150
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "ADMINISTRASI BISNIS",
+      "kode_prodi": "1112-19",
+      "jenis": "Sarjana",
+      "daya_tampung": 150
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "ANTROPOLOGI",
+      "kode_prodi": "1112-20",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "SOSIOLOGI",
+      "kode_prodi": "1112-21",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "EKONOMI PEMBANGUNAN",
+      "kode_prodi": "1112-22",
+      "jenis": "Sarjana",
+      "daya_tampung": 120
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "MANAJEMEN",
+      "kode_prodi": "1112-23",
+      "jenis": "Sarjana",
+      "daya_tampung": 200
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "AKUNTANSI",
+      "kode_prodi": "1112-24",
+      "jenis": "Sarjana",
+      "daya_tampung": 150
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "EKONOMI SYARIAH",
+      "kode_prodi": "1112-25",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "PSIKOLOGI",
+      "kode_prodi": "1112-26",
+      "jenis": "Sarjana",
+      "daya_tampung": 120
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "KEWIRAUSAHAAN",
+      "kode_prodi": "1112-27",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "1112",
+      "nama_prodi": "KEPERAWATAN",
+      "kode_prodi": "1112-28",
+      "jenis": "D3",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "KESEHATAN MASYARAKAT",
+      "kode_prodi": "1113-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "TEKNIK SIPIL",
+      "kode_prodi": "1113-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "TEKNIK MESIN",
+      "kode_prodi": "1113-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "AGRIBISNIS",
+      "kode_prodi": "1113-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 64
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "AGROTEKNOLOGI",
+      "kode_prodi": "1113-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "SOSIOLOGI",
+      "kode_prodi": "1113-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 60
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "ILMU KOMUNIKASI",
+      "kode_prodi": "1113-7",
+      "jenis": "Sarjana",
+      "daya_tampung": 64
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "ILMU ADMINISTRASI NEGARA",
+      "kode_prodi": "1113-8",
+      "jenis": "Sarjana",
+      "daya_tampung": 64
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "EKONOMI PEMBANGUNAN",
+      "kode_prodi": "1113-9",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "AKUAKULTUR",
+      "kode_prodi": "1113-10",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "ILMU HUKUM",
+      "kode_prodi": "1113-11",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "MANAJEMEN",
+      "kode_prodi": "1113-12",
+      "jenis": "Sarjana",
+      "daya_tampung": 96
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "AKUNTANSI",
+      "kode_prodi": "1113-13",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "ILMU KELAUTAN",
+      "kode_prodi": "1113-14",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "TEKNIK INDUSTRI",
+      "kode_prodi": "1113-15",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "PERIKANAN",
+      "kode_prodi": "1113-16",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "SUMBER DAYA AKUATIK",
+      "kode_prodi": "1113-17",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "GIZI",
+      "kode_prodi": "1113-18",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "TEKNOLOGI INFORMASI",
+      "kode_prodi": "1113-19",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "KESELAMATAN DAN KESEHATAN KERJA",
+      "kode_prodi": "1113-20",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1113",
+      "nama_prodi": "BISNIS DIGITAL",
+      "kode_prodi": "1113-21",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "AGROTEKNOLOGI",
+      "kode_prodi": "1114-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 64
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "AGRIBISNIS",
+      "kode_prodi": "1114-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 64
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "BUDIDAYA PERAIRAN",
+      "kode_prodi": "1114-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "TEKNIK SIPIL",
+      "kode_prodi": "1114-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "TEKNIK MESIN",
+      "kode_prodi": "1114-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "TEKNIK INDUSTRI",
+      "kode_prodi": "1114-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "INFORMATIKA",
+      "kode_prodi": "1114-7",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "MATEMATIKA",
+      "kode_prodi": "1114-8",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "FISIKA",
+      "kode_prodi": "1114-9",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "KIMIA",
+      "kode_prodi": "1114-10",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "BIOLOGI",
+      "kode_prodi": "1114-11",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN MATEMATIKA",
+      "kode_prodi": "1114-12",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN FISIKA",
+      "kode_prodi": "1114-13",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN KIMIA",
+      "kode_prodi": "1114-14",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN BIOLOGI",
+      "kode_prodi": "1114-15",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "ILMU HUKUM",
+      "kode_prodi": "1114-16",
+      "jenis": "Sarjana",
+      "daya_tampung": 120
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "EKONOMI PEMBANGUNAN",
+      "kode_prodi": "1114-17",
+      "jenis": "Sarjana",
+      "daya_tampung": 64
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "MANAJEMEN",
+      "kode_prodi": "1114-18",
+      "jenis": "Sarjana",
+      "daya_tampung": 96
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "AKUNTANSI",
+      "kode_prodi": "1114-19",
+      "jenis": "Sarjana",
+      "daya_tampung": 64
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN SEJARAH",
+      "kode_prodi": "1114-20",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN GEOGRAFI",
+      "kode_prodi": "1114-21",
+      "jenis": "Sarjana",
+      "daya_tampung": 40
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN OLAHRAGA",
+      "kode_prodi": "1114-22",
+      "jenis": "Sarjana",
+      "daya_tampung": 48
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN BAHASA INDONESIA",
+      "kode_prodi": "1114-23",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN BAHASA INGGRIS",
+      "kode_prodi": "1114-24",
+      "jenis": "Sarjana",
+      "daya_tampung": 56
+    },
+    {
+      "kode_universitas": "1114",
+      "nama_prodi": "PENDIDIKAN GURU SEKOLAH DASAR",
+      "kode_prodi": "1114-25",
+      "jenis": "Sarjana",
+      "daya_tampung": 80
+    },
+    {
+      "kode_universitas": "1115",
+      "nama_prodi": "SENI KARAWITAN",
+      "kode_prodi": "1115-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 16
+    },
+    {
+      "kode_universitas": "1115",
+      "nama_prodi": "SENI TARI",
+      "kode_prodi": "1115-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "1115",
+      "nama_prodi": "SENI KRIYA",
+      "kode_prodi": "1115-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 16
+    },
+    {
+      "kode_universitas": "1115",
+      "nama_prodi": "SENI RUPA MURNI",
+      "kode_prodi": "1115-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 16
+    },
+    {
+      "kode_universitas": "1115",
+      "nama_prodi": "DESAIN KOMUNIKASI VISUAL",
+      "kode_prodi": "1115-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 32
+    },
+    {
+      "kode_universitas": "1115",
+      "nama_prodi": "KAJIAN SASTRA DAN BUDAYA",
+      "kode_prodi": "1115-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 24
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "TEKNOLOGI INFORMASI",
+      "kode_prodi": "1116-1",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "ARSITEKTUR",
+      "kode_prodi": "1116-2",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "TEKNIK LINGKUNGAN",
+      "kode_prodi": "1116-3",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "TEKNIK FISIKA",
+      "kode_prodi": "1116-4",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "PENDIDIKAN TEKNIK ELEKTRO",
+      "kode_prodi": "1116-5",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "BIOLOGI",
+      "kode_prodi": "1116-6",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "KIMIA",
+      "kode_prodi": "1116-7",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "ILMU ADMINISTRASI NEGARA",
+      "kode_prodi": "1116-8",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "ILMU HUKUM",
+      "kode_prodi": "1116-9",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "ILMU EKONOMI",
+      "kode_prodi": "1116-10",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "ILMU POLITIK",
+      "kode_prodi": "1116-11",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "PSIKOLOGI",
+      "kode_prodi": "1116-12",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    },
+    {
+      "kode_universitas": "1116",
+      "nama_prodi": "KESEJAHTERAAN SOSIAL",
+      "kode_prodi": "1116-13",
+      "jenis": "Sarjana",
+      "daya_tampung": 10
+    }
+  ]
+}

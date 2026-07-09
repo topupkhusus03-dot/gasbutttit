@@ -1,0 +1,194 @@
+.container {
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-inter);
+}
+
+.header {
+  background-color: #003366;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.headerLogo {
+  height: 48px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.headerTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.resultCard {
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.passHeader {
+  background-color: #10b981; /* Emerald green */
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.failHeader {
+  background-color: #ef4444; /* Red */
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.resultTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.resultSubtitle {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.studentInfo {
+  padding: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.infoLabel {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.infoValue {
+  color: #111827;
+  font-weight: 600;
+}
+
+.programInfo {
+  padding: 2rem;
+  background-color: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.failInfo {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #374151;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.programDetails {
+  flex: 1;
+}
+
+.univName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #003366;
+  margin: 0 0 0.5rem 0;
+}
+
+.prodiName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.qrContainer {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qrText {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.actionArea {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btnPrimary {
+  background-color: #0052cc;
+  color: white;
+}
+
+.btnSecondary {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.footer {
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .programInfo {
+    flex-direction: column;
+    text-align: center;
+  }
+}

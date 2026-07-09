@@ -1,0 +1,156 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f2f5;
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #00bfa5;
+}
+
+.header {
+  text-align: center;
+  padding: 40px 32px 24px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.title {
+  color: #00bfa5;
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.versionInfo {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 32px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.infoBox {
+  border: 2px solid #555;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.networkInfo {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ipBox {
+  border: 2px solid #00bfa5;
+  color: #00bfa5;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 12px 64px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.latencyBox {
+  border: 1px solid #4ade80;
+  color: #16a34a;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 64px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 32px;
+  background: #fafafa;
+}
+
+.btnExit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: #00bfa5;
+  border: 1px solid #00bfa5;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnExit:hover {
+  background: #f0fdfa;
+}
+
+.btnEnter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #00bfa5;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnEnter:hover {
+  background: #00a38c;
+}
+
+.footer {
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
+  color: #555;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.footer strong {
+  color: #333;
+  font-size: 14px;
+}
