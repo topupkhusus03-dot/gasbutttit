@@ -112,7 +112,11 @@ export default function DashboardPage() {
     };
   }, [loadData, supabase]);
 
-  async function handleLogout() {
+  async function handleLogout(e?: any) {
+    if (e && e.target) {
+      e.target.disabled = true;
+      e.target.innerText = 'Keluar...';
+    }
     await supabase.auth.signOut();
     router.push('/auth/login');
   }

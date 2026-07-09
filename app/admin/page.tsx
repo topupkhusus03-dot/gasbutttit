@@ -55,7 +55,11 @@ export default function AdminDashboard() {
     load();
   }, [supabase, router]);
 
-  async function handleLogout() {
+  async function handleLogout(e?: any) {
+    if (e && e.target) {
+      e.target.disabled = true;
+      e.target.innerText = 'Keluar...';
+    }
     await supabase.auth.signOut();
     router.push('/auth/login');
   }
