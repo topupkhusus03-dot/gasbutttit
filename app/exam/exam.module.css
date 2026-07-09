@@ -1388,3 +1388,63 @@
     text-align: center;
   }
 }
+
+/* ===== MOBILE RESPONSIVE WAITING SCREEN ===== */
+@media (max-width: 992px) {
+  .infoScreen {
+    flex-direction: column;
+  }
+  .infoSidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .infoSidebarHeader {
+    display: none;
+  }
+  .infoSidebarMenu {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-top: 0;
+  }
+  .infoSidebarItem {
+    white-space: nowrap;
+    border-left: none !important;
+    border-bottom: 3px solid transparent;
+    padding: 12px 16px;
+  }
+  .infoSidebarItemActive {
+    border-bottom-color: #00a3e8;
+  }
+  .infoContentWrap {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+  .infoRightCard {
+    width: 100%;
+  }
+  .infoLeftCardBody {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px;
+  }
+  .infoDetails {
+    width: 100%;
+  }
+  .infoDetailGroup {
+    align-items: center;
+    text-align: center;
+  }
+  .rulesCard {
+    padding: 20px 16px;
+  }
+  .rulesContentWrap {
+    padding: 16px;
+  }
+  .infoMainHeader {
+    padding: 16px;
+  }
+}
+
