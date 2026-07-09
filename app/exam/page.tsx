@@ -258,7 +258,7 @@ export default function ExamPage() {
 
       // Shuffle questions per-user using seeded Fisher-Yates shuffle
       // Seed = sum of user ID char codes so same user always gets same order (deterministic)
-      const seed = Array.from(sessionRes.data.user_id).reduce((acc, c) => acc + c.charCodeAt(0), 0);
+      const seed = Array.from(sessionRes.data.user_id as string).reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
       function seededRandom(s: number) {
         const x = Math.sin(s) * 10000;
         return x - Math.floor(x);
