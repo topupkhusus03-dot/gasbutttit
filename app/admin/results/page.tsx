@@ -27,6 +27,7 @@ interface ResultRow {
 export default function AdminResultsPage() {
   const router = useRouter();
   const supabase = createClient();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [results, setResults] = useState<ResultRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -110,7 +111,13 @@ export default function AdminResultsPage() {
 
   return (
     <div className={adminStyles.layout}>
-      <aside className={adminStyles.sidebar}>
+      {isSidebarOpen && (
+        <div 
+          className={adminStyles.sidebarOverlay} 
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      <aside className={`${adminStyles.sidebar} ${isSidebarOpen ? adminStyles.sidebarOpen : ''}`}>
         <div className={adminStyles.sidebarLogo}>
           <img src="/logo.png" alt="Logo" className={adminStyles.logoImg} />
           <span>Admin Panel</span>
@@ -127,7 +134,15 @@ export default function AdminResultsPage() {
 
       <main className={adminStyles.main}>
         <header className={adminStyles.header}>
-          <h1 className={adminStyles.headerTitle}>Hasil Peserta ({filtered.length})</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button 
+              className={adminStyles.hamburgerBtn}
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              ☰
+            </button>
+            <h1 className={adminStyles.headerTitle}>Hasil Peserta ({filtered.length})</h1>
+          </div>
         </header>
 
         <div className={adminStyles.content}>

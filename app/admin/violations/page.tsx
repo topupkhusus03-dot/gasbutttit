@@ -20,6 +20,7 @@ interface ViolationRow {
 export default function AdminViolationsPage() {
   const router = useRouter();
   const supabase = createClient();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [violations, setViolations] = useState<ViolationRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -96,7 +97,13 @@ export default function AdminViolationsPage() {
 
   return (
     <div className={adminStyles.layout}>
-      <aside className={adminStyles.sidebar}>
+      {isSidebarOpen && (
+        <div 
+          className={adminStyles.sidebarOverlay} 
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      <aside className={`${adminStyles.sidebar} ${isSidebarOpen ? adminStyles.sidebarOpen : ''}`}>
         <div className={adminStyles.sidebarLogo}>
           <img src="/logo.png" alt="Logo" className={adminStyles.logoImg} />
           <span>Admin Panel</span>
@@ -113,7 +120,15 @@ export default function AdminViolationsPage() {
 
       <main className={adminStyles.main}>
         <header className={adminStyles.header}>
-          <h1 className={adminStyles.headerTitle}>Log Pelanggaran Ujian</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button 
+              className={adminStyles.hamburgerBtn}
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              ☰
+            </button>
+            <h1 className={adminStyles.headerTitle}>Log Pelanggaran Ujian</h1>
+          </div>
         </header>
 
         <div className={adminStyles.content}>

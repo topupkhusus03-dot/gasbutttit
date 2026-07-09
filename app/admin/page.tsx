@@ -16,6 +16,7 @@ interface Stats {
 export default function AdminDashboard() {
   const router = useRouter();
   const supabase = createClient();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [stats, setStats] = useState<Stats>({ totalUsers: 0, totalQuestions: 0, totalSessions: 0, completedSessions: 0 });
   const [loading, setLoading] = useState(true);
   const [announcementTime, setAnnouncementTime] = useState('');
@@ -80,7 +81,13 @@ export default function AdminDashboard() {
 
   return (
     <div className={styles.layout}>
-      <aside className={styles.sidebar}>
+      {isSidebarOpen && (
+        <div 
+          className={styles.sidebarOverlay} 
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.sidebarOpen : ''}`}>
         <div className={styles.sidebarLogo}>
           <img src="/logo.png" alt="Logo" className={styles.logoImg} />
           <span>Admin Panel</span>
@@ -98,7 +105,15 @@ export default function AdminDashboard() {
 
       <main className={styles.main}>
         <header className={styles.header}>
-          <h1 className={styles.headerTitle}>Dashboard Admin</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button 
+              className={styles.hamburgerBtn}
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              ☰
+            </button>
+            <h1 className={styles.headerTitle}>Dashboard Admin</h1>
+          </div>
         </header>
 
         <div className={styles.content}>

@@ -147,13 +147,44 @@
   color: var(--text-secondary);
 }
 
+.hamburgerBtn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: 4px;
+}
+
+.sidebarOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 40;
+}
+
 @media (max-width: 1024px) {
+  .hamburgerBtn {
+    display: block;
+  }
+  .sidebarOverlay {
+    display: block;
+  }
+  .sidebarOpen {
+    transform: translateX(0);
+  }
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .sidebar {
     transform: translateX(-100%);
+    transition: transform 0.3s ease;
   }
 
   .main {
