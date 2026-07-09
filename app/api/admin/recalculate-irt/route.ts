@@ -17,11 +17,7 @@ export async function POST(req: Request) {
   }
 
   const client = new Client({
-    host: 'db.iibfmxzlfxodtkboujyj.supabase.co',
-    port: 5432,
-    user: 'postgres',
-    password: 'gG-zaM3%$Dir-X6',
-    database: 'postgres',
+    connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
   });
 
