@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase';
 
-export default function PengumumanHasilPage() {
+function PengumumanHasilContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const id = searchParams.get('id');
@@ -257,5 +257,13 @@ export default function PengumumanHasilPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PengumumanHasilPage() {
+  return (
+    <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#0f172a', color: 'white' }}><h2>Memuat...</h2></div>}>
+      <PengumumanHasilContent />
+    </Suspense>
   );
 }
