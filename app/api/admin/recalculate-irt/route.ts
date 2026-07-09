@@ -141,7 +141,7 @@ export async function POST(req: Request) {
         session.id
       ]);
       
-      if (res.rowCount > 0) updatedResultsCount++;
+      if (res.rowCount !== null && res.rowCount > 0) updatedResultsCount++;
     }
 
     await client.end();
