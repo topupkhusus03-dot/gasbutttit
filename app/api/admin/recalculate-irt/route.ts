@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
-import { Client } from 'pg';
 import { calculateSubtestScore } from '@/lib/irt';
 
 export async function POST(req: Request) {
@@ -16,69 +15,79 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-  });
-
   try {
-    await client.connect();
-    
-    // 1. Calculate P-values and update question parameter_b
-    const statsRes = await client.query(`
-      SELECT a.question_id,
-             COUNT(*) as total_answers,
-             SUM(CASE WHEN a.benar = true THEN 1 ELSE 0 END) as correct_answers
-      FROM public.answers a
-      JOIN public.exam_sessions s ON a.session_id = s.id
-      WHERE s.status = 'completed'
-      GROUP BY a.question_id
-    `);
+    // 1. Get all completed sessions
+    const { data: sessions, error: sessionsErr } = await supabase
+      .from('exam_sessions')
+      .select('id, user_id')
+      .eq('status', 'completed');
+    if (sessionsErr) throw sessionsErr;
+    if (!sessions || sessions.length === 0) {
+      return NextResponse.json({ success: true, updatedQuestions: 0, updatedResults: 0 });
+    }
 
-    for (const row of statsRes.rows) {
-      const total = parseInt(row.total_answers);
-      const correct = parseInt(row.correct_answers);
-      if (total > 0) {
-        let p = correct / total;
-        // Clamp p to avoid infinity in log
+    const sessionIds = sessions.map(s => s.id);
+
+    // 2. Get all answers for completed sessions
+    // Using an 'in' filter is safe up to hundreds/thousands of IDs. If too large, chunk it.
+    // For a typical tryout, this is perfectly fine.
+    let allAnswers: any[] = [];
+    const chunkSize = 100;
+    for (let i = 0; i < sessionIds.length; i += chunkSize) {
+      const chunk = sessionIds.slice(i, i + chunkSize);
+      const { data: answersChunk, error: answersErr } = await supabase
+        .from('answers')
+        .select('session_id, question_id, benar')
+        .in('session_id', chunk);
+      if (answersErr) throw answersErr;
+      if (answersChunk) allAnswers = allAnswers.concat(answersChunk);
+    }
+
+    // 3. Calculate P-values and update question parameter_b
+    const qStats = new Map();
+    for (const a of allAnswers) {
+      if (!qStats.has(a.question_id)) {
+        qStats.set(a.question_id, { total: 0, correct: 0 });
+      }
+      const stat = qStats.get(a.question_id);
+      stat.total++;
+      if (a.benar === true) stat.correct++;
+    }
+
+    let updatedQuestionsCount = 0;
+    // We can do this sequentially since there aren't too many questions
+    for (const [qId, stat] of qStats.entries()) {
+      if (stat.total > 0) {
+        let p = stat.correct / stat.total;
         p = Math.max(0.01, Math.min(0.99, p));
-        // Calculate b parameter: higher p means easier (lower b)
         let b = -Math.log(p / (1 - p));
         
-        await client.query(
-          `UPDATE public.questions SET parameter_b = $1 WHERE id = $2`,
-          [b, row.question_id]
-        );
+        const { error: updErr } = await supabase
+          .from('questions')
+          .update({ parameter_b: b })
+          .eq('id', qId);
+        if (updErr) throw updErr;
+        updatedQuestionsCount++;
       }
     }
 
-    // 2. Fetch all updated questions
-    const qRes = await client.query(`
-      SELECT q.id, q.subtest_id, st.kode as subtest_kode, 
-             q.parameter_a, q.parameter_b, q.parameter_c
-      FROM public.questions q
-      JOIN public.subtests st ON q.subtest_id = st.id
-    `);
+    // 4. Fetch all updated questions with subtest code
+    const { data: qData, error: qErr } = await supabase
+      .from('questions')
+      .select('id, parameter_a, parameter_b, parameter_c, subtest_id, subtests(kode)');
+    if (qErr) throw qErr;
+
     const qMap = new Map();
-    for (const q of qRes.rows) {
-      qMap.set(q.id, q);
+    for (const q of qData || []) {
+      qMap.set(q.id, {
+        ...q,
+        subtest_kode: Array.isArray(q.subtests) ? q.subtests[0]?.kode : (q.subtests as any)?.kode
+      });
     }
-
-    // 3. Get all completed sessions
-    const sessionsRes = await client.query(`
-      SELECT id, user_id FROM public.exam_sessions WHERE status = 'completed'
-    `);
-
-    // 4. Get all answers for completed sessions
-    const answersRes = await client.query(`
-      SELECT session_id, question_id, benar
-      FROM public.answers
-      WHERE session_id IN (SELECT id FROM public.exam_sessions WHERE status = 'completed')
-    `);
 
     // Group answers by session
     const sessionAnswers = new Map();
-    for (const a of answersRes.rows) {
+    for (const a of allAnswers) {
       if (!sessionAnswers.has(a.session_id)) {
         sessionAnswers.set(a.session_id, []);
       }
@@ -88,29 +97,27 @@ export async function POST(req: Request) {
     // 5. Recalculate scores and update exam_results
     let updatedResultsCount = 0;
     
-    for (const session of sessionsRes.rows) {
+    for (const session of sessions) {
       const answers = sessionAnswers.get(session.id) || [];
       
-      // Group by subtest
       const bySubtest: Record<string, { correct: boolean; params: any }[]> = {};
       
       for (const a of answers) {
-        const qData = qMap.get(a.question_id);
-        if (qData) {
-          const kode = qData.subtest_kode;
+        const qInfo = qMap.get(a.question_id);
+        if (qInfo && qInfo.subtest_kode) {
+          const kode = qInfo.subtest_kode;
           if (!bySubtest[kode]) bySubtest[kode] = [];
           bySubtest[kode].push({
             correct: a.benar === true,
             params: {
-              a: parseFloat(qData.parameter_a),
-              b: parseFloat(qData.parameter_b),
-              c: parseFloat(qData.parameter_c)
+              a: Number(qInfo.parameter_a),
+              b: Number(qInfo.parameter_b),
+              c: Number(qInfo.parameter_c)
             }
           });
         }
       }
 
-      // Calculate new scores
       const newScores: Record<string, { theta: number; score: number }> = {};
       const subtestCodes = ['PU', 'PPU', 'PBM', 'PK', 'LBI', 'LBE', 'PM'];
       for (const kode of subtestCodes) {
@@ -123,32 +130,34 @@ export async function POST(req: Request) {
 
       const lbiScore = newScores['LBI'].score;
       
-      const res = await client.query(`
-        UPDATE public.exam_results 
-        SET 
-          skor_penalaran_umum = $1, skor_ppu = $2, skor_pbm = $3, skor_pk = $4,
-          skor_literasi_id = $5, skor_literasi_id_saintek = $6, skor_literasi_id_soshum = $7,
-          skor_literasi_en = $8, skor_penalaran_matematika = $9,
-          theta_penalaran_umum = $10, theta_ppu = $11, theta_pbm = $12, theta_pk = $13,
-          theta_literasi_id = $14, theta_literasi_en = $15, theta_penalaran_matematika = $16
-        WHERE session_id = $17
-      `, [
-        newScores['PU'].score, newScores['PPU'].score, newScores['PBM'].score, newScores['PK'].score,
-        lbiScore, lbiScore * 0.52, lbiScore * 0.48,
-        newScores['LBE'].score, newScores['PM'].score,
-        newScores['PU'].theta, newScores['PPU'].theta, newScores['PBM'].theta, newScores['PK'].theta,
-        newScores['LBI'].theta, newScores['LBE'].theta, newScores['PM'].theta,
-        session.id
-      ]);
+      const { error: resErr } = await supabase
+        .from('exam_results')
+        .update({
+          skor_penalaran_umum: newScores['PU'].score,
+          skor_ppu: newScores['PPU'].score,
+          skor_pbm: newScores['PBM'].score,
+          skor_pk: newScores['PK'].score,
+          skor_literasi_id: lbiScore,
+          skor_literasi_id_saintek: lbiScore * 0.52,
+          skor_literasi_id_soshum: lbiScore * 0.48,
+          skor_literasi_en: newScores['LBE'].score,
+          skor_penalaran_matematika: newScores['PM'].score,
+          theta_penalaran_umum: newScores['PU'].theta,
+          theta_ppu: newScores['PPU'].theta,
+          theta_pbm: newScores['PBM'].theta,
+          theta_pk: newScores['PK'].theta,
+          theta_literasi_id: newScores['LBI'].theta,
+          theta_literasi_en: newScores['LBE'].theta,
+          theta_penalaran_matematika: newScores['PM'].theta,
+        })
+        .eq('session_id', session.id);
       
-      if (res.rowCount !== null && res.rowCount > 0) updatedResultsCount++;
+      if (!resErr) updatedResultsCount++;
     }
 
-    await client.end();
-    return NextResponse.json({ success: true, updatedQuestions: statsRes.rowCount, updatedResults: updatedResultsCount });
+    return NextResponse.json({ success: true, updatedQuestions: updatedQuestionsCount, updatedResults: updatedResultsCount });
 
   } catch (error: any) {
-    await client.end();
     console.error('IRT Recalculation error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
