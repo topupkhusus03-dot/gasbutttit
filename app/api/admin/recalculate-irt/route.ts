@@ -112,7 +112,7 @@ export async function POST(req: Request) {
 
       // Calculate new scores
       const newScores: Record<string, { theta: number; score: number }> = {};
-      const subtestCodes = ['PU', 'PPU', 'PBM', 'PK', 'LBI', 'LIE', 'PM'];
+      const subtestCodes = ['PU', 'PPU', 'PBM', 'PK', 'LBI', 'LBE', 'PM'];
       for (const kode of subtestCodes) {
         if (bySubtest[kode]) {
           newScores[kode] = calculateSubtestScore(bySubtest[kode]);
@@ -135,9 +135,9 @@ export async function POST(req: Request) {
       `, [
         newScores['PU'].score, newScores['PPU'].score, newScores['PBM'].score, newScores['PK'].score,
         lbiScore, lbiScore * 0.52, lbiScore * 0.48,
-        newScores['LIE'].score, newScores['PM'].score,
+        newScores['LBE'].score, newScores['PM'].score,
         newScores['PU'].theta, newScores['PPU'].theta, newScores['PBM'].theta, newScores['PK'].theta,
-        newScores['LBI'].theta, newScores['LIE'].theta, newScores['PM'].theta,
+        newScores['LBI'].theta, newScores['LBE'].theta, newScores['PM'].theta,
         session.id
       ]);
       
