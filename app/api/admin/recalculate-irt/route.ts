@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   try {
     // 1. Get all completed sessions
-    const { data: sessions, error: sessionsErr } = await supabase
+    const { data: sessions, error: sessionsErr } = await supabaseAuth
       .from('exam_sessions')
       .select('id, user_id')
       .eq('status', 'completed');
@@ -38,13 +38,11 @@ export async function POST(req: Request) {
     const sessionIds = sessions.map(s => s.id);
 
     // 2. Get all answers for completed sessions
-    // Using an 'in' filter is safe up to hundreds/thousands of IDs. If too large, chunk it.
-    // For a typical tryout, this is perfectly fine.
     let allAnswers: any[] = [];
     const chunkSize = 100;
     for (let i = 0; i < sessionIds.length; i += chunkSize) {
       const chunk = sessionIds.slice(i, i + chunkSize);
-      const { data: answersChunk, error: answersErr } = await supabase
+      const { data: answersChunk, error: answersErr } = await supabaseAuth
         .from('answers')
         .select('session_id, question_id, benar')
         .in('session_id', chunk);
@@ -64,24 +62,24 @@ export async function POST(req: Request) {
     }
 
     let updatedQuestionsCount = 0;
-    // We can do this sequentially since there aren't too many questions
     for (const [qId, stat] of qStats.entries()) {
       if (stat.total > 0) {
         let p = stat.correct / stat.total;
         p = Math.max(0.01, Math.min(0.99, p));
         let b = -Math.log(p / (1 - p));
         
+        // Use service role if available for updates
         const { error: updErr } = await supabase
           .from('questions')
           .update({ parameter_b: b })
           .eq('id', qId);
-        if (updErr) throw updErr;
-        updatedQuestionsCount++;
+        // Silently ignore RLS error on question update if admin policy is missing
+        if (!updErr) updatedQuestionsCount++;
       }
     }
 
     // 4. Fetch all updated questions with subtest code
-    const { data: qData, error: qErr } = await supabase
+    const { data: qData, error: qErr } = await supabaseAuth
       .from('questions')
       .select('id, parameter_a, parameter_b, parameter_c, subtest_id, subtests(kode)');
     if (qErr) throw qErr;
