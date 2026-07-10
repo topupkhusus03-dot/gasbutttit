@@ -26,7 +26,7 @@ interface UserProfile {
 }
 
 const SUBTEST_DURATIONS: Record<string, number> = {
-  PU: 30, PPU: 15, PBM: 25, PK: 20, LBI: 42, LIE: 20, PM: 42,
+  PU: 30, PPU: 15, PBM: 25, PK: 20, LBI: 42, LIE: 20, LBE: 20, PM: 42,
 };
 
 type Phase = 'agreement' | 'info' | 'waiting_approvals' | 'countdown' | 'exam' | 'subtest_transition' | 'finished_notice';
@@ -190,6 +190,9 @@ export default function ExamPage() {
     if (!user) return;
 
     const lbiScore = subtestScores['LBI']?.score ?? 0;
+    const lbeScore = subtestScores['LIE']?.score ?? subtestScores['LBE']?.score ?? 0;
+    const lbeTheta = subtestScores['LIE']?.theta ?? subtestScores['LBE']?.theta ?? 0;
+
     await supabase.from('exam_results').insert({
       user_id: user.id,
       session_id: sessionData.id,
@@ -200,14 +203,14 @@ export default function ExamPage() {
       skor_literasi_id: lbiScore,
       skor_literasi_id_saintek: lbiScore * 0.52,
       skor_literasi_id_soshum: lbiScore * 0.48,
-      skor_literasi_en: subtestScores['LIE']?.score ?? 0,
+      skor_literasi_en: lbeScore,
       skor_penalaran_matematika: subtestScores['PM']?.score ?? 0,
       theta_penalaran_umum: subtestScores['PU']?.theta ?? 0,
       theta_ppu: subtestScores['PPU']?.theta ?? 0,
       theta_pbm: subtestScores['PBM']?.theta ?? 0,
       theta_pk: subtestScores['PK']?.theta ?? 0,
       theta_literasi_id: subtestScores['LBI']?.theta ?? 0,
-      theta_literasi_en: subtestScores['LIE']?.theta ?? 0,
+      theta_literasi_en: lbeTheta,
       theta_penalaran_matematika: subtestScores['PM']?.theta ?? 0,
       tanggal_selesai: new Date().toISOString(),
     });
