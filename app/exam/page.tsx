@@ -26,7 +26,7 @@ interface UserProfile {
 }
 
 const SUBTEST_DURATIONS: Record<string, number> = {
-  PU: 30, PPU: 15, PBM: 25, PK: 20, LBI: 42, LIE: 20, LBE: 20, PM: 42,
+  PU: 30, PPU: 15, PBM: 25, PK: 20, LBI: 42, LBE: 20, PM: 42,
 };
 
 type Phase = 'agreement' | 'info' | 'waiting_approvals' | 'countdown' | 'exam' | 'subtest_transition' | 'finished_notice';
@@ -190,8 +190,8 @@ export default function ExamPage() {
     if (!user) return;
 
     const lbiScore = subtestScores['LBI']?.score ?? 0;
-    const lbeScore = subtestScores['LIE']?.score ?? subtestScores['LBE']?.score ?? 0;
-    const lbeTheta = subtestScores['LIE']?.theta ?? subtestScores['LBE']?.theta ?? 0;
+    const lbeScore = subtestScores['LBE']?.score ?? 0;
+    const lbeTheta = subtestScores['LBE']?.theta ?? 0;
 
     await supabase.from('exam_results').insert({
       user_id: user.id,

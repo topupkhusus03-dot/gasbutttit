@@ -194,7 +194,7 @@ export default function AdminResultsPage() {
                   <th>PK</th>
                   <th>LBI-ST</th>
                   <th>LBI-SH</th>
-                  <th>LIE</th>
+                  <th>LBE</th>
                   <th>PM</th>
                   <th>Tanggal</th>
                   <th>Aksi</th>
