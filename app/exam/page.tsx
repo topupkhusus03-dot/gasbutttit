@@ -315,7 +315,9 @@ export default function ExamPage() {
     if (!q) return;
 
     // Is it a multiple-select checkbox question (where key has > 1 letter, e.g. "AD")?
-    const isMulti = q.kunci_jawaban.length > 1;
+    const isIsian = !q.pilihan_a && !q.pilihan_b;
+    const isKompleks = q.pilihan_a?.startsWith('[KOMPLEKS]');
+    const isMulti = !isIsian && !isKompleks && q.kunci_jawaban && q.kunci_jawaban.length > 1;
 
     let finalAnswer = answer;
     if (isMulti) {
