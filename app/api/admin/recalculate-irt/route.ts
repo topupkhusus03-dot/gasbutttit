@@ -1,19 +1,28 @@
 import { NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { calculateSubtestScore } from '@/lib/irt';
+import { cookies } from 'next/headers';
 
 export async function POST(req: Request) {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabaseAuth = await createServerSupabaseClient();
+
+  const { data: { user } } = await supabaseAuth.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+  const { data: profile } = await supabaseAuth.from('profiles').select('role').eq('id', user.id).single();
   if (profile?.role !== 'admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
+
+  // Create a service role client to bypass RLS for updates, or fallback to anon if not provided (though RLS might block)
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey, {
+    cookies: { get() { return ''; } } // no cookies needed for service role
+  });
 
   try {
     // 1. Get all completed sessions
