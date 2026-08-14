@@ -71,7 +71,10 @@ create or replace function public.delete_user_by_admin(target_user_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public, auth
 as $$
+declare
+  s_ids uuid[];
 begin
   if not exists (select 1 from public.profiles where id = auth.uid() and role = 'admin') then
     raise exception 'Unauthorized: Only admin can delete users';
@@ -81,7 +84,22 @@ begin
     raise exception 'Cannot delete admin account';
   end if;
 
-  delete from public.profiles where id = target_user_id and role = 'user';
+  -- 1. Hapus relasi ujian
+  select array_agg(id) into s_ids from public.exam_sessions where user_id = target_user_id;
+  if s_ids is not null then
+    delete from public.answers where session_id = any(s_ids);
+    delete from public.exam_violations where session_id = any(s_ids);
+  end if;
+
+  delete from public.exam_results where user_id = target_user_id;
+  delete from public.exam_sessions where user_id = target_user_id;
+  delete from public.program_selections where user_id = target_user_id;
+
+  -- 2. Hapus profile & auth internal
+  delete from public.profiles where id = target_user_id;
+  delete from auth.identities where user_id = target_user_id;
+  delete from auth.sessions where user_id = target_user_id;
+  delete from auth.mfa_factors where user_id = target_user_id;
   delete from auth.users where id = target_user_id;
 end;
 $$;
@@ -90,6 +108,7 @@ create or replace function public.delete_all_users_by_admin()
 returns void
 language plpgsql
 security definer
+set search_path = public, auth
 as $$
 declare
   u_id uuid;
@@ -98,7 +117,22 @@ begin
     raise exception 'Unauthorized: Only admin can delete users';
   end if;
 
+  -- 1. Hapus semua data ujian peserta
+  delete from public.answers where session_id in (
+    select id from public.exam_sessions where user_id in (select id from public.profiles where role = 'user')
+  );
+  delete from public.exam_violations where session_id in (
+    select id from public.exam_sessions where user_id in (select id from public.profiles where role = 'user')
+  );
+  delete from public.exam_results where user_id in (select id from public.profiles where role = 'user');
+  delete from public.exam_sessions where user_id in (select id from public.profiles where role = 'user');
+  delete from public.program_selections where user_id in (select id from public.profiles where role = 'user');
+
+  -- 2. Hapus profil dan auth user
   for u_id in select id from public.profiles where role = 'user' loop
+    delete from auth.identities where user_id = u_id;
+    delete from auth.sessions where user_id = u_id;
+    delete from auth.mfa_factors where user_id = u_id;
     delete from auth.users where id = u_id;
   end loop;
 
