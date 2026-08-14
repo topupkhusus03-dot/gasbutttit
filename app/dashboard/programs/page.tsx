@@ -140,6 +140,11 @@ export default function ProgramsPage() {
 
   useEffect(() => { loadData(); }, [loadData]);
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push('/auth/login');
+  }
+
   async function saveSelections() {
     setError('');
     const validationError = validateSelections(selections);
@@ -229,15 +234,17 @@ export default function ProgramsPage() {
         <nav className={dashStyles.sideNav}>
           <Link href="/dashboard" className={dashStyles.navItem}>Dashboard</Link>
           <Link href="/dashboard/programs" className={`${dashStyles.navItem} ${dashStyles.navActive}`}>Pilihan Prodi</Link>
+          <Link href="/pengumuman" className={dashStyles.navItem}>Pengumuman SNBT</Link>
           <Link href="/certificate" className={dashStyles.navItem}>Sertifikat</Link>
         </nav>
+        <button onClick={handleLogout} className={dashStyles.logoutBtn}>Keluar</button>
       </aside>
 
       <main className={dashStyles.main}>
         <header className={dashStyles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
-              className={dashStyles.hamburgerBtn}
+              className={dashStyles.hamburgerBtn} aria-label="Buka menu navigasi"
               onClick={() => setIsSidebarOpen(true)}
             >
               ☰

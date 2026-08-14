@@ -269,11 +269,13 @@
 @media (max-width: 768px) {
   .cert {
     padding: 24px 20px 20px;
+    transform: scale(calc((100vw - 32px) / 1122));
     transform-origin: top left;
   }
 
   .certWrapper {
     overflow-x: auto;
+    height: auto;
   }
 
   .controls {

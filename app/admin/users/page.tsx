@@ -161,12 +161,17 @@ export default function AdminUsersPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/auth/login'); return; }
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-      if (profile?.role !== 'admin') { router.push('/dashboard'); return; }
+      if (!profile || profile.role !== 'admin') { router.push('/dashboard'); return; }
       await loadUsers();
       setLoading(false);
     }
     init();
   }, [supabase, router, loadUsers]);
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push('/auth/login');
+  }
 
   const filtered = users.filter(u =>
     u.nama?.toLowerCase().includes(search.toLowerCase()) ||
@@ -198,13 +203,14 @@ export default function AdminUsersPage() {
           <Link href="/admin/results" className={adminStyles.navItem}>Hasil Peserta</Link>
           <Link href="/admin/violations" className={adminStyles.navItem}>Log Pelanggaran</Link>
         </nav>
+        <button onClick={handleLogout} className={adminStyles.logoutBtn}>Keluar</button>
       </aside>
 
       <main className={adminStyles.main}>
         <header className={adminStyles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
-              className={adminStyles.hamburgerBtn}
+              className={adminStyles.hamburgerBtn} aria-label="Buka menu navigasi"
               onClick={() => setIsSidebarOpen(true)}
             >
               ☰
@@ -256,7 +262,7 @@ export default function AdminUsersPage() {
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         {u.foto_url
-                          ? <img src={u.foto_url} alt="" style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
+                          ? <img src={u.foto_url} alt={u.nama} style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
                           : <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--gradient-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff' }}>{u.nama?.[0]?.toUpperCase()}</div>
                         }
                         <span style={{ fontSize: 14 }}>{u.nama}</span>

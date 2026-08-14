@@ -144,7 +144,7 @@ export default function RegisterPage() {
           )}
 
           {step === 1 && (
-            <div className={styles.form}>
+            <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className={styles.form}>
               <div className="form-group">
                 <label htmlFor="reg-email" className="form-label">Email</label>
                 <input id="reg-email" type="email" className="form-input" placeholder="nama@email.com" value={form.email} onChange={(e) => set('email', e.target.value)} />
@@ -157,12 +157,12 @@ export default function RegisterPage() {
                 <label htmlFor="reg-confirm" className="form-label">Konfirmasi Password</label>
                 <input id="reg-confirm" type="password" className="form-input" placeholder="Ulangi password" value={form.confirmPassword} onChange={(e) => set('confirmPassword', e.target.value)} />
               </div>
-              <button type="button" className="btn btn-primary" style={{ width: '100%' }} onClick={nextStep}>Lanjut</button>
-            </div>
+              <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Lanjut</button>
+            </form>
           )}
 
           {step === 2 && (
-            <div className={styles.form}>
+            <form onSubmit={(e) => { e.preventDefault(); nextStep(); }} className={styles.form}>
               <div className="form-group">
                 <label htmlFor="reg-nama" className="form-label">Nama Lengkap</label>
                 <input id="reg-nama" type="text" className="form-input" placeholder="Sesuai ijazah" value={form.nama} onChange={(e) => set('nama', e.target.value)} />
@@ -183,9 +183,9 @@ export default function RegisterPage() {
               </div>
               <div className={styles.btnRow}>
                 <button type="button" className="btn btn-secondary" onClick={() => setStep(1)}>Kembali</button>
-                <button type="button" className="btn btn-primary" style={{ flex: 1 }} onClick={nextStep}>Lanjut</button>
+                <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>Lanjut</button>
               </div>
-            </div>
+            </form>
           )}
 
           {step === 3 && (

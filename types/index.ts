@@ -44,10 +44,11 @@ export interface Question {
   pilihan_c: string;
   pilihan_d: string;
   pilihan_e: string | null;
-  kunci_jawaban: string;
-  parameter_a: number;
-  parameter_b: number;
-  parameter_c: number;
+  tipe_soal?: string;
+  kunci_jawaban?: string;
+  parameter_a?: number;
+  parameter_b?: number;
+  parameter_c?: number;
   created_at: string;
 }
 

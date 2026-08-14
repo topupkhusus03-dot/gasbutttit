@@ -193,6 +193,10 @@
 }
 
 @media (max-width: 640px) {
+  .header {
+    padding: var(--space-4) var(--space-4);
+  }
+
   .content {
     padding: var(--space-4);
   }
@@ -203,5 +207,11 @@
 
   .statsGrid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 414px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
   }
 }

@@ -48,7 +48,6 @@ export default function DashboardPage() {
 
     if (profileRes.error) {
       console.error('Profile Fetch Error:', profileRes.error);
-      alert('Error fetching profile: ' + JSON.stringify(profileRes.error));
     }
 
     let currentUserData = profileRes.data;
@@ -187,7 +186,7 @@ export default function DashboardPage() {
         <header className={styles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
-              className={styles.hamburgerBtn}
+              className={styles.hamburgerBtn} aria-label="Buka menu navigasi"
               onClick={() => setIsSidebarOpen(true)}
             >
               ☰

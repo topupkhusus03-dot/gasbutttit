@@ -28,7 +28,7 @@ export default function Calculator({ onClose }: { onClose: () => void }) {
       const fullEq = equation + display;
       // using eval safely here as we only allow digits and basic operators
       const sanitizedEq = fullEq.replace(/[^-()\d/*+.]/g, '');
-      const result = eval(sanitizedEq);
+      const result = new Function('return ' + sanitizedEq)();
       setDisplay(String(result));
       setEquation('');
       setIsNewNumber(true);

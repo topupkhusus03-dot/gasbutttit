@@ -184,3 +184,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 375px) {
+  .steps { gap: 2px; }
+  .stepLabel { font-size: 10px; }
+  .btnRow { flex-wrap: wrap; }
+  .btnRow .btn { flex: 1; min-width: 120px; }
+}
+

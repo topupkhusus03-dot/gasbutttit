@@ -192,3 +192,9 @@
     text-align: center;
   }
 }
+
+.infoGrid { display: grid; grid-template-columns: 120px 16px 1fr; }
+@media (max-width: 480px) {
+  .infoGrid { grid-template-columns: 100px 12px 1fr; }
+}
+

@@ -111,7 +111,7 @@ export default function AdminDashboard() {
         <header className={styles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
-              className={styles.hamburgerBtn}
+              className={styles.hamburgerBtn} aria-label="Buka menu navigasi"
               onClick={() => setIsSidebarOpen(true)}
             >
               ☰

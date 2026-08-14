@@ -110,3 +110,17 @@
 .btnEqual:hover {
   background: #0090cc !important;
 }
+
+@media (max-width: 768px) {
+  .calcWrapper {
+    position: fixed;
+    top: auto;
+    bottom: 60px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+

@@ -140,3 +140,10 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 480px) {
+  .selectionsRow {
+    grid-template-columns: 1fr;
+  }
+}
+

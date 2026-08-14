@@ -386,3 +386,17 @@
     text-align: right;
   }
 }
+
+@media (max-width: 480px) {
+  .countdownGrid {
+    gap: 6px;
+  }
+  .countdownItem {
+    min-width: 50px;
+    padding: 8px 4px;
+  }
+  .countdownNum {
+    font-size: 1.5rem;
+  }
+}
+

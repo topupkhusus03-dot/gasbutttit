@@ -19,6 +19,7 @@ interface QuestionForm {
   pilihan_c: string;
   pilihan_d: string;
   pilihan_e: string;
+  tipe_soal?: string;
   kunci_jawaban: string;
   parameter_a: string;
   parameter_b: string;
@@ -28,7 +29,7 @@ interface QuestionForm {
 const emptyForm: QuestionForm = {
   subtest_id: '', nomor: '', konten: '', gambar_url: '',
   pilihan_a: '', pilihan_b: '', pilihan_c: '', pilihan_d: '', pilihan_e: '',
-  kunci_jawaban: 'A', parameter_a: '1.0', parameter_b: '0.0', parameter_c: '0.25',
+  tipe_soal: '', kunci_jawaban: 'A', parameter_a: '1.0', parameter_b: '0.0', parameter_c: '0.25',
 };
 
 export default function AdminQuestionsPage() {
@@ -65,12 +66,17 @@ export default function AdminQuestionsPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/auth/login'); return; }
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-      if (profile?.role !== 'admin') { router.push('/dashboard'); return; }
+      if (!profile || profile.role !== 'admin') { router.push('/dashboard'); return; }
       await loadData();
       setLoading(false);
     }
     init();
   }, [supabase, router, loadData]);
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push('/auth/login');
+  }
 
   function setField(field: keyof QuestionForm, value: string) {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -94,10 +100,11 @@ export default function AdminQuestionsPage() {
       pilihan_c: q.pilihan_c,
       pilihan_d: q.pilihan_d,
       pilihan_e: q.pilihan_e ?? '',
-      kunci_jawaban: q.kunci_jawaban,
-      parameter_a: String(q.parameter_a),
-      parameter_b: String(q.parameter_b),
-      parameter_c: String(q.parameter_c),
+      tipe_soal: q.tipe_soal ?? '',
+      kunci_jawaban: q.kunci_jawaban ?? '',
+      parameter_a: String(q.parameter_a ?? 1.0),
+      parameter_b: String(q.parameter_b ?? 0.0),
+      parameter_c: String(q.parameter_c ?? 0.25),
     });
     setEditId(q.id);
     setShowForm(true);
@@ -105,8 +112,13 @@ export default function AdminQuestionsPage() {
   }
 
   async function handleSave() {
-    if (!form.subtest_id || !form.nomor || !form.konten || !form.pilihan_a || !form.pilihan_b || !form.pilihan_c || !form.pilihan_d) {
-      setError('Subtes, nomor, konten, dan pilihan A-D wajib diisi.');
+    const isIsian = form.tipe_soal === 'isian' || (!form.pilihan_a && !form.pilihan_b);
+    if (!form.subtest_id || !form.nomor || !form.konten) {
+      setError('Subtes, nomor, dan konten wajib diisi.');
+      return;
+    }
+    if (!isIsian && (!form.pilihan_a || !form.pilihan_b || !form.pilihan_c || !form.pilihan_d)) {
+      setError('Pilihan A-D wajib diisi untuk soal pilihan ganda.');
       return;
     }
     setSaving(true);
@@ -122,6 +134,7 @@ export default function AdminQuestionsPage() {
       pilihan_c: form.pilihan_c,
       pilihan_d: form.pilihan_d,
       pilihan_e: form.pilihan_e || null,
+      tipe_soal: form.tipe_soal || null,
       kunci_jawaban: form.kunci_jawaban,
       parameter_a: parseFloat(form.parameter_a) || parseFloat((Math.random() * (1.5 - 0.8) + 0.8).toFixed(2)),
       parameter_b: parseFloat(form.parameter_b) || parseFloat((Math.random() * (2 - (-2)) + (-2)).toFixed(2)),
@@ -302,13 +315,14 @@ export default function AdminQuestionsPage() {
           <Link href="/admin/results" className={adminStyles.navItem}>Hasil Peserta</Link>
           <Link href="/admin/violations" className={adminStyles.navItem}>Log Pelanggaran</Link>
         </nav>
+        <button onClick={handleLogout} className={adminStyles.logoutBtn}>Keluar</button>
       </aside>
 
       <main className={adminStyles.main}>
         <header className={adminStyles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
-              className={adminStyles.hamburgerBtn}
+              className={adminStyles.hamburgerBtn} aria-label="Buka menu navigasi"
               onClick={() => setIsSidebarOpen(true)}
             >
               ☰

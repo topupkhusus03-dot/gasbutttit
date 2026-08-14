@@ -152,7 +152,7 @@ export default function AdminProgramsPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/auth/login'); return; }
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-      if (profile?.role !== 'admin') { router.push('/dashboard'); return; }
+      if (!profile || profile.role !== 'admin') { router.push('/dashboard'); return; }
 
       // Check if universities table is empty in database
       const { count } = await supabase.from('universities').select('*', { count: 'exact', head: true });
@@ -165,6 +165,11 @@ export default function AdminProgramsPage() {
     }
     init();
   }, [supabase, router, loadData, runAutoImport]);
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push('/auth/login');
+  }
 
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -308,13 +313,14 @@ export default function AdminProgramsPage() {
           <Link href="/admin/results" className={adminStyles.navItem}>Hasil Peserta</Link>
           <Link href="/admin/violations" className={adminStyles.navItem}>Log Pelanggaran</Link>
         </nav>
+        <button onClick={handleLogout} className={adminStyles.logoutBtn}>Keluar</button>
       </aside>
 
       <main className={adminStyles.main}>
         <header className={adminStyles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
-              className={adminStyles.hamburgerBtn}
+              className={adminStyles.hamburgerBtn} aria-label="Buka menu navigasi"
               onClick={() => setIsSidebarOpen(true)}
             >
               ☰

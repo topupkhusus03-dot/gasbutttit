@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
+import DOMPurify from 'dompurify';
 
 interface LatexRendererProps {
   content: string;
@@ -24,7 +25,7 @@ export default function LatexRenderer({ content, className, style }: LatexRender
     if (!ref.current) return;
 
     // First set raw HTML content
-    ref.current.innerHTML = content;
+    ref.current.innerHTML = DOMPurify.sanitize(content);
 
     // Then find and render all LaTeX inside
     renderLatexInElement(ref.current);
@@ -44,7 +45,7 @@ function processNode(node: Node) {
     if (!hasLatex(text)) return;
 
     const span = document.createElement('span');
-    span.innerHTML = renderLatexString(text);
+    span.innerHTML = DOMPurify.sanitize(renderLatexString(text));
     node.parentNode?.replaceChild(span, node);
     return;
   }
@@ -73,7 +74,7 @@ function renderLatexString(text: string): string {
     try {
       return katex.renderToString(math.trim(), { displayMode: true, throwOnError: false });
     } catch {
-      return `<span style="color:red">$$${math}$$</span>`;
+      return DOMPurify.sanitize(`<span style="color:red">$$${math}$$</span>`);
     }
   });
 
@@ -82,7 +83,7 @@ function renderLatexString(text: string): string {
     try {
       return katex.renderToString(math.trim(), { displayMode: true, throwOnError: false });
     } catch {
-      return `<span style="color:red">\\[${math}\\]</span>`;
+      return DOMPurify.sanitize(`<span style="color:red">\\[${math}\\]</span>`);
     }
   });
 
@@ -91,7 +92,7 @@ function renderLatexString(text: string): string {
     try {
       return katex.renderToString(math.trim(), { displayMode: false, throwOnError: false });
     } catch {
-      return `<span style="color:red">$${math}$</span>`;
+      return DOMPurify.sanitize(`<span style="color:red">$${math}$</span>`);
     }
   });
 
@@ -100,7 +101,7 @@ function renderLatexString(text: string): string {
     try {
       return katex.renderToString(math.trim(), { displayMode: false, throwOnError: false });
     } catch {
-      return `<span style="color:red">\\(${math}\\)</span>`;
+      return DOMPurify.sanitize(`<span style="color:red">\\(${math}\\)</span>`);
     }
   });
 

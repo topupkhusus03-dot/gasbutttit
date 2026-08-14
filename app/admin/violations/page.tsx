@@ -67,12 +67,17 @@ export default function AdminViolationsPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/auth/login'); return; }
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-      if (profile?.role !== 'admin') { router.push('/dashboard'); return; }
+      if (!profile || profile.role !== 'admin') { router.push('/dashboard'); return; }
       await loadViolations();
       setLoading(false);
     }
     init();
   }, [supabase, router, loadViolations]);
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push('/auth/login');
+  }
 
   function exportExcel() {
     const rows = violations.map(r => ({
@@ -116,13 +121,14 @@ export default function AdminViolationsPage() {
           <Link href="/admin/results" className={adminStyles.navItem}>Hasil Peserta</Link>
           <Link href="/admin/violations" className={`${adminStyles.navItem} ${adminStyles.navActive}`}>Log Pelanggaran</Link>
         </nav>
+        <button onClick={handleLogout} className={adminStyles.logoutBtn}>Keluar</button>
       </aside>
 
       <main className={adminStyles.main}>
         <header className={adminStyles.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
-              className={adminStyles.hamburgerBtn}
+              className={adminStyles.hamburgerBtn} aria-label="Buka menu navigasi"
               onClick={() => setIsSidebarOpen(true)}
             >
               ☰

@@ -165,63 +165,28 @@ export default function ExamPage() {
     };
   }, [phase, handleViolation, supabase]);
 
-  const submitExam = useCallback(async (sessionData: ExamSession, questionsData: Question[], answersData: AnswerMap) => {
+  const submitExam = useCallback(async (sessionData?: ExamSession | null, _questionsData?: Question[], answersData?: AnswerMap) => {
+    const currentSess = sessionData || sessionRef.current || session;
+    const currentAns = answersData || answers;
+    if (!currentSess) return;
     setSubmitting(true);
-    const subtestScores: Record<string, { theta: number; score: number }> = {};
-
-    for (const st of subtests) {
-      const stQuestions = questionsData.filter(q => q.subtest_id === st.id);
-      const responses = stQuestions.map(q => ({
-        correct: answersData[q.id] === q.kunci_jawaban,
-        params: { a: Number(q.parameter_a), b: Number(q.parameter_b), c: Number(q.parameter_c) },
-      }));
-      subtestScores[st.kode] = calculateSubtestScore(responses);
+    try {
+      const response = await fetch('/api/submit-exam', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: currentSess.id,
+          answers: currentAns,
+        }),
+      });
+      if (!response.ok) throw new Error('Failed to submit exam');
+      router.push('/dashboard');
+    } catch (error) {
+      console.error(error);
+      alert('Gagal mengirim jawaban. Silakan coba lagi.');
+      setSubmitting(false);
     }
-
-    const answersToInsert = questionsData.map(q => ({
-      session_id: sessionData.id,
-      question_id: q.id,
-      jawaban_user: answersData[q.id] || null,
-      benar: answersData[q.id] ? answersData[q.id] === q.kunci_jawaban : null,
-    }));
-    await supabase.from('answers').upsert(answersToInsert, { onConflict: 'session_id,question_id' });
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const lbiScore = subtestScores['LBI']?.score ?? 0;
-    const lbeScore = subtestScores['LBE']?.score ?? 0;
-    const lbeTheta = subtestScores['LBE']?.theta ?? 0;
-
-    await supabase.from('exam_results').insert({
-      user_id: user.id,
-      session_id: sessionData.id,
-      skor_penalaran_umum: subtestScores['PU']?.score ?? 0,
-      skor_ppu: subtestScores['PPU']?.score ?? 0,
-      skor_pbm: subtestScores['PBM']?.score ?? 0,
-      skor_pk: subtestScores['PK']?.score ?? 0,
-      skor_literasi_id: lbiScore,
-      skor_literasi_id_saintek: lbiScore * 0.52,
-      skor_literasi_id_soshum: lbiScore * 0.48,
-      skor_literasi_en: lbeScore,
-      skor_penalaran_matematika: subtestScores['PM']?.score ?? 0,
-      theta_penalaran_umum: subtestScores['PU']?.theta ?? 0,
-      theta_ppu: subtestScores['PPU']?.theta ?? 0,
-      theta_pbm: subtestScores['PBM']?.theta ?? 0,
-      theta_pk: subtestScores['PK']?.theta ?? 0,
-      theta_literasi_id: subtestScores['LBI']?.theta ?? 0,
-      theta_literasi_en: lbeTheta,
-      theta_penalaran_matematika: subtestScores['PM']?.theta ?? 0,
-      tanggal_selesai: new Date().toISOString(),
-    });
-
-    await supabase.from('exam_sessions').update({
-      status: 'completed',
-      waktu_selesai: new Date().toISOString(),
-    }).eq('id', sessionData.id);
-
-    router.push('/dashboard');
-  }, [supabase, subtests, router]);
+  }, [session, answers, router]);
 
   useEffect(() => {
     async function load() {
@@ -247,7 +212,7 @@ export default function ExamPage() {
 
       const [subtestsRes, questionsRes, existingAnswers] = await Promise.all([
         supabase.from('subtests').select('*').order('urutan'),
-        supabase.from('questions').select('*').order('nomor'),
+        supabase.from('questions').select('id, subtest_id, nomor, konten, pilihan_a, pilihan_b, pilihan_c, pilihan_d, pilihan_e, tipe_soal, gambar_url, created_at').order('nomor'),
         supabase.from('answers').select('question_id, jawaban_user').eq('session_id', sessionRes.data.id),
       ]);
 
@@ -291,36 +256,50 @@ export default function ExamPage() {
     load();
   }, [supabase, router]);
 
+  const targetEndTimeRef = useRef<number | null>(null);
+  const debounceTimerRef = useRef<{ [qId: string]: NodeJS.Timeout }>({});
+  const [isMobilePaletteOpen, setIsMobilePaletteOpen] = useState(false);
+
   useEffect(() => {
-    if (loading || phase !== 'exam' || !currentSubtest) return;
+    if (loading || phase !== 'exam' || !currentSubtest) {
+      targetEndTimeRef.current = null;
+      return;
+    }
+
+    if (!targetEndTimeRef.current) {
+      targetEndTimeRef.current = Date.now() + timeLeft * 1000;
+    }
+
     timerRef.current && clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current!);
-          if (currentSubtestIdx < subtests.length - 1) {
-            setTransitionNextSubtestIdx(currentSubtestIdx + 1);
-            setPhase('subtest_transition');
-            setCountdownTimer(30);
-          } else {
-            setPhase('finished_notice');
-          }
-          return 0;
+      if (!targetEndTimeRef.current) return;
+      const remaining = Math.max(0, Math.ceil((targetEndTimeRef.current - Date.now()) / 1000));
+      setTimeLeft(remaining);
+
+      if (remaining <= 0) {
+        clearInterval(timerRef.current!);
+        targetEndTimeRef.current = null;
+        if (currentSubtestIdx < subtests.length - 1) {
+          setTransitionNextSubtestIdx(currentSubtestIdx + 1);
+          setPhase('subtest_transition');
+          setCountdownTimer(30);
+        } else {
+          // Auto submit when time runs out on the final subtest
+          submitExam();
         }
-        return prev - 1;
-      });
-    }, 1000);
+      }
+    }, 500);
+
     return () => { timerRef.current && clearInterval(timerRef.current); };
-  }, [loading, phase, currentSubtest, currentSubtestIdx, subtests, session, questions, answers, submitExam]);
+  }, [loading, phase, currentSubtest, currentSubtestIdx, subtests.length, submitExam]);
 
   function saveAnswer(questionId: string, answer: string) {
     const q = questions.find(q => q.id === questionId);
     if (!q) return;
 
-    // Is it a multiple-select checkbox question (where key has > 1 letter, e.g. "AD")?
     const isIsian = !q.pilihan_a && !q.pilihan_b;
     const isKompleks = q.pilihan_a?.startsWith('[KOMPLEKS]');
-    const isMulti = !isIsian && !isKompleks && q.kunci_jawaban && q.kunci_jawaban.length > 1;
+    const isMulti = !isIsian && !isKompleks && q.tipe_soal === 'multiple_select';
 
     let finalAnswer = answer;
     if (isMulti) {
@@ -339,12 +318,29 @@ export default function ExamPage() {
     }
 
     setAnswers(prev => ({ ...prev, [questionId]: finalAnswer }));
-    supabase.from('answers').upsert({
-      session_id: session!.id,
-      question_id: questionId,
-      jawaban_user: finalAnswer || null,
-      benar: finalAnswer === q.kunci_jawaban,
-    }, { onConflict: 'session_id,question_id' });
+
+    if (isIsian) {
+      if (debounceTimerRef.current[questionId]) {
+        clearTimeout(debounceTimerRef.current[questionId]);
+      }
+      debounceTimerRef.current[questionId] = setTimeout(() => {
+        if (session) {
+          supabase.from('answers').upsert({
+            session_id: session.id,
+            question_id: questionId,
+            jawaban_user: finalAnswer || null,
+          }, { onConflict: 'session_id,question_id' });
+        }
+      }, 400);
+    } else {
+      if (session) {
+        supabase.from('answers').upsert({
+          session_id: session.id,
+          question_id: questionId,
+          jawaban_user: finalAnswer || null,
+        }, { onConflict: 'session_id,question_id' });
+      }
+    }
   }
 
   function toggleFlag(questionId: string) {
@@ -834,11 +830,15 @@ export default function ExamPage() {
       {/* Anti-screenshot blur overlay - shown when window loses focus */}
       <div
         id="exam-blur-overlay"
+        onClick={() => {
+          const overlay = document.getElementById('exam-blur-overlay');
+          if (overlay) overlay.style.display = 'none';
+        }}
         style={{
           display: 'none',
           position: 'fixed',
           inset: 0,
-          zIndex: 99999,
+          zIndex: 99998,
           background: 'rgba(0,0,0,0.95)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
@@ -849,11 +849,12 @@ export default function ExamPage() {
           fontSize: '1.2rem',
           fontWeight: 600,
           gap: '12px',
+          cursor: 'pointer',
         }}
       >
         <span style={{ fontSize: '3rem' }}>🔒</span>
         <p>Layar ujian disembunyikan</p>
-        <p style={{ fontSize: '0.9rem', fontWeight: 400, color: '#aaa' }}>Klik di sini untuk melanjutkan ujian</p>
+        <p style={{ fontSize: '0.9rem', fontWeight: 400, color: '#aaa' }}>Klik di mana saja untuk melanjutkan ujian</p>
       </div>
 
       {isExitedFullscreen && (
@@ -1030,6 +1031,52 @@ export default function ExamPage() {
           </div>
         </aside>
 
+        {/* Mobile floating button to open question palette */}
+        <button
+          className={styles.mobileNavBtn}
+          onClick={() => setIsMobilePaletteOpen(true)}
+          aria-label="Buka nomor soal"
+          title="Daftar Soal"
+        >
+          📋
+        </button>
+
+        {/* Mobile slide-up drawer for question palette */}
+        <div
+          className={`${styles.mobileDrawerOverlay} ${isMobilePaletteOpen ? styles.mobileDrawerOverlayShow : ''}`}
+          onClick={() => setIsMobilePaletteOpen(false)}
+        />
+        <div className={`${styles.mobileDrawer} ${isMobilePaletteOpen ? styles.mobileDrawerOpen : ''}`}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+            <span style={{ fontWeight: 700, fontSize: '15px' }}>Daftar Soal ({currentSubtest?.nama})</span>
+            <button className="btn btn-secondary btn-sm" onClick={() => setIsMobilePaletteOpen(false)}>✕ Tutup</button>
+          </div>
+          <div className={styles.paletteLegend} style={{ marginBottom: '12px' }}>
+            <span className={styles.legendAnswered}>Dijawab</span>
+            <span className={styles.legendUnanswered}>Belum</span>
+            <span className={styles.legendFlagged}>Ragu</span>
+          </div>
+          <div className={styles.palette} style={{ gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px' }}>
+            {subtestQuestions.map((q, idx) => {
+              const answered = !!answers[q.id];
+              const flagged = flags[q.id];
+              const current = idx === currentQuestionIdx;
+              return (
+                <button
+                  key={q.id}
+                  className={`${styles.paletteBtn} ${current ? styles.paletteCurrent : ''} ${flagged ? styles.paletteFlagged : answered ? styles.paletteAnswered : ''}`}
+                  onClick={() => {
+                    setCurrentQuestionIdx(idx);
+                    setIsMobilePaletteOpen(false);
+                  }}
+                >
+                  {idx + 1}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         <main className={styles.examMain}>
           {currentQuestion ? (
             <div className={styles.questionArea}>
@@ -1128,7 +1175,7 @@ export default function ExamPage() {
                     const text = currentQuestion[key] as string;
                     if (!text) return null;
                     
-                    const isMulti = currentQuestion.kunci_jawaban.length > 1;
+                    const isMulti = currentQuestion.tipe_soal === 'multiple_select';
                     const selected = isMulti
                       ? (answers[currentQuestion.id] ? answers[currentQuestion.id].split(',').includes(letter) : false)
                       : answers[currentQuestion.id] === letter;
@@ -1138,6 +1185,15 @@ export default function ExamPage() {
                         key={letter}
                         className={`${styles.optionItem} ${selected ? styles.optionSelected : ''}`}
                         onClick={() => saveAnswer(currentQuestion.id, letter)}
+                        tabIndex={0}
+                        role={isMulti ? 'checkbox' : 'radio'}
+                        aria-checked={selected}
+                        onKeyDown={(e) => {
+                          if (e.key === ' ' || e.key === 'Enter') {
+                            e.preventDefault();
+                            saveAnswer(currentQuestion.id, letter);
+                          }
+                        }}
                       >
                         {isMulti ? (
                           <span className={styles.optionCheckbox} style={{ borderColor: selected ? '#0d6efd' : '#aaa' }}>
@@ -1148,8 +1204,8 @@ export default function ExamPage() {
                             <span className={styles.optionRadioInner} style={{ background: selected ? '#0d6efd' : 'transparent' }} />
                           </span>
                         )}
-                        <span className={styles.optionLetter}>{letter}.</span>
-                        <LatexRenderer content={text} className={styles.optionText} />
+                        <span className={styles.optionLetter} style={{ fontSize: `${zoomFactor}%` }}>{letter}.</span>
+                        <LatexRenderer content={text} className={styles.optionText} style={{ fontSize: `${zoomFactor}%` }} />
                       </label>
                     );
                   })}
