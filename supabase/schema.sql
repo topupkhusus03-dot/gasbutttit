@@ -25,44 +25,36 @@ create table public.profiles (
 
 alter table public.profiles enable row level security;
 
-create policy "Users can view own profile"
-  on public.profiles for select
-  using (auth.uid() = id);
-
-create policy "Users can update own profile"
-  on public.profiles for update
-  using (auth.uid() = id);
-
-create policy "Admin can view all profiles"
-  on public.profiles for select
-  using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'admin'
-    )
+-- Function: Non-recursive check for Admin role
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role = 'admin'
   );
+$$;
 
-create policy "Admin can update all profiles"
+-- Non-recursive Policies on Profiles
+create policy "Users and admin can view profiles"
+  on public.profiles for select
+  using (auth.uid() = id or public.is_admin());
+
+create policy "Users and admin can update profiles"
   on public.profiles for update
-  using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'admin'
-    )
-  );
+  using (auth.uid() = id or public.is_admin());
 
 create policy "Admin can delete profiles"
   on public.profiles for delete
-  using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'admin'
-    )
-  );
+  using (public.is_admin());
 
 create policy "Allow insert on register"
   on public.profiles for insert
-  with check (auth.uid() = id);
+  with check (auth.uid() = id or public.is_admin());
 
 -- ============================================================
 -- RPC: Admin delete user functions
