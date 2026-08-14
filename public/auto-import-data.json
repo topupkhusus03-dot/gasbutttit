@@ -23318,43 +23318,43 @@
     },
     {
       "kode_universitas": "1371",
-      "nama_prodi": "TEKNIK BIOMEDIS",
+      "nama_prodi": "INFORMATIKA",
       "kode_prodi": "1371-9",
       "jenis": "Sarjana",
-      "daya_tampung": 56,
-      "rata_rata_nilai_masuk": 647
+      "daya_tampung": 90,
+      "rata_rata_nilai_masuk": 645
     },
     {
       "kode_universitas": "1371",
-      "nama_prodi": "REKAYASA NANOTEKNOLOGI",
+      "nama_prodi": "TEKNOLOGI INFORMASI",
       "kode_prodi": "1371-10",
       "jenis": "Sarjana",
       "daya_tampung": 80,
-      "rata_rata_nilai_masuk": 655
+      "rata_rata_nilai_masuk": 638
     },
     {
       "kode_universitas": "1371",
-      "nama_prodi": "TEKNIK ROBOTIKA DAN KECERDASAN BUATAN",
+      "nama_prodi": "TEKNIK SIPIL",
       "kode_prodi": "1371-11",
       "jenis": "Sarjana",
-      "daya_tampung": 65,
-      "rata_rata_nilai_masuk": 654
+      "daya_tampung": 85,
+      "rata_rata_nilai_masuk": 640
     },
     {
       "kode_universitas": "1371",
-      "nama_prodi": "TEKNOLOGI SAINS DATA",
+      "nama_prodi": "TEKNIK MESIN",
       "kode_prodi": "1371-12",
       "jenis": "Sarjana",
-      "daya_tampung": 92,
-      "rata_rata_nilai_masuk": 632
+      "daya_tampung": 80,
+      "rata_rata_nilai_masuk": 635
     },
     {
       "kode_universitas": "1371",
-      "nama_prodi": "TEKNIK INDUSTRI",
+      "nama_prodi": "TEKNIK KIMIA",
       "kode_prodi": "1371-13",
       "jenis": "Sarjana",
-      "daya_tampung": 99,
-      "rata_rata_nilai_masuk": 642
+      "daya_tampung": 65,
+      "rata_rata_nilai_masuk": 636
     },
     {
       "kode_universitas": "1371",
