@@ -456,7 +456,7 @@ begin
     coalesce(new.raw_user_meta_data->>'role', 'user'),
     new.raw_user_meta_data->>'nisn',
     new.raw_user_meta_data->>'tempat_lahir',
-    new.raw_user_meta_data->>'tanggal_lahir',
+    nullif(new.raw_user_meta_data->>'tanggal_lahir', '')::date,
     new.raw_user_meta_data->>'asal_sekolah',
     new.raw_user_meta_data->>'npsn',
     coalesce(new.raw_user_meta_data->>'nomor_peserta_utbk', gen_nomor)
