@@ -1,9 +1,14 @@
 const fs = require('fs');
 const path = require('path');
+const cp = require('child_process');
 
 const dataPath = path.join(__dirname, '../public/auto-import-data.json');
-const rawData = fs.readFileSync(dataPath, 'utf8');
-const data = JSON.parse(rawData);
+
+// Ambil data 147 universitas asli yang memiliki kode unik 100%
+const originalJson = JSON.parse(cp.execSync('git show 32d874e:public/auto-import-data.json').toString('utf8'));
+const universities = originalJson.universities;
+
+console.log('147 Original Universities Loaded:', universities.length);
 
 // Khusus PTN Utama dengan Prodi Spesifik Resmi SNPMB/SNBT
 const specialUnivPrograms = {
@@ -145,23 +150,6 @@ const specialUnivPrograms = {
     'MATEMATIKA', 'FISIKA', 'KIMIA', 'BIOLOGI', 'SAINS AKTUARIA', 'FARMASI', 'SAINS KEBUMIAN', 'SAINS LINGKUNGAN KELAUTAN', 'SAINS ATMOSFER DAN KEPLANETAN'
   ]
 };
-
-// Pastikan kode universitas terpetakan dengan akurat
-for (const univ of data.universities) {
-  const name = univ.nama_universitas.toUpperCase();
-  if (name.includes('BOGOR') || name.includes('IPB')) univ.kode_universitas = 'IPB';
-  else if (name.includes('BANDUNG') && name.includes('TEKNOLOGI')) univ.kode_universitas = 'ITB';
-  else if (name === 'UNIVERSITAS INDONESIA' || name === 'UI') univ.kode_universitas = 'UI';
-  else if (name.includes('GADJAH MADA') || name.includes('UGM')) univ.kode_universitas = 'UGM';
-  else if (name.includes('AIRLANGGA') || name.includes('UNAIR')) univ.kode_universitas = 'UNAIR';
-  else if (name.includes('SEPULUH NOPEMBER') || name.includes('ITS')) univ.kode_universitas = 'ITS';
-  else if (name.includes('PADJADJARAN') || name.includes('UNPAD')) univ.kode_universitas = 'UNPAD';
-  else if (name.includes('DIPONEGORO') || name.includes('UNDIP')) univ.kode_universitas = 'UNDIP';
-  else if (name.includes('BRAWIJAYA') || name.includes('UB')) univ.kode_universitas = 'UB';
-  else if (name.includes('SEBELAS MARET') || name.includes('UNS')) univ.kode_universitas = 'UNS';
-  else if (name.includes('HASANUDDIN') || name.includes('UNHAS')) univ.kode_universitas = 'UNHAS';
-  else if (name.includes('SUMATERA') && name.includes('INSTITUT TEKNOLOGI')) univ.kode_universitas = 'ITERA';
-}
 
 // Standar lengkap semua jurusan SNBT Saintek, Soshum, Vokasi
 const standardProgramsList = [
@@ -307,14 +295,33 @@ const standardProgramsList = [
   { nama: 'D3 TEKNIK SIPIL', jenis: 'D3', daya: 55, rata: 618 }
 ];
 
+function getSpecialKey(univ) {
+  const name = univ.nama_universitas.toUpperCase();
+  const code = univ.kode_universitas;
+  if (code === 'IPB' || code === '1341' || (name.includes('BOGOR') && name.includes('PERTANIAN'))) return 'IPB';
+  if (code === 'ITB' || code === '1343' || (name.includes('BANDUNG') && name.includes('TEKNOLOGI'))) return 'ITB';
+  if (code === 'UI' || code === '1321' || name === 'UNIVERSITAS INDONESIA') return 'UI';
+  if (code === 'UGM' || code === '1361' || name.includes('GADJAH MADA')) return 'UGM';
+  if (code === 'UNAIR' || code === '1371' || name.includes('AIRLANGGA')) return 'UNAIR';
+  if (code === 'ITS' || code === '1372' || name.includes('SEPULUH NOPEMBER')) return 'ITS';
+  if (code === 'UNPAD' || code === '1342' || name.includes('PADJADJARAN')) return 'UNPAD';
+  if (code === 'UNDIP' || code === '1351' || name.includes('DIPONEGORO')) return 'UNDIP';
+  if (code === 'UB' || code === '1374' || name.includes('BRAWIJAYA')) return 'UB';
+  if (code === 'UNS' || code === '1354' || name.includes('SEBELAS MARET')) return 'UNS';
+  if (code === 'UNHAS' || code === '1711' || name.includes('HASANUDDIN')) return 'UNHAS';
+  if (code === 'ITERA' || code === '1192' || (name.includes('SUMATERA') && name.includes('INSTITUT TEKNOLOGI'))) return 'ITERA';
+  return null;
+}
+
 const allFinalPrograms = [];
 
-for (const univ of data.universities) {
+for (const univ of universities) {
   const kUniv = univ.kode_universitas;
   let idx = 1;
+  const specKey = getSpecialKey(univ);
 
-  if (specialUnivPrograms[kUniv]) {
-    for (const progName of specialUnivPrograms[kUniv]) {
+  if (specKey && specialUnivPrograms[specKey]) {
+    for (const progName of specialUnivPrograms[specKey]) {
       const isD4 = progName.startsWith('D4');
       const isD3 = progName.startsWith('D3');
       allFinalPrograms.push({
@@ -340,13 +347,13 @@ for (const univ of data.universities) {
   }
 }
 
-console.log('Total Universities:', data.universities.length);
+console.log('Total Universities (No Collision):', universities.length);
 console.log('Total Programs Generated:', allFinalPrograms.length);
 
 const finalData = {
-  universities: data.universities,
+  universities: universities,
   programs: allFinalPrograms
 };
 
 fs.writeFileSync(dataPath, JSON.stringify(finalData, null, 2));
-console.log('Updated public/auto-import-data.json with ALL PTNs mapped!');
+console.log('Successfully saved auto-import-data.json!');

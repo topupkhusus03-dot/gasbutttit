@@ -88,22 +88,23 @@ export default function AdminProgramsPage() {
       if (res.ok) {
         const data = await res.json();
         
-        // 1. Insert Universities in batch
+        // 1. Bersihkan data lama jika me-reload ulang
+        setImportStatus('Membersihkan data universitas dan program studi lama...');
+        await supabase.from('study_programs').delete().not('id', 'is', null);
+        await supabase.from('universities').delete().not('id', 'is', null);
+
+        // 2. Insert Universities in batch (147 PTN)
         if (data.universities && data.universities.length > 0) {
-          setImportStatus(`Menyimpan ${data.universities.length} Universitas Negeri...`);
+          setImportStatus(`Menyimpan ${data.universities.length} Universitas Negeri se-Indonesia...`);
           for (let i = 0; i < data.universities.length; i += 100) {
             const chunk = data.universities.slice(i, i + 100);
-            await supabase.from('universities').upsert(chunk, { onConflict: 'kode_universitas' });
+            await supabase.from('universities').insert(chunk);
           }
         }
 
-        // 2. Fetch fresh universities mapping
+        // 3. Fetch fresh universities mapping
         const { data: dbUnivs } = await supabase.from('universities').select('id, kode_universitas');
         const univMap = new Map((dbUnivs || []).map(u => [u.kode_universitas, u.id]));
-
-        // 3. Clear old study programs if reloading
-        setImportStatus('Membersihkan data program studi lama...');
-        await supabase.from('study_programs').delete().not('id', 'is', null);
 
         // 4. Prepare and insert study programs in batch
         if (data.programs && data.programs.length > 0) {
