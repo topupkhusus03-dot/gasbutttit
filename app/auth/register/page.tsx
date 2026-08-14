@@ -101,9 +101,10 @@ export default function RegisterPage() {
     });
 
     if (authError) {
-      setError(authError.message === 'User already registered'
-        ? 'Email sudah terdaftar.'
-        : `Terjadi kesalahan: ${authError.message}`);
+      const msg = authError.message || (authError as any).error_description || (authError as any).msg || JSON.stringify(authError);
+      setError(msg === 'User already registered' || msg.includes('already registered')
+        ? 'Email sudah terdaftar. Silakan langsung login di halaman Masuk.'
+        : `Terjadi kesalahan: ${msg}`);
       setLoading(false);
       return;
     }
