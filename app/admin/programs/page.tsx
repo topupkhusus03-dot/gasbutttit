@@ -80,6 +80,49 @@ export default function AdminProgramsPage() {
     setPrograms(progs);
   }, [supabase]);
 
+  async function doAutoImport(force = false) {
+    if (force || !localStorage.getItem('auto_imported_universities_prodi_v6')) {
+      setImporting(true);
+      setImportStatus('Memasukkan data universitas & prodi dari file scraping...');
+      try {
+        const res = await fetch('/auto-import-data.json');
+        if (res.ok) {
+          const data = await res.json();
+          for (const row of data.universities) {
+            await supabase.from('universities').upsert(row, { onConflict: 'kode_universitas' });
+          }
+          const univs = (await supabase.from('universities').select('id, kode_universitas')).data ?? [];
+          for (const row of data.programs) {
+            const univ = univs.find(u => u.kode_universitas === row.kode_universitas);
+            if (univ) {
+              const existing = await supabase.from('study_programs').select('id').eq('university_id', univ.id).eq('kode_prodi', row.kode_prodi).maybeSingle();
+              const payload = {
+                university_id: univ.id,
+                nama_prodi: row.nama_prodi,
+                kode_prodi: row.kode_prodi,
+                jenis: row.jenis,
+                daya_tampung: row.daya_tampung,
+                rata_rata_nilai_masuk: 650 + Math.random() * 50
+              };
+              if (existing.data) {
+                await supabase.from('study_programs').update(payload).eq('id', existing.data.id);
+              } else {
+                await supabase.from('study_programs').insert(payload);
+              }
+            }
+          }
+          localStorage.setItem('auto_imported_universities_prodi_v6', 'true');
+          setImportStatus('Data universitas & prodi (termasuk Kecerdasan Artifisial UI) berhasil disinkronkan!');
+        }
+      } catch (e) {
+        console.error('Auto import failed', e);
+        setImportStatus('Gagal menyinkronkan data: ' + String(e));
+      }
+      setImporting(false);
+      await loadData();
+    }
+  }
+
   useEffect(() => {
     async function init() {
       const { data: { user } } = await supabase.auth.getUser();
@@ -87,46 +130,7 @@ export default function AdminProgramsPage() {
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
       if (profile?.role !== 'admin') { router.push('/dashboard'); return; }
       
-      // Auto import script
-      if (!localStorage.getItem('auto_imported_universities_prodi_v5')) {
-        setImporting(true);
-        setImportStatus('Memasukkan data UI & ITB otomatis...');
-        try {
-          const res = await fetch('/auto-import-data.json');
-          if (res.ok) {
-            const data = await res.json();
-            for (const row of data.universities) {
-              await supabase.from('universities').upsert(row, { onConflict: 'kode_universitas' });
-            }
-            const univs = (await supabase.from('universities').select('id, kode_universitas')).data ?? [];
-            for (const row of data.programs) {
-              const univ = univs.find(u => u.kode_universitas === row.kode_universitas);
-              if (univ) {
-                const existing = await supabase.from('study_programs').select('id').eq('university_id', univ.id).eq('kode_prodi', row.kode_prodi).maybeSingle();
-                const payload = {
-                  university_id: univ.id,
-                  nama_prodi: row.nama_prodi,
-                  kode_prodi: row.kode_prodi,
-                  jenis: row.jenis,
-                  daya_tampung: row.daya_tampung,
-                  rata_rata_nilai_masuk: 650 + Math.random() * 50
-                };
-                if (existing.data) {
-                  await supabase.from('study_programs').update(payload).eq('id', existing.data.id);
-                } else {
-                  await supabase.from('study_programs').insert(payload);
-                }
-              }
-            }
-            localStorage.setItem('auto_imported_universities_prodi_v5', 'true');
-            setImportStatus('Data universitas & prodi berhasil dimasukkan otomatis!');
-          }
-        } catch (e) {
-          console.error('Auto import failed', e);
-        }
-        setImporting(false);
-      }
-
+      await doAutoImport(false);
       await loadData();
       setLoading(false);
     }
@@ -292,8 +296,15 @@ export default function AdminProgramsPage() {
 
         <div className={adminStyles.content}>
           <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', alignItems: 'center' }}>
-            <label className="btn btn-primary btn-sm" htmlFor="import-prodi" style={{ cursor: importing ? 'wait' : 'pointer' }}>
-              {importing ? 'Mengimpor...' : 'Import Excel / Spreadsheet'}
+            <button 
+              className="btn btn-primary btn-sm"
+              onClick={() => doAutoImport(true)}
+              disabled={importing}
+            >
+              {importing ? 'Menyinkronkan...' : '🔄 Sinkronkan Data Scraping (JSON)'}
+            </button>
+            <label className="btn btn-secondary btn-sm" htmlFor="import-prodi" style={{ cursor: importing ? 'wait' : 'pointer' }}>
+              Import Excel / Spreadsheet
             </label>
             <input id="import-prodi" type="file" accept=".xlsx,.xls" onChange={handleImport} style={{ display: 'none' }} disabled={importing} />
             <button className="btn btn-secondary btn-sm" onClick={downloadTemplate}>Unduh Template</button>
