@@ -66,6 +66,33 @@ export default function AdminResultsPage() {
     }
   };
 
+  const handleQuickSet1000 = async (nomorPeserta: string, nama: string) => {
+    const input = window.prompt(`Masukkan nilai/skor baru untuk ${nama} (${nomorPeserta}):`, '1000');
+    if (input === null) return;
+    const skorNum = parseFloat(input);
+    if (isNaN(skorNum)) {
+      alert('Skor harus berupa angka.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/admin/set-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nomor_peserta_utbk: nomorPeserta,
+          skor: skorNum
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Gagal mengubah skor');
+      alert(`Berhasil! Semua skor subtes untuk ${nama} diubah menjadi ${skorNum}`);
+      await loadResults();
+    } catch (err: any) {
+      alert('Error: ' + err.message);
+    }
+  };
+
   useEffect(() => {
     async function init() {
       const { data: { user } } = await supabase.auth.getUser();
@@ -225,7 +252,14 @@ export default function AdminResultsPage() {
                     <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                       {new Date(r.tanggal_selesai).toLocaleDateString('id-ID')}
                     </td>
-                    <td>
+                    <td style={{ whiteSpace: 'nowrap' }}>
+                      <button 
+                        className="btn btn-sm btn-primary"
+                        style={{ padding: '4px 8px', fontSize: 12, marginRight: 6, borderRadius: 4, cursor: 'pointer' }}
+                        onClick={() => handleQuickSet1000(r.nomor_peserta, r.nama)}
+                      >
+                        Ubah Skor
+                      </button>
                       <button 
                         className="btn btn-sm btn-danger"
                         style={{ padding: '4px 8px', fontSize: 12, backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
