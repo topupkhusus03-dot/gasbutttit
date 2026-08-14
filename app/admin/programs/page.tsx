@@ -82,7 +82,7 @@ export default function AdminProgramsPage() {
 
   const runAutoImport = useCallback(async () => {
     setImporting(true);
-    setImportStatus('Mengisi data master universitas & prodi (UI, ITB, dll)...');
+    setImportStatus('Membaca dataset 147 PTN & 7.000+ Prodi...');
     try {
       const res = await fetch('/auto-import-data.json');
       if (res.ok) {
@@ -90,6 +90,7 @@ export default function AdminProgramsPage() {
         
         // 1. Insert Universities in batch
         if (data.universities && data.universities.length > 0) {
+          setImportStatus(`Menyimpan ${data.universities.length} Universitas Negeri...`);
           for (let i = 0; i < data.universities.length; i += 100) {
             const chunk = data.universities.slice(i, i + 100);
             await supabase.from('universities').upsert(chunk, { onConflict: 'kode_universitas' });
@@ -117,15 +118,20 @@ export default function AdminProgramsPage() {
             }
           }
 
-          for (let i = 0; i < progsToInsert.length; i += 100) {
-            const chunk = progsToInsert.slice(i, i + 100);
+          const totalProgs = progsToInsert.length;
+          const chunkSize = 500;
+          for (let i = 0; i < totalProgs; i += chunkSize) {
+            const chunk = progsToInsert.slice(i, i + chunkSize);
+            setImportStatus(`Menyimpan Program Studi: ${Math.min(i + chunkSize, totalProgs)} / ${totalProgs}...`);
             try {
               await supabase.from('study_programs').insert(chunk);
-            } catch (err) {}
+            } catch (err) {
+              console.error('Batch insert error', err);
+            }
           }
         }
 
-        setImportStatus('Berhasil mengisi data master PTN & Prodi!');
+        setImportStatus(`Berhasil mengimpor 147 PTN & ${data.programs?.length || 0} Program Studi!`);
         await loadData();
       }
     } catch (e: any) {
