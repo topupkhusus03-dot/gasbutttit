@@ -106,6 +106,30 @@ begin
 end;
 $$;
 
+create or replace function public.reset_user_account(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+as $$
+declare
+  s_ids uuid[];
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid() and role = 'admin') then
+    raise exception 'Unauthorized: Only admin can reset users';
+  end if;
+
+  select array_agg(id) into s_ids from public.exam_sessions where user_id = target_user_id;
+  if s_ids is not null then
+    delete from public.answers where session_id = any(s_ids);
+    delete from public.exam_violations where session_id = any(s_ids);
+  end if;
+
+  delete from public.exam_results where user_id = target_user_id;
+  delete from public.exam_sessions where user_id = target_user_id;
+  delete from public.program_selections where user_id = target_user_id;
+end;
+$$;
+
 -- ============================================================
 -- SUBTESTS
 -- ============================================================
