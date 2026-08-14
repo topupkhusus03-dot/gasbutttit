@@ -80,58 +80,80 @@ export default function AdminProgramsPage() {
     setPrograms(progs);
   }, [supabase]);
 
+  const runAutoImport = useCallback(async () => {
+    setImporting(true);
+    setImportStatus('Mengisi data master universitas & prodi (UI, ITB, dll)...');
+    try {
+      const res = await fetch('/auto-import-data.json');
+      if (res.ok) {
+        const data = await res.json();
+        
+        // 1. Insert Universities in batch
+        if (data.universities && data.universities.length > 0) {
+          for (let i = 0; i < data.universities.length; i += 100) {
+            const chunk = data.universities.slice(i, i + 100);
+            await supabase.from('universities').upsert(chunk, { onConflict: 'kode_universitas' });
+          }
+        }
+
+        // 2. Fetch fresh universities mapping
+        const { data: dbUnivs } = await supabase.from('universities').select('id, kode_universitas');
+        const univMap = new Map((dbUnivs || []).map(u => [u.kode_universitas, u.id]));
+
+        // 3. Prepare and insert study programs in batch
+        if (data.programs && data.programs.length > 0) {
+          const progsToInsert: any[] = [];
+          for (const row of data.programs) {
+            const uId = univMap.get(row.kode_universitas);
+            if (uId) {
+              progsToInsert.push({
+                university_id: uId,
+                nama_prodi: row.nama_prodi,
+                kode_prodi: row.kode_prodi,
+                jenis: row.jenis,
+                daya_tampung: row.daya_tampung || 50,
+                rata_rata_nilai_masuk: 650 + Math.floor(Math.random() * 50)
+              });
+            }
+          }
+
+          for (let i = 0; i < progsToInsert.length; i += 100) {
+            const chunk = progsToInsert.slice(i, i + 100);
+            try {
+              await supabase.from('study_programs').insert(chunk);
+            } catch (err) {}
+          }
+        }
+
+        setImportStatus('Berhasil mengisi data master PTN & Prodi!');
+        await loadData();
+      }
+    } catch (e: any) {
+      console.error('Auto import error', e);
+      setImportStatus('Gagal mengisi data: ' + e.message);
+    } finally {
+      setImporting(false);
+    }
+  }, [supabase, loadData]);
+
   useEffect(() => {
     async function init() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/auth/login'); return; }
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
       if (profile?.role !== 'admin') { router.push('/dashboard'); return; }
-      
-      // Auto import script
-      if (!localStorage.getItem('auto_imported_universities_prodi_v5')) {
-        setImporting(true);
-        setImportStatus('Memasukkan data UI & ITB otomatis...');
-        try {
-          const res = await fetch('/auto-import-data.json');
-          if (res.ok) {
-            const data = await res.json();
-            for (const row of data.universities) {
-              await supabase.from('universities').upsert(row, { onConflict: 'kode_universitas' });
-            }
-            const univs = (await supabase.from('universities').select('id, kode_universitas')).data ?? [];
-            for (const row of data.programs) {
-              const univ = univs.find(u => u.kode_universitas === row.kode_universitas);
-              if (univ) {
-                const existing = await supabase.from('study_programs').select('id').eq('university_id', univ.id).eq('kode_prodi', row.kode_prodi).maybeSingle();
-                const payload = {
-                  university_id: univ.id,
-                  nama_prodi: row.nama_prodi,
-                  kode_prodi: row.kode_prodi,
-                  jenis: row.jenis,
-                  daya_tampung: row.daya_tampung,
-                  rata_rata_nilai_masuk: 650 + Math.random() * 50
-                };
-                if (existing.data) {
-                  await supabase.from('study_programs').update(payload).eq('id', existing.data.id);
-                } else {
-                  await supabase.from('study_programs').insert(payload);
-                }
-              }
-            }
-            localStorage.setItem('auto_imported_universities_prodi_v5', 'true');
-            setImportStatus('Data universitas & prodi berhasil dimasukkan otomatis!');
-          }
-        } catch (e) {
-          console.error('Auto import failed', e);
-        }
-        setImporting(false);
-      }
 
-      await loadData();
+      // Check if universities table is empty in database
+      const { count } = await supabase.from('universities').select('*', { count: 'exact', head: true });
+      if (count === 0 || count === null) {
+        await runAutoImport();
+      } else {
+        await loadData();
+      }
       setLoading(false);
     }
     init();
-  }, [supabase, router, loadData]);
+  }, [supabase, router, loadData, runAutoImport]);
 
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -292,8 +314,11 @@ export default function AdminProgramsPage() {
 
         <div className={adminStyles.content}>
           <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', alignItems: 'center' }}>
-            <label className="btn btn-primary btn-sm" htmlFor="import-prodi" style={{ cursor: importing ? 'wait' : 'pointer' }}>
-              {importing ? 'Mengimpor...' : 'Import Excel / Spreadsheet'}
+            <button className="btn btn-primary btn-sm" onClick={runAutoImport} disabled={importing}>
+              {importing ? 'Mengisi Data...' : '📥 Isi Master Data PTN & Prodi'}
+            </button>
+            <label className="btn btn-secondary btn-sm" htmlFor="import-prodi" style={{ cursor: importing ? 'wait' : 'pointer' }}>
+              Import Excel / Spreadsheet
             </label>
             <input id="import-prodi" type="file" accept=".xlsx,.xls" onChange={handleImport} style={{ display: 'none' }} disabled={importing} />
             <button className="btn btn-secondary btn-sm" onClick={downloadTemplate}>Unduh Template</button>
