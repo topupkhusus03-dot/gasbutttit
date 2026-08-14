@@ -1,0 +1,10 @@
+# TryoutSNBT - Platform Simulasi UTBK-SNBT 2026
+
+> Platform simulasi UTBK-SNBT terdepan dengan sistem penilaian IRT (Item Response Theory 3PL), sistem keamanan ujian anti-curang, dan sertifikat resmi.
+
+## Halaman Utama
+- [Beranda](https://tryout-snbt-2027.netlify.app/): Halaman depan dan informasi materi tryout UTBK-SNBT.
+- [Masuk Peserta](https://tryout-snbt-2027.netlify.app/auth/login): Login untuk peserta dan administrator.
+- [Daftar Peserta](https://tryout-snbt-2027.netlify.app/auth/register): Pendaftaran akun baru tryout SNBT.
+- [Pengumuman SNBT](https://tryout-snbt-2027.netlify.app/pengumuman): Halaman hitung mundur dan pengumuman hasil seleksi SNBT.
+- [Safe Exam Browser](https://tryout-snbt-2027.netlify.app/seb): Petunjuk dan unduhan konfigurasi Safe Exam Browser (SEB).
