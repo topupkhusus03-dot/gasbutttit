@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 
@@ -80,7 +81,14 @@ export default function HomePage() {
       <nav className={styles.nav}>
         <div className={`container ${styles.navInner}`}>
           <Link href="/" className={styles.navLogo}>
-            <img src="/logo.png" alt="Logo SNBT" className={styles.logoImg} />
+            <Image
+              src="/logo.png"
+              alt="Logo SNBT"
+              width={36}
+              height={36}
+              priority
+              className={styles.logoImg}
+            />
             <span>TryoutSNBT</span>
           </Link>
           <div className={styles.navLinks}>

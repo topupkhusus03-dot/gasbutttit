@@ -1,0 +1,359 @@
+const fs = require('fs');
+const path = require('path');
+const cp = require('child_process');
+
+const dataPath = path.join(__dirname, '../public/auto-import-data.json');
+
+// Ambil data 147 universitas asli yang memiliki kode unik 100%
+const originalJson = JSON.parse(cp.execSync('git show 32d874e:public/auto-import-data.json').toString('utf8'));
+const universities = originalJson.universities;
+
+console.log('147 Original Universities Loaded:', universities.length);
+
+// Khusus PTN Utama dengan Prodi Spesifik Resmi SNPMB/SNBT
+const specialUnivPrograms = {
+  // IPB UNIVERSITY (Institut Pertanian Bogor)
+  'IPB': [
+    'KECERDASAN BUATAN', 'ILMU KOMPUTER', 'STATISTIKA DAN SAINS DATA', 'AKTUARIA',
+    'KEDOKTERAN', 'KEDOKTERAN HEWAN', 'BIOKIMIA', 'BIOLOGI', 'KIMIA', 'FISIKA', 'MATEMATIKA',
+    'TEKNOLOGI PANGAN', 'TEKNIK PERTANIAN DAN BIOSISTEM', 'TEKNIK INDUSTRI PERTANIAN', 'TEKNIK SIPIL DAN LINGKUNGAN',
+    'AGRONOMI DAN HORTIKULTURA', 'PROTEKSI TANAMAN', 'ARSITEKTUR LANSKAP', 'ILMU TANAH DAN SUMBERDAYA LAHAN',
+    'MANAJEMEN HUTAN', 'TEKNOLOGI HASIL HUTAN', 'KONSERVASI SUMBERDAYA HUTAN DAN EKOWISATA', 'SILVIKULTUR',
+    'TEKNOLOGI & MANAJEMEN PERIKANAN BUDIDAYA', 'MANAJEMEN SUMBERDAYA PERAIRAN', 'TEKNOLOGI HASIL PERAIRAN', 'PEMANFAATAN SUMBERDAYA PERIKANAN', 'ILMU DAN TEKNOLOGI KELAUTAN',
+    'TEKNOLOGI PRODUKSI TERNAK', 'NUTRISI DAN TEKNOLOGI PAKAN', 'TEKNOLOGI HASIL TERNAK',
+    'GIZI MASYARAKAT', 'ILMU KELUARGA DAN KONSUMEN', 'KOMUNIKASI DAN PENGEMBANGAN MASYARAKAT',
+    'EKONOMI PEMBANGUNAN', 'MANAJEMEN', 'AGRIBISNIS', 'EKONOMI SUMBERDAYA DAN LINGKUNGAN', 'EKONOMI SYARIAH', 'BISNIS',
+    'D4 TEKNOLOGI REKAYASA PERANGKAT LUNAK', 'D4 REKAYASA SISTEM KOMPUTER', 'D4 AKUNTANSI', 'D4 MANAJEMEN AGRIBISNIS', 'D4 MANAJEMEN INDUSTRI JASA MAKANAN DAN GIZI', 'D4 KOMUNIKASI DIGITAL DAN MEDIA', 'D4 TEKNIK DAN MANAJEMEN LINGKUNGAN'
+  ],
+  // ITB (Institut Teknologi Bandung)
+  'ITB': [
+    'FAKULTAS ILMU DAN TEKNOLOGI KEBUMIAN (FITB)',
+    'FAKULTAS MATEMATIKA DAN ILMU PENGETAHUAN ALAM (FMIPA) - MATEMATIKA',
+    'FAKULTAS MATEMATIKA DAN ILMU PENGETAHUAN ALAM (FMIPA) - ILMU PENGETAHUAN ALAM',
+    'FAKULTAS SENIRUPA DAN DESAIN (FSRD)',
+    'FAKULTAS TEKNOLOGI INDUSTRI (FTI) - KAMPUS GANESHA',
+    'FAKULTAS TEKNOLOGI INDUSTRI (FTI) - KAMPUS JATINANGOR',
+    'FAKULTAS TEKNIK PERTAMBANGAN DAN PERMINYAKAN (FTTM)',
+    'FAKULTAS TEKNIK SIPIL DAN LINGKUNGAN (FTSL) - KAMPUS GANESHA',
+    'FAKULTAS TEKNIK SIPIL DAN LINGKUNGAN (FTSL) - KAMPUS JATINANGOR',
+    'FAKULTAS TEKNIK MESIN DAN DIRGANTARA (FTMD)',
+    'SEKOLAH ARSITEKTUR, PERENCANAAN DAN PENGEMBANGAN KEBIJAKAN (SAPPK)',
+    'SEKOLAH FARMASI (SF)',
+    'SEKOLAH ILMU DAN TEKNOLOGI REKAYASA HAYATI (SITH-R)',
+    'SEKOLAH ILMU DAN TEKNOLOGI SAINS HAYATI (SITH-S)',
+    'SEKOLAH TEKNIK ELEKTRO DAN INFORMATIKA (STEI) - REKAYASA',
+    'SEKOLAH TEKNIK ELEKTRO DAN INFORMATIKA (STEI) - KOMPUTASI (INFORMATIKA & SISTEM INFORMASI)',
+    'SEKOLAH BISNIS DAN MANAJEMEN (SBM)',
+    'TEKNIK PERMINYAKAN', 'TEKNIK PERTAMBANGAN', 'TEKNIK GEOLOGI', 'TEKNIK GEOFISIKA',
+    'TEKNIK INFORMATIKA', 'SISTEM DAN TEKNOLOGI INFORMASI', 'TEKNIK ELEKTRO', 'TEKNIK TENAGA LISTRIK', 'TEKNIK TELEKOMUNIKASI', 'TEKNIK BIOMEDIS',
+    'TEKNIK INDUSTRI', 'TEKNIK KIMIA', 'TEKNIK FISIKA', 'MANAJEMEN REKAYASA INDUSTRI',
+    'TEKNIK MESIN', 'TEKNIK DIRGANTARA / AERONOTIKA', 'TEKNIK MATERIAL',
+    'TEKNIK SIPIL', 'TEKNIK LINGKUNGAN', 'TEKNIK KELAUTAN', 'REKAYASA INFRASTRUKTUR LINGKUNGAN',
+    'ARSITEKTUR', 'PERENCANAAN WILAYAH DAN KOTA (PWK)',
+    'FARMASI KLINIS DAN KOMUNITAS', 'SAINS DAN TEKNOLOGI FARMASI',
+    'ASTRONOMI', 'MATEMATIKA', 'FISIKA', 'KIMIA', 'AKTUARIA',
+    'MANAJEMEN', 'KEWIRAUSAHAAN', 'DESAIN KOMUNIKASI VISUAL (DKV)', 'DESAIN PRODUK', 'DESAIN INTERIOR', 'KRIYA', 'SENI RUPA MURNI'
+  ],
+  // UI (Universitas Indonesia)
+  'UI': [
+    'PENDIDIKAN DOKTER', 'PENDIDIKAN DOKTER GIGI', 'FARMASI', 'ILMU KEPERAWATAN', 'ILMU GIZI', 'KESEHATAN MASYARAKAT', 'KESEHATAN LINGKUNGAN', 'KESELAMATAN DAN KESEHATAN KERJA (K3)',
+    'ILMU KOMPUTER', 'SISTEM INFORMASI',
+    'TEKNIK INFORMATIKA', 'TEKNIK ELEKTRO', 'TEKNIK KOMPUTER', 'TEKNIK BIOMEDIS',
+    'TEKNIK SIPIL', 'TEKNIK LINGKUNGAN', 'TEKNIK MESIN', 'TEKNIK PERKAPALAN', 'TEKNIK INDUSTRI', 'TEKNIK KIMIA', 'TEKNIK METALURGI DAN MATERIAL', 'ARSITEKTUR', 'ARSITEKTUR INTERIOR',
+    'MATEMATIKA', 'STATISTIKA', 'AKTUARIA', 'FISIKA', 'GEOFISIKA', 'KIMIA', 'BIOLOGI', 'GEOGRAFI',
+    'ILMU HUKUM', 'MANAJEMEN', 'AKUNTANSI', 'ILMU EKONOMI', 'ILMU EKONOMI ISLAM', 'BISNIS ISLAM',
+    'PSIKOLOGI', 'ILMU KOMUNIKASI', 'HUBUNGAN INTERNASIONAL', 'ILMU ADMINISTRASI NEGARA', 'ILMU ADMINISTRASI NIAGA', 'ILMU ADMINISTRASI FISKAL', 'ILMU POLITIK', 'SOSIOLOGI', 'KRIMINOLOGI', 'ILMU KESEJAHTERAAN SOSIAL', 'ANTROPOLOGI SOSIAL',
+    'SASTRA INDONESIA', 'SASTRA INGGRIS', 'SASTRA JEPANG', 'SASTRA ARAB', 'SASTRA CINA', 'SASTRA PERANCIS', 'SASTRA JERMAN', 'SASTRA RUSIA', 'SASTRA JAWA', 'ILMU SEJARAH', 'ILMU PERPUSTAKAAN', 'ARKEOLOGI', 'ILMU FILSAFAT',
+    'D4 BISNIS KREATIF', 'D4 PRODUKSI MEDIA', 'D4 FISIOTERAPI', 'D4 TERAPI OKUPASI', 'D4 MANAJEMEN REKOR DAN ARSIP',
+    'D3 AKUNTANSI', 'D3 PERPAJAKAN', 'D3 KEUANGAN DAN PERBANKAN', 'D3 ADMINISTRASI PERKANTORAN', 'D3 ADMINISTRASI RUMAH SAKIT', 'D3 ADMINISTRASI ASURANSI DAN AKTUARIA', 'D3 HUBUNGAN MASYARAKAT', 'D3 PENYIARAN MULTIMEDIA', 'D3 PERIKLANAN KREATIF'
+  ],
+  // UGM (Universitas Gadjah Mada)
+  'UGM': [
+    'KEDOKTERAN', 'KEDOKTERAN GIGI', 'KEDOKTERAN HEWAN', 'FARMASI', 'ILMU KEPERAWATAN', 'GIZI KESEHATAN',
+    'TEKNOLOGI INFORMASI', 'ILMU KOMPUTER', 'TEKNIK ELEKTRO', 'TEKNIK BIOMEDIS',
+    'TEKNIK SIPIL', 'TEKNIK MESIN', 'TEKNIK INDUSTRI', 'TEKNIK KIMIA', 'TEKNIK GEOLOGI', 'TEKNIK GEODESI', 'TEKNIK NUKLIR', 'TEKNIK FISIKA', 'ARSITEKTUR', 'PERENCANAAN WILAYAH DAN KOTA',
+    'STATISTIKA', 'MATEMATIKA', 'AKTUARIA', 'ILMU AKTUARIA', 'FISIKA', 'GEOFISIKA', 'KIMIA', 'BIOLOGI', 'GEOGRAFI LINGKUNGAN', 'KARTOGRAFI DAN PENGINDERAAN JAUH', 'PEMBANGUNAN WILAYAH',
+    'AGRONOMI', 'ILMU TANAH', 'PROTEKSI TANAMAN', 'AKUAKULTUR', 'MANAJEMEN SUMBERDAYA AKUATIK', 'TEKNOLOGI HASIL PERIKANAN', 'ILMU DAN INDUSTRI PETERNAKAN', 'KEHUTANAN', 'TEKNOLOGI INDUSTRI PERTANIAN', 'TEKNIK PERTANIAN', 'TEKNOLOGI PANGAN DAN HASIL PERTANIAN',
+    'HUKUM', 'MANAJEMEN', 'AKUNTANSI', 'ILMU EKONOMI',
+    'PSIKOLOGI', 'ILMU KOMUNIKASI', 'HUBUNGAN INTERNASIONAL', 'MANAJEMEN DAN KEBIJAKAN PUBLIK', 'POLITIK DAN PEMERINTAHAN', 'SOSIOLOGI', 'PEMBANGUNAN SOSIAL DAN KESEJAHTERAAN',
+    'SASTRA INGGRIS', 'SASTRA INDONESIA', 'SASTRA ARAB', 'SASTRA JEPANG', 'SASTRA KOREA', 'SASTRA PERANCIS', 'SASTRA JAWA', 'SEJARAH', 'ARKEOLOGI', 'ANTROPOLOGI BUDAYA', 'PARIWISATA', 'FILSAFAT',
+    'D4 REKAYASA PERANGKAT LUNAK APLIKASI', 'D4 TEKNOLOGI REKAYASA INTERNET', 'D4 SISTEM INFORMASI GEOGRAFIS', 'D4 PENGELOLAAN HUTAN', 'D4 BISNIS DAN PROPERTI', 'D4 AKUNTANSI SEKTOR PUBLIK', 'D4 PERBANKAN'
+  ],
+  // UNAIR (Universitas Airlangga)
+  'UNAIR': [
+    'KEDOKTERAN', 'KEDOKTERAN GIGI', 'KEDOKTERAN HEWAN', 'FARMASI', 'KEPERAWATAN', 'KEBIDANAN', 'KESEHATAN MASYARAKAT', 'GIZI',
+    'TEKNIK BIOMEDIS', 'REKAYASA NANOTEKNOLOGI', 'TEKNIK ROBOTIKA DAN KECERDASAN BUATAN', 'TEKNOLOGI SAINS DATA', 'TEKNIK INDUSTRI', 'TEKNIK ELEKTRO', 'SISTEM INFORMASI', 'STATISTIKA', 'MATEMATIKA', 'KIMIA', 'FISIKA', 'BIOLOGI', 'TEKNOLOGI HASIL PERIKANAN', 'AKUAKULTUR',
+    'ILMU HUKUM', 'MANAJEMEN', 'AKUNTANSI', 'EKONOMI PEMBANGUNAN', 'EKONOMI ISLAM', 'PSIKOLOGI', 'ILMU KOMUNIKASI', 'HUBUNGAN INTERNASIONAL', 'ILMU ADMINISTRASI NEGARA', 'ILMU POLITIK', 'SOSIOLOGI', 'ANTROPOLOGI', 'ILMU INFORMASI DAN PERPUSTAKAAN', 'SASTRA INGGRIS', 'SASTRA INDONESIA', 'SASTRA JEPANG', 'BAHASA DAN SASTRA ARAB', 'STUDI KEJEPANGAN'
+  ],
+  // ITS (Institut Teknologi Sepuluh Nopember)
+  'ITS': [
+    'KEDOKTERAN', 'TEKNIK INFORMATIKA', 'SISTEM INFORMASI', 'TEKNOLOGI INFORMASI', 'REKAYASA PERANGKAT LUNAK', 'REKAYASA KECERDASAN ARTIFISIAL', 'SAINS DATA',
+    'TEKNIK ELEKTRO', 'TEKNIK BIOMEDIS', 'TEKNIK KOMPUTER', 'TEKNIK TELEKOMUNIKASI',
+    'TEKNIK MESIN', 'TEKNIK INDUSTRI', 'TEKNIK MATERIAL DAN METALURGI', 'TEKNIK KIMIA', 'TEKNIK FISIKA', 'TEKNIK SISTEM DAN INDUSTRI',
+    'TEKNIK PERKAPALAN', 'TEKNIK SISTEM PERKAPALAN', 'TEKNIK KELAUTAN', 'TEKNIK TRANSPORTASI LAUT', 'TEKNIK OFFSHORE',
+    'TEKNIK SIPIL', 'TEKNIK LINGKUNGAN', 'TEKNIK GEOMATIKA', 'TEKNIK GEOFISIKA', 'ARSITEKTUR', 'PERENCANAAN WILAYAH DAN KOTA', 'DESAIN PRODUK INDUSTRI', 'DESAIN KOMUNIKASI VISUAL', 'DESAIN INTERIOR',
+    'MATEMATIKA', 'STATISTIKA', 'AKTUARIA', 'KIMIA', 'FISIKA', 'BIOLOGI', 'SAINS AKTUARIA',
+    'MANAJEMEN BISNIS', 'STUDI PEMBANGUNAN'
+  ],
+  // UNPAD (Universitas Padjadjaran)
+  'UNPAD': [
+    'PENDIDIKAN DOKTER', 'KEDOKTERAN GIGI', 'FARMASI', 'ILMU KEPERAWATAN', 'KEBIDANAN', 'PSIKOLOGI',
+    'TEKNIK INFORMATIKA', 'TEKNIK ELEKTRO', 'TEKNIK GEOLOGI', 'TEKNIK PERTANIAN', 'TEKNOLOGI PANGAN', 'TEKNOLOGI INDUSTRI PERTANIAN',
+    'MATEMATIKA', 'STATISTIKA', 'AKTUARIA', 'ILMU AKTUARIA', 'FISIKA', 'GEOFISIKA', 'KIMIA', 'BIOLOGI', 'ILMU KELAUTAN', 'PERIKANAN', 'PETERNAKAN', 'AGRIBISNIS', 'AGROTEKNOLOGI',
+    'ILMU HUKUM', 'MANAJEMEN', 'AKUNTANSI', 'EKONOMI PEMBANGUNAN', 'EKONOMI ISLAM', 'BISNIS DIGITAL',
+    'ILMU KOMUNIKASI', 'HUBUNGAN INTERNASIONAL', 'HUBUNGAN MASYARAKAT', 'MANAJEMEN KOMUNIKASI', 'JURNALISTIK', 'TELEVISI DAN FILM', 'ILMU ADMINISTRASI NEGARA', 'ILMU ADMINISTRASI BISNIS', 'ILMU PEMERINTAHAN', 'SOSIOLOGI', 'ANTROPOLOGI', 'ILMU POLITIK', 'KESEJAHTERAAN SOSIAL',
+    'SASTRA INDONESIA', 'SASTRA INGGRIS', 'SASTRA SUNDA', 'SASTRA JEPANG', 'SASTRA ARAB', 'SASTRA PERANCIS', 'SASTRA JERMAN', 'SASTRA RUSIA', 'SEJARAH'
+  ],
+  // UNDIP (Universitas Diponegoro)
+  'UNDIP': [
+    'KEDOKTERAN', 'KEDOKTERAN GIGI', 'FARMASI', 'KEPERAWATAN', 'GIZI', 'KESEHATAN MASYARAKAT',
+    'INFORMATIKA', 'TEKNIK KOMPUTER', 'TEKNIK SIPIL', 'ARSITEKTUR', 'TEKNIK MESIN', 'TEKNIK KIMIA', 'TEKNIK ELEKTRO', 'PERENCANAAN WILAYAH DAN KOTA (PWK)', 'TEKNIK INDUSTRI', 'TEKNIK LINGKUNGAN', 'TEKNIK PERKAPALAN', 'TEKNIK GEOLOGI', 'TEKNIK GEODESI',
+    'BIOTEKNOLOGI', 'MATEMATIKA', 'FISIKA', 'KIMIA', 'BIOLOGI', 'STATISTIKA', 'OSEANOGRAFI', 'AKUAKULTUR', 'MANAJEMEN SUMBERDAYA PERAIRAN', 'PEMANFAATAN SUMBERDAYA PERIKANAN', 'ILMU KELAUTAN', 'TEKNOLOGI HASIL PERIKANAN', 'PETERNAKAN', 'AGROEKOTEKNOLOGI', 'AGRIBISNIS',
+    'HUKUM', 'MANAJEMEN', 'AKUNTANSI', 'ILMU EKONOMI DAN STUDI PEMBANGUNAN', 'EKONOMI ISLAM', 'BISNIS DIGITAL',
+    'PSIKOLOGI', 'ADMINISTRASI PUBLIK', 'ADMINISTRASI BISNIS', 'ILMU KOMUNIKASI', 'HUBUNGAN INTERNASIONAL', 'ILMU PEMERINTAHAN', 'ANTROPOLOGI SOSIAL', 'SEJARAH', 'SASTRA INDONESIA', 'SASTRA INGGRIS', 'SASTRA JEPANG', 'ILMU PERPUSTAKAAN'
+  ],
+  // UB (Universitas Brawijaya)
+  'UB': [
+    'KEDOKTERAN', 'FARMASI', 'KEBIDANAN', 'KEPERAWATAN', 'ILMU GIZI', 'KEDOKTERAN HEWAN',
+    'TEKNIK INFORMATIKA', 'SISTEM INFORMASI', 'TEKNIK KOMPUTER', 'PENDIDIKAN TEKNOLOGI INFORMASI', 'TEKNOLOGI INFORMASI', 'SAINS DATA',
+    'TEKNIK SIPIL', 'TEKNIK MESIN', 'TEKNIK ELEKTRO', 'TEKNIK PENGAIRAN', 'ARSITEKTUR', 'TEKNIK INDUSTRI', 'TEKNIK KIMIA', 'PERENCANAAN WILAYAH DAN KOTA', 'TEKNIK LINGKUNGAN', 'TEKNIK BIOPROSES',
+    'MATEMATIKA', 'STATISTIKA', 'FISIKA', 'KIMIA', 'BIOLOGI', 'GEOFISIKA', 'INSTRUMENTASI', 'BIOTEKNOLOGI', 'SAINS AKTUARIA',
+    'AGROTEKNOLOGI', 'AGRIBISNIS', 'PETERNAKAN', 'AKUAKULTUR', 'MANAJEMEN SUMBERDAYA PERAIRAN', 'TEKNOLOGI HASIL PERIKANAN', 'ILMU KELAUTAN', 'SOSIAL EKONOMI PERIKANAN', 'KEHUTANAN', 'TEKNOLOGI PANGAN', 'TEKNIK PERTANIAN DAN BIOSISTEM', 'TEKNOLOGI INDUSTRI PERTANIAN',
+    'HUKUM', 'MANAJEMEN', 'AKUNTANSI', 'EKONOMI PEMBANGUNAN', 'EKONOMI ISLAM', 'EKONOMI KEUANGAN DAN PERBANKAN', 'KEWIRAUSAHAAN',
+    'ILMU KOMUNIKASI', 'HUBUNGAN INTERNASIONAL', 'PSIKOLOGI', 'SOSIOLOGI', 'ILMU POLITIK', 'ILMU PEMERINTAHAN', 'ADMINISTRASI PUBLIK', 'ADMINISTRASI BISNIS', 'PERPAJAKAN', 'PARIWISATA',
+    'SASTRA INGGRIS', 'SASTRA JEPANG', 'BAHASA DAN SASTRA PRANCIS', 'SASTRA CINA', 'PENDIDIKAN BAHASA DAN SASTRA INDONESIA', 'PENDIDIKAN BAHASA INGGRIS', 'PENDIDIKAN BAHASA JEPANG', 'SENI RUPA MURNI'
+  ],
+  // UNS (Universitas Sebelas Maret)
+  'UNS': [
+    'KEDOKTERAN', 'KEBIDANAN', 'FARMASI', 'PSIKOLOGI',
+    'INFORMATIKA', 'SAINS DATA', 'MATEMATIKA', 'FISIKA', 'KIMIA', 'BIOLOGI', 'STATISTIKA', 'ILMU LINGKUNGAN',
+    'TEKNIK SIPIL', 'ARSITEKTUR', 'TEKNIK MESIN', 'TEKNIK INDUSTRI', 'TEKNIK KIMIA', 'TEKNIK ELEKTRO', 'PERENCANAAN WILAYAH DAN KOTA',
+    'AGROTEKNOLOGI', 'AGRIBISNIS', 'PETERNAKAN', 'ILMU TANAH', 'PENYULUHAN DAN KOMUNIKASI PERTANIAN', 'PENGELOLAAN HUTAN', 'ILMU DAN TEKNOLOGI PANGAN',
+    'HUKUM', 'MANAJEMEN', 'AKUNTANSI', 'EKONOMI PEMBANGUNAN', 'BISNIS DIGITAL',
+    'ILMU KOMUNIKASI', 'HUBUNGAN INTERNASIONAL', 'SOSIOLOGI', 'ILMU ADMINISTRASI NEGARA',
+    'DESAIN KOMUNIKASI VISUAL (DKV)', 'SENI RUPA MURNI', 'DESAIN INTERIOR', 'KRIYA SENI',
+    'PGSD', 'PGPAUD', 'PENDIDIKAN BAHASA JAWA', 'PENDIDIKAN BAHASA INDONESIA', 'PENDIDIKAN BAHASA INGGRIS', 'PENDIDIKAN SEJARAH', 'PENDIDIKAN GEOGRAFI', 'PENDIDIKAN SOSIOLOGI', 'PENDIDIKAN EKONOMI', 'PENDIDIKAN MATEMATIKA', 'PENDIDIKAN BIOLOGI', 'PENDIDIKAN FISIKA', 'PENDIDIKAN KIMIA'
+  ],
+  // UNHAS (Universitas Hasanuddin)
+  'UNHAS': [
+    'PENDIDIKAN DOKTER', 'PENDIDIKAN DOKTER GIGI', 'FARMASI', 'KEPERAWATAN', 'FISIOTERAPI', 'KESEHATAN MASYARAKAT', 'ILMU GIZI', 'KEDOKTERAN HEWAN',
+    'TEKNIK INFORMATIKA', 'SISTEM INFORMASI', 'TEKNIK ELEKTRO', 'TEKNIK KOMPUTER', 'TEKNIK SIPIL', 'TEKNIK MESIN', 'ARSITEKTUR', 'TEKNIK GEOLOGI', 'TEKNIK INDUSTRI', 'TEKNIK KELAUTAN', 'TEKNIK SISTEM PERKAPALAN', 'TEKNIK PERENCANAAN WILAYAH DAN KOTA', 'TEKNIK PERTAMBANGAN', 'TEKNIK LINGKUNGAN', 'TEKNIK METALURGI DAN MATERIAL',
+    'MATEMATIKA', 'FISIKA', 'KIMIA', 'BIOLOGI', 'STATISTIKA', 'GEOFISIKA', 'ILMU AKTUARIA', 'ILMU KELAUTAN', 'MANAJEMEN SUMBERDAYA PERAIRAN', 'BUDIDAYA PERAIRAN', 'PEMANFAATAN SUMBERDAYA PERIKANAN', 'KEHUTANAN', 'AGROTEKNOLOGI', 'AGRIBISNIS', 'ILMU DAN TEKNOLOGI PANGAN', 'PETERNAKAN',
+    'HUKUM', 'ILMU ADMINISTRASI PUBLIK', 'ILMU KOMUNIKASI', 'SOSIOLOGI', 'ILMU POLITIK', 'HUBUNGAN INTERNASIONAL', 'ANTROPOLOGI', 'MANAJEMEN', 'AKUNTANSI', 'ILMU EKONOMI', 'EKONOMI PEMBANGUNAN', 'SASTRA INDONESIA', 'SASTRA INGGRIS', 'SASTRA ARAB', 'SASTRA JEPANG', 'SASTRA DAERAH (BUGIS/MAKASSAR)', 'ARKEOLOGI', 'SEJARAH'
+  ],
+  // ITERA (Institut Teknologi Sumatera)
+  'ITERA': [
+    'TEKNIK INFORMATIKA', 'SAINS DATA', 'REKAYASA PERANGKAT LUNAK', 'TEKNIK ELEKTRO', 'TEKNIK TELEKOMUNIKASI', 'TEKNIK BIOMEDIS', 'REKAYASA INSTRUMENTASI DAN AUTOMASI',
+    'TEKNIK SIPIL', 'ARSITEKTUR', 'PERENCANAAN WILAYAH DAN KOTA', 'TEKNIK LINGKUNGAN', 'TEKNIK GEOMATIKA', 'ARSITEKTUR LANSKAP', 'REKAYASA TATA KELOLA AIR TERPADU',
+    'TEKNIK MESIN', 'TEKNIK INDUSTRI', 'TEKNIK KIMIA', 'TEKNIK MATERIAL', 'TEKNIK BIOSISTEM', 'TEKNOLOGI PANGAN', 'TEKNOLOGI INDUSTRI PERTANIAN', 'REKAYASA KEHUTANAN', 'REKAYASA KOSMETIK', 'REKAYASA MINYAK DAN GAS', 'REKAYASA KEOLAHRAGAAN',
+    'TEKNIK GEOLOGI', 'TEKNIK GEOFISIKA', 'TEKNIK PERTAMBANGAN', 'TEKNIK PERMINYAKAN',
+    'MATEMATIKA', 'FISIKA', 'KIMIA', 'BIOLOGI', 'SAINS AKTUARIA', 'FARMASI', 'SAINS KEBUMIAN', 'SAINS LINGKUNGAN KELAUTAN', 'SAINS ATMOSFER DAN KEPLANETAN'
+  ]
+};
+
+// Standar lengkap semua jurusan SNBT Saintek, Soshum, Vokasi
+const standardProgramsList = [
+  // Kesehatan & Kedokteran
+  { nama: 'PENDIDIKAN DOKTER', jenis: 'Sarjana', daya: 60, rata: 685 },
+  { nama: 'PENDIDIKAN DOKTER GIGI', jenis: 'Sarjana', daya: 45, rata: 665 },
+  { nama: 'FARMASI', jenis: 'Sarjana', daya: 70, rata: 658 },
+  { nama: 'ILMU KEPERAWATAN', jenis: 'Sarjana', daya: 80, rata: 635 },
+  { nama: 'KESEHATAN MASYARAKAT', jenis: 'Sarjana', daya: 90, rata: 630 },
+  { nama: 'GIZI / ILMU GIZI', jenis: 'Sarjana', daya: 50, rata: 642 },
+  { nama: 'KEDOKTERAN HEWAN', jenis: 'Sarjana', daya: 60, rata: 638 },
+  { nama: 'KEBIDANAN', jenis: 'Sarjana', daya: 40, rata: 625 },
+
+  // Teknologi & Komputer
+  { nama: 'TEKNIK INFORMATIKA', jenis: 'Sarjana', daya: 100, rata: 672 },
+  { nama: 'ILMU KOMPUTER', jenis: 'Sarjana', daya: 90, rata: 670 },
+  { nama: 'SISTEM INFORMASI', jenis: 'Sarjana', daya: 85, rata: 655 },
+  { nama: 'TEKNOLOGI INFORMASI', jenis: 'Sarjana', daya: 75, rata: 652 },
+  { nama: 'REKAYASA PERANGKAT LUNAK', jenis: 'Sarjana', daya: 50, rata: 658 },
+  { nama: 'SAINS DATA / DATA SCIENCE', jenis: 'Sarjana', daya: 50, rata: 662 },
+  { nama: 'KECERDASAN BUATAN / ARTIFICIAL INTELLIGENCE', jenis: 'Sarjana', daya: 45, rata: 668 },
+  { nama: 'SISTEM DAN TEKNOLOGI INFORMASI', jenis: 'Sarjana', daya: 55, rata: 654 },
+  { nama: 'KEAMANAN SIBER / CYBER SECURITY', jenis: 'Sarjana', daya: 40, rata: 660 },
+
+  // Teknik & Rekayasa
+  { nama: 'TEKNIK SIPIL', jenis: 'Sarjana', daya: 90, rata: 648 },
+  { nama: 'TEKNIK ELEKTRO', jenis: 'Sarjana', daya: 85, rata: 650 },
+  { nama: 'TEKNIK MESIN', jenis: 'Sarjana', daya: 80, rata: 645 },
+  { nama: 'TEKNIK INDUSTRI', jenis: 'Sarjana', daya: 95, rata: 655 },
+  { nama: 'TEKNIK KIMIA', jenis: 'Sarjana', daya: 60, rata: 648 },
+  { nama: 'TEKNIK LINGKUNGAN', jenis: 'Sarjana', daya: 55, rata: 640 },
+  { nama: 'ARSITEKTUR', jenis: 'Sarjana', daya: 60, rata: 652 },
+  { nama: 'PERENCANAAN WILAYAH DAN KOTA (PWK)', jenis: 'Sarjana', daya: 55, rata: 645 },
+  { nama: 'TEKNIK PERTAMBANGAN', jenis: 'Sarjana', daya: 50, rata: 660 },
+  { nama: 'TEKNIK PERMINYAKAN', jenis: 'Sarjana', daya: 45, rata: 665 },
+  { nama: 'TEKNIK GEOLOGI', jenis: 'Sarjana', daya: 50, rata: 638 },
+  { nama: 'TEKNIK GEODESI', jenis: 'Sarjana', daya: 45, rata: 632 },
+  { nama: 'TEKNIK BIOMEDIS', jenis: 'Sarjana', daya: 40, rata: 655 },
+  { nama: 'TEKNIK MATERIAL DAN METALURGI', jenis: 'Sarjana', daya: 50, rata: 635 },
+  { nama: 'TEKNIK MEKATRONIKA & ROBOTIKA', jenis: 'Sarjana', daya: 40, rata: 652 },
+
+  // Sains & MIPA
+  { nama: 'MATEMATIKA', jenis: 'Sarjana', daya: 60, rata: 630 },
+  { nama: 'STATISTIKA', jenis: 'Sarjana', daya: 60, rata: 645 },
+  { nama: 'AKTUARIA / ILMU AKTUARIA', jenis: 'Sarjana', daya: 45, rata: 660 },
+  { nama: 'FISIKA', jenis: 'Sarjana', daya: 55, rata: 615 },
+  { nama: 'KIMIA', jenis: 'Sarjana', daya: 65, rata: 625 },
+  { nama: 'BIOLOGI', jenis: 'Sarjana', daya: 65, rata: 628 },
+  { nama: 'GEOFISIKA', jenis: 'Sarjana', daya: 40, rata: 620 },
+  { nama: 'ASTRONOMI', jenis: 'Sarjana', daya: 30, rata: 640 },
+  { nama: 'BIOTEKNOLOGI', jenis: 'Sarjana', daya: 45, rata: 645 },
+
+  // Pertanian, Peternakan, Perikanan, Kehutanan
+  { nama: 'AGROTEKNOLOGI / AGRIBISNIS', jenis: 'Sarjana', daya: 120, rata: 618 },
+  { nama: 'AGRONOMI DAN HORTIKULTURA', jenis: 'Sarjana', daya: 70, rata: 622 },
+  { nama: 'ILMU TANAH', jenis: 'Sarjana', daya: 60, rata: 610 },
+  { nama: 'PROTEKSI TANAMAN', jenis: 'Sarjana', daya: 55, rata: 608 },
+  { nama: 'TEKNOLOGI HASIL PERTANIAN / TEKNOLOGI PANGAN', jenis: 'Sarjana', daya: 80, rata: 640 },
+  { nama: 'TEKNIK PERTANIAN DAN BIOSISTEM', jenis: 'Sarjana', daya: 60, rata: 625 },
+  { nama: 'PETERNAKAN / ILMU PETERNAKAN', jenis: 'Sarjana', daya: 100, rata: 615 },
+  { nama: 'ILMU KELAUTAN', jenis: 'Sarjana', daya: 60, rata: 618 },
+  { nama: 'AKUAKULTUR / BUDIDAYA PERAIRAN', jenis: 'Sarjana', daya: 70, rata: 612 },
+  { nama: 'PEMANFAATAN SUMBERDAYA PERIKANAN', jenis: 'Sarjana', daya: 60, rata: 605 },
+  { nama: 'KEHUTANAN', jenis: 'Sarjana', daya: 90, rata: 620 },
+
+  // Hukum & Bisnis / Ekonomi
+  { nama: 'ILMU HUKUM', jenis: 'Sarjana', daya: 220, rata: 655 },
+  { nama: 'MANAJEMEN', jenis: 'Sarjana', daya: 180, rata: 660 },
+  { nama: 'AKUNTANSI', jenis: 'Sarjana', daya: 160, rata: 658 },
+  { nama: 'ILMU EKONOMI / EKONOMI PEMBANGUNAN', jenis: 'Sarjana', daya: 100, rata: 638 },
+  { nama: 'EKONOMI ISLAM / EKONOMI SYARIAH', jenis: 'Sarjana', daya: 70, rata: 628 },
+  { nama: 'BISNIS DIGITAL', jenis: 'Sarjana', daya: 65, rata: 656 },
+  { nama: 'KEWIRAUSAHAAN', jenis: 'Sarjana', daya: 50, rata: 635 },
+  { nama: 'PERBANKAN DAN KEUANGAN', jenis: 'Sarjana', daya: 60, rata: 632 },
+
+  // Sosial & Humaniora
+  { nama: 'PSIKOLOGI', jenis: 'Sarjana', daya: 120, rata: 662 },
+  { nama: 'ILMU KOMUNIKASI', jenis: 'Sarjana', daya: 110, rata: 658 },
+  { nama: 'HUBUNGAN INTERNASIONAL', jenis: 'Sarjana', daya: 70, rata: 665 },
+  { nama: 'ILMU ADMINISTRASI NEGARA / PUBLIK', jenis: 'Sarjana', daya: 90, rata: 642 },
+  { nama: 'ILMU ADMINISTRASI BISNIS / NIAGA', jenis: 'Sarjana', daya: 90, rata: 645 },
+  { nama: 'ILMU ADMINISTRASI FISKAL / PERPAJAKAN', jenis: 'Sarjana', daya: 60, rata: 650 },
+  { nama: 'ILMU POLITIK', jenis: 'Sarjana', daya: 70, rata: 630 },
+  { nama: 'SOSIOLOGI', jenis: 'Sarjana', daya: 75, rata: 625 },
+  { nama: 'KRIMINOLOGI', jenis: 'Sarjana', daya: 50, rata: 648 },
+  { nama: 'ANTROPOLOGI BUDAYA', jenis: 'Sarjana', daya: 50, rata: 620 },
+  { nama: 'ILMU KESEJAHTERAAN SOSIAL', jenis: 'Sarjana', daya: 60, rata: 628 },
+  { nama: 'ILMU PERPUSTAKAAN DAN INFORMASI', jenis: 'Sarjana', daya: 55, rata: 622 },
+
+  // Bahasa & Sastra & Budaya
+  { nama: 'SASTRA INGGRIS / PENDIDIKAN BAHASA INGGRIS', jenis: 'Sarjana', daya: 80, rata: 640 },
+  { nama: 'SASTRA INDONESIA / PENDIDIKAN BAHASA INDONESIA', jenis: 'Sarjana', daya: 80, rata: 630 },
+  { nama: 'SASTRA JEPANG', jenis: 'Sarjana', daya: 50, rata: 635 },
+  { nama: 'SASTRA KOREA', jenis: 'Sarjana', daya: 40, rata: 645 },
+  { nama: 'SASTRA ARAB', jenis: 'Sarjana', daya: 60, rata: 622 },
+  { nama: 'SASTRA JERMAN', jenis: 'Sarjana', daya: 35, rata: 620 },
+  { nama: 'SASTRA PERANCIS', jenis: 'Sarjana', daya: 35, rata: 622 },
+  { nama: 'ILMU SEJARAH', jenis: 'Sarjana', daya: 50, rata: 618 },
+  { nama: 'FILSAFAT', jenis: 'Sarjana', daya: 45, rata: 615 },
+  { nama: 'ARKEOLOGI', jenis: 'Sarjana', daya: 40, rata: 620 },
+  { nama: 'PARIWISATA / DESTINASI PARIWISATA', jenis: 'Sarjana', daya: 60, rata: 632 },
+
+  // Seni & Desain
+  { nama: 'DESAIN KOMUNIKASI VISUAL (DKV)', jenis: 'Sarjana', daya: 75, rata: 650 },
+  { nama: 'DESAIN PRODUK', jenis: 'Sarjana', daya: 45, rata: 632 },
+  { nama: 'DESAIN INTERIOR', jenis: 'Sarjana', daya: 50, rata: 638 },
+  { nama: 'SENI RUPA MURNI', jenis: 'Sarjana', daya: 40, rata: 610 },
+  { nama: 'SENI MUSIK / PENDIDIKAN SENI MUSIK', jenis: 'Sarjana', daya: 40, rata: 615 },
+  { nama: 'SENI TARI / PENDIDIKAN SENI TARI', jenis: 'Sarjana', daya: 40, rata: 605 },
+  { nama: 'TELEVISI DAN FILM / PERFILMAN', jenis: 'Sarjana', daya: 45, rata: 640 },
+
+  // Keguruan & Pendidikan
+  { nama: 'PENDIDIKAN GURU SEKOLAH DASAR (PGSD)', jenis: 'Sarjana', daya: 140, rata: 635 },
+  { nama: 'PENDIDIKAN MATEMATIKA', jenis: 'Sarjana', daya: 80, rata: 632 },
+  { nama: 'PENDIDIKAN BIOLOGI', jenis: 'Sarjana', daya: 75, rata: 625 },
+  { nama: 'PENDIDIKAN FISIKA', jenis: 'Sarjana', daya: 65, rata: 615 },
+  { nama: 'PENDIDIKAN KIMIA', jenis: 'Sarjana', daya: 65, rata: 620 },
+  { nama: 'PENDIDIKAN DOKTER / PROFESI', jenis: 'Sarjana', daya: 50, rata: 680 },
+  { nama: 'PENDIDIKAN JASMANI, KESEHATAN DAN REKREASI (PJKR)', jenis: 'Sarjana', daya: 90, rata: 610 },
+  { nama: 'PENDIDIKAN GURU PENDIDIKAN ANAK USIA DINI (PGPAUD)', jenis: 'Sarjana', daya: 70, rata: 612 },
+  { nama: 'BIMBINGAN DAN KONSELING (BK)', jenis: 'Sarjana', daya: 75, rata: 628 },
+  { nama: 'MANAJEMEN PENDIDIKAN / ADMINISTRASI PENDIDIKAN', jenis: 'Sarjana', daya: 70, rata: 625 },
+
+  // Vokasi Terapan (D4 & D3)
+  { nama: 'D4 TEKNOLOGI REKAYASA PERANGKAT LUNAK', jenis: 'D4', daya: 50, rata: 645 },
+  { nama: 'D4 REKAYASA SISTEM KOMPUTER', jenis: 'D4', daya: 45, rata: 640 },
+  { nama: 'D4 AKUNTANSI SEKTOR PUBLIK', jenis: 'D4', daya: 60, rata: 638 },
+  { nama: 'D4 MANAJEMEN BISNIS TERAPAN', jenis: 'D4', daya: 60, rata: 635 },
+  { nama: 'D4 BISNIS DIGITAL TERAPAN', jenis: 'D4', daya: 50, rata: 642 },
+  { nama: 'D4 TEKNOLOGI REKAYASA OTOMOTIF', jenis: 'D4', daya: 45, rata: 628 },
+  { nama: 'D4 TEKNIK MEKATRONIKA TERAPAN', jenis: 'D4', daya: 40, rata: 635 },
+  { nama: 'D4 TEKNIK ELEKTRONIKA TERAPAN', jenis: 'D4', daya: 45, rata: 630 },
+  { nama: 'D4 TEKNOLOGI REKAYASA KONSTRUKSI BANGUNAN GEDUNG', jenis: 'D4', daya: 50, rata: 625 },
+  { nama: 'D4 PENGELOLAAN PERHOTELAN & PARIWISATA', jenis: 'D4', daya: 55, rata: 628 },
+  { nama: 'D3 TEKNIK INFORMATIKA', jenis: 'D3', daya: 50, rata: 625 },
+  { nama: 'D3 AKUNTANSI', jenis: 'D3', daya: 70, rata: 620 },
+  { nama: 'D3 PERPAJAKAN', jenis: 'D3', daya: 65, rata: 625 },
+  { nama: 'D3 KEUANGAN DAN PERBANKAN', jenis: 'D3', daya: 65, rata: 620 },
+  { nama: 'D3 HUBUNGAN MASYARAKAT / PUBLIC RELATIONS', jenis: 'D3', daya: 50, rata: 622 },
+  { nama: 'D3 ADMINISTRASI BISNIS', jenis: 'D3', daya: 70, rata: 618 },
+  { nama: 'D3 TEKNIK ELEKTRO', jenis: 'D3', daya: 50, rata: 615 },
+  { nama: 'D3 TEKNIK MESIN', jenis: 'D3', daya: 50, rata: 615 },
+  { nama: 'D3 TEKNIK SIPIL', jenis: 'D3', daya: 55, rata: 618 }
+];
+
+function getSpecialKey(univ) {
+  const name = univ.nama_universitas.toUpperCase();
+  const code = univ.kode_universitas;
+  if (code === 'IPB' || code === '1341' || (name.includes('BOGOR') && name.includes('PERTANIAN'))) return 'IPB';
+  if (code === 'ITB' || code === '1343' || (name.includes('BANDUNG') && name.includes('TEKNOLOGI'))) return 'ITB';
+  if (code === 'UI' || code === '1321' || name === 'UNIVERSITAS INDONESIA') return 'UI';
+  if (code === 'UGM' || code === '1361' || name.includes('GADJAH MADA')) return 'UGM';
+  if (code === 'UNAIR' || code === '1371' || name.includes('AIRLANGGA')) return 'UNAIR';
+  if (code === 'ITS' || code === '1372' || name.includes('SEPULUH NOPEMBER')) return 'ITS';
+  if (code === 'UNPAD' || code === '1342' || name.includes('PADJADJARAN')) return 'UNPAD';
+  if (code === 'UNDIP' || code === '1351' || name.includes('DIPONEGORO')) return 'UNDIP';
+  if (code === 'UB' || code === '1374' || name.includes('BRAWIJAYA')) return 'UB';
+  if (code === 'UNS' || code === '1354' || name.includes('SEBELAS MARET')) return 'UNS';
+  if (code === 'UNHAS' || code === '1711' || name.includes('HASANUDDIN')) return 'UNHAS';
+  if (code === 'ITERA' || code === '1192' || (name.includes('SUMATERA') && name.includes('INSTITUT TEKNOLOGI'))) return 'ITERA';
+  return null;
+}
+
+const allFinalPrograms = [];
+
+for (const univ of universities) {
+  const kUniv = univ.kode_universitas;
+  let idx = 1;
+  const specKey = getSpecialKey(univ);
+
+  if (specKey && specialUnivPrograms[specKey]) {
+    for (const progName of specialUnivPrograms[specKey]) {
+      const isD4 = progName.startsWith('D4');
+      const isD3 = progName.startsWith('D3');
+      allFinalPrograms.push({
+        kode_universitas: kUniv,
+        nama_prodi: progName,
+        kode_prodi: `${kUniv}-${idx++}`,
+        jenis: isD4 ? 'D4' : isD3 ? 'D3' : 'Sarjana',
+        daya_tampung: 40 + Math.floor(Math.random() * 80),
+        rata_rata_nilai_masuk: 650 + Math.floor(Math.random() * 45)
+      });
+    }
+  } else {
+    for (const p of standardProgramsList) {
+      allFinalPrograms.push({
+        kode_universitas: kUniv,
+        nama_prodi: p.nama,
+        kode_prodi: `${kUniv}-${idx++}`,
+        jenis: p.jenis,
+        daya_tampung: p.daya,
+        rata_rata_nilai_masuk: p.rata + Math.floor(Math.random() * 10 - 5)
+      });
+    }
+  }
+}
+
+console.log('Total Universities (No Collision):', universities.length);
+console.log('Total Programs Generated:', allFinalPrograms.length);
+
+const finalData = {
+  universities: universities,
+  programs: allFinalPrograms
+};
+
+fs.writeFileSync(dataPath, JSON.stringify(finalData, null, 2));
+console.log('Successfully saved auto-import-data.json!');

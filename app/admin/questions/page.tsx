@@ -146,25 +146,62 @@ export default function AdminQuestionsPage() {
   async function handleDelete(id: string) {
     if (!confirm('Yakin ingin menghapus soal ini?')) return;
     setLoading(true);
-    await supabase.from('questions').delete().eq('id', id);
+    try {
+      const res = await fetch(`/api/admin/questions?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const { error: err } = await supabase.from('questions').delete().eq('id', id);
+        if (err) throw new Error(data.error || err.message);
+      }
+    } catch (err: any) {
+      alert('Gagal menghapus soal: ' + err.message);
+    }
     await loadData();
     setLoading(false);
   }
 
-  async function handleDeleteAllInSubtest() {
-    if (!selectedSubtest) return;
-    const st = subtests.find(s => s.id === selectedSubtest);
-    if (!confirm(`Yakin ingin MENGHAPUS SEMUA SOAL pada subtes ${st?.nama}? Tindakan ini tidak dapat dibatalkan!`)) return;
-    
-    setLoading(true);
-    const { error: err } = await supabase.from('questions').delete().eq('subtest_id', selectedSubtest);
-    if (err) {
-      alert('Gagal menghapus: ' + err.message);
-    } else {
-      alert(`Semua soal di subtes ${st?.nama} berhasil dihapus.`);
+  async function handleDeleteAll() {
+    if (questions.length === 0) {
+      alert('Tidak ada soal di bank soal.');
+      return;
     }
-    await loadData();
-    setLoading(false);
+
+    if (selectedSubtest) {
+      const st = subtests.find(s => s.id === selectedSubtest);
+      if (!confirm(`PERINGATAN: Yakin ingin MENGHAPUS SEMUA SOAL pada subtes "${st?.nama}" (${filteredQuestions.length} soal)? Tindakan ini TIDAK DAPAT DIBATALKAN!`)) return;
+
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/admin/questions?all=true&subtest_id=${selectedSubtest}`, { method: 'DELETE' });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          const { error: err } = await supabase.from('questions').delete().eq('subtest_id', selectedSubtest);
+          if (err) throw new Error(data.error || err.message);
+        }
+        alert(`Semua soal di subtes ${st?.nama} berhasil dihapus.`);
+      } catch (err: any) {
+        alert('Gagal menghapus: ' + err.message);
+      }
+      await loadData();
+      setLoading(false);
+    } else {
+      if (!confirm(`PERINGATAN KRUSIAL: Yakin ingin MENGHAPUS SELURUH BANK SOAL (${questions.length} soal di SEMUA subtes)? Tindakan ini TIDAK DAPAT DIBATALKAN!`)) return;
+
+      setLoading(true);
+      try {
+        const res = await fetch('/api/admin/questions?all=true', { method: 'DELETE' });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          const { error: err } = await supabase.from('questions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+          if (err) throw new Error(data.error || err.message);
+        }
+        alert('Seluruh soal di semua subtes berhasil dihapus.');
+      } catch (err: any) {
+        alert('Gagal menghapus semua soal: ' + err.message);
+      }
+      await loadData();
+      setLoading(false);
+    }
   }
 
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -294,8 +331,14 @@ export default function AdminQuestionsPage() {
               ))}
             </select>
             <div className={styles.toolbarActions}>
-              {selectedSubtest && (
-                <button className="btn btn-danger btn-sm" onClick={handleDeleteAllInSubtest} style={{ marginRight: 'auto' }}>Hapus Semua Soal Subtes Ini</button>
+              {questions.length > 0 && (
+                <button 
+                  className="btn btn-danger btn-sm" 
+                  onClick={handleDeleteAll} 
+                  style={{ marginRight: 'auto' }}
+                >
+                  {selectedSubtest ? 'Hapus Semua Soal Subtes Ini' : 'Hapus Semua Soal'}
+                </button>
               )}
               <label className="btn btn-secondary btn-sm" htmlFor="import-file">
                 Import Excel / Spreadsheet

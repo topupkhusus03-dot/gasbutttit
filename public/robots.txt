@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tryout-snbt-2027.netlify.app/sitemap.xml

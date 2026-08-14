@@ -13,6 +13,7 @@ export default function AdminUsersPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
   const [search, setSearch] = useState('');
 
   const loadUsers = useCallback(async () => {
@@ -27,16 +28,131 @@ export default function AdminUsersPage() {
   const handleResetAccount = async (userId: string, userName: string) => {
     if (!window.confirm(`PERINGATAN: Anda yakin ingin meriset akun ${userName} dari awal?\n\nSemua data pilihan prodi, riwayat tryout, dan hasil ujian mereka akan dihapus permanen.`)) return;
     
+    setActionLoading(true);
     try {
       const { error } = await supabase.rpc('reset_user_account', { target_user_id: userId });
       if (error) {
         alert('Gagal mereset akun: ' + error.message);
       } else {
         alert(`Berhasil mereset akun ${userName}!`);
-        // We don't necessarily need to reload users if we aren't displaying their stats, but good to refresh.
       }
     } catch (err: any) {
       alert('Gagal mereset akun: ' + err.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const getAuthHeader = async (): Promise<Record<string, string>> => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        return { 'Authorization': `Bearer ${session.access_token}` };
+      }
+    } catch (e) {}
+    return {};
+  };
+
+  const handleDeleteUser = async (userId: string, userName: string) => {
+    if (!window.confirm(`PERINGATAN: Anda yakin ingin MENGHAPUS user ${userName}?\n\nSemua data profil, pilihan prodi, dan hasil tryout user ini akan dihapus permanen.`)) return;
+
+    setActionLoading(true);
+    let isSuccess = false;
+    let errorMessage = '';
+
+    try {
+      // 1. Try Supabase RPC first if available
+      const rpcRes = await supabase.rpc('delete_user_by_admin', { target_user_id: userId });
+      if (!rpcRes.error) {
+        isSuccess = true;
+      } else {
+        // 2. Call server API route with Bearer auth token
+        const headers = await getAuthHeader();
+        const res = await fetch(`/api/admin/users?id=${userId}`, { method: 'DELETE', headers });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.success) {
+          isSuccess = true;
+        } else {
+          // 3. Fallback to client-side direct delete
+          const { error: directErr } = await supabase.from('profiles').delete().eq('id', userId);
+          if (!directErr) {
+            isSuccess = true;
+          } else {
+            errorMessage = data.error || directErr.message || rpcRes.error.message;
+          }
+        }
+      }
+
+      await loadUsers();
+
+      if (isSuccess) {
+        alert(`Berhasil menghapus user ${userName}!`);
+      } else {
+        alert(`Gagal menghapus user: ${errorMessage || 'Periksa izin RLS di Supabase.'}`);
+      }
+    } catch (err: any) {
+      alert('Gagal menghapus user: ' + err.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleDeleteAllUsers = async () => {
+    if (users.length === 0) {
+      alert('Tidak ada user untuk dihapus.');
+      return;
+    }
+
+    if (!window.confirm(`PERINGATAN KRUSIAL: Anda yakin ingin MENGHAPUS SEMUA USER (${users.length} akun peserta)?\n\nSemua data profil, riwayat tryout, dan hasil ujian mereka akan dihapus permanen.\nTindakan ini TIDAK DAPAT DIBATALKAN!`)) return;
+
+    setActionLoading(true);
+    let isSuccess = false;
+    let errorMessage = '';
+
+    try {
+      // 1. Try Supabase RPC first if available
+      const rpcRes = await supabase.rpc('delete_all_users_by_admin');
+      if (!rpcRes.error) {
+        isSuccess = true;
+      } else {
+        // 2. Call server API route with Bearer auth token
+        const headers = await getAuthHeader();
+        const res = await fetch('/api/admin/users?all=true', { method: 'DELETE', headers });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.success) {
+          isSuccess = true;
+        } else {
+          // 3. Fallback to client-side direct delete
+          const { error: directErr } = await supabase.from('profiles').delete().eq('role', 'user');
+          if (!directErr) {
+            isSuccess = true;
+          } else {
+            errorMessage = data.error || directErr.message || rpcRes.error.message;
+          }
+        }
+      }
+
+      // Re-fetch users from database to confirm actual deletion
+      const { data: remainingUsers } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('role', 'user')
+        .order('created_at', { ascending: false });
+
+      const currentCount = remainingUsers ? remainingUsers.length : 0;
+      setUsers(remainingUsers ?? []);
+
+      if (currentCount === 0) {
+        alert('Semua user peserta berhasil dihapus.');
+      } else {
+        alert(`Gagal: Masih terdapat ${currentCount} user di database. Pastikan script SQL delete_all_users_by_admin sudah dijalankan di Supabase SQL Editor atau hapus langsung via SQL Editor.`);
+      }
+    } catch (err: any) {
+      alert('Gagal menghapus semua user: ' + err.message);
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -98,14 +214,25 @@ export default function AdminUsersPage() {
         </header>
 
         <div className={adminStyles.content}>
-          <input
-            type="search"
-            className="form-input"
-            style={{ maxWidth: 400 }}
-            placeholder="Cari nama, email, NISN, atau nomor peserta..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <input
+              type="search"
+              className="form-input"
+              style={{ maxWidth: 400 }}
+              placeholder="Cari nama, email, NISN, atau nomor peserta..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {users.length > 0 && (
+              <button 
+                className="btn btn-danger btn-sm"
+                onClick={handleDeleteAllUsers}
+                disabled={actionLoading}
+              >
+                {actionLoading ? 'Memproses...' : 'Hapus Semua User'}
+              </button>
+            )}
+          </div>
 
           <div className="table-wrapper">
             <table>
@@ -143,13 +270,24 @@ export default function AdminUsersPage() {
                       {new Date(u.created_at).toLocaleDateString('id-ID')}
                     </td>
                     <td>
-                      <button 
-                        className="btn btn-secondary btn-sm" 
-                        style={{ borderColor: 'var(--red-400)', color: 'var(--red-500)', fontSize: '11px', padding: '4px 8px' }}
-                        onClick={() => handleResetAccount(u.id, u.nama)}
-                      >
-                        Reset Akun
-                      </button>
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <button 
+                          className="btn btn-secondary btn-sm" 
+                          style={{ borderColor: 'var(--amber-400, #f59e0b)', color: 'var(--amber-500, #d97706)', fontSize: '11px', padding: '4px 8px' }}
+                          onClick={() => handleResetAccount(u.id, u.nama)}
+                          disabled={actionLoading}
+                        >
+                          Reset Akun
+                        </button>
+                        <button 
+                          className="btn btn-danger btn-sm" 
+                          style={{ fontSize: '11px', padding: '4px 8px' }}
+                          onClick={() => handleDeleteUser(u.id, u.nama)}
+                          disabled={actionLoading}
+                        >
+                          Hapus
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

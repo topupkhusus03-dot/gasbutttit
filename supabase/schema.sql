@@ -25,35 +25,136 @@ create table public.profiles (
 
 alter table public.profiles enable row level security;
 
-create policy "Users can view own profile"
-  on public.profiles for select
-  using (auth.uid() = id);
-
-create policy "Users can update own profile"
-  on public.profiles for update
-  using (auth.uid() = id);
-
-create policy "Admin can view all profiles"
-  on public.profiles for select
-  using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'admin'
-    )
+-- Function: Non-recursive check for Admin role
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role = 'admin'
   );
+$$;
 
-create policy "Admin can update all profiles"
+-- Non-recursive Policies on Profiles
+create policy "Users and admin can view profiles"
+  on public.profiles for select
+  using (auth.uid() = id or public.is_admin());
+
+create policy "Users and admin can update profiles"
   on public.profiles for update
-  using (
-    exists (
-      select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'admin'
-    )
-  );
+  using (auth.uid() = id or public.is_admin());
+
+create policy "Admin can delete profiles"
+  on public.profiles for delete
+  using (public.is_admin());
 
 create policy "Allow insert on register"
   on public.profiles for insert
-  with check (auth.uid() = id);
+  with check (auth.uid() = id or public.is_admin());
+
+-- ============================================================
+-- RPC: Admin delete user functions
+-- ============================================================
+create or replace function public.delete_user_by_admin(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public, auth
+as $$
+declare
+  s_ids uuid[];
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid() and role = 'admin') then
+    raise exception 'Unauthorized: Only admin can delete users';
+  end if;
+
+  if exists (select 1 from public.profiles where id = target_user_id and role = 'admin') then
+    raise exception 'Cannot delete admin account';
+  end if;
+
+  -- 1. Hapus relasi ujian
+  select array_agg(id) into s_ids from public.exam_sessions where user_id = target_user_id;
+  if s_ids is not null then
+    delete from public.answers where session_id = any(s_ids);
+    delete from public.exam_violations where session_id = any(s_ids);
+  end if;
+
+  delete from public.exam_results where user_id = target_user_id;
+  delete from public.exam_sessions where user_id = target_user_id;
+  delete from public.program_selections where user_id = target_user_id;
+
+  -- 2. Hapus profile & auth internal
+  delete from public.profiles where id = target_user_id;
+  delete from auth.identities where user_id = target_user_id;
+  delete from auth.sessions where user_id = target_user_id;
+  delete from auth.mfa_factors where user_id = target_user_id;
+  delete from auth.users where id = target_user_id;
+end;
+$$;
+
+create or replace function public.delete_all_users_by_admin()
+returns void
+language plpgsql
+security definer
+set search_path = public, auth
+as $$
+declare
+  u_id uuid;
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid() and role = 'admin') then
+    raise exception 'Unauthorized: Only admin can delete users';
+  end if;
+
+  -- 1. Hapus semua data ujian peserta
+  delete from public.answers where session_id in (
+    select id from public.exam_sessions where user_id in (select id from public.profiles where role = 'user')
+  );
+  delete from public.exam_violations where session_id in (
+    select id from public.exam_sessions where user_id in (select id from public.profiles where role = 'user')
+  );
+  delete from public.exam_results where user_id in (select id from public.profiles where role = 'user');
+  delete from public.exam_sessions where user_id in (select id from public.profiles where role = 'user');
+  delete from public.program_selections where user_id in (select id from public.profiles where role = 'user');
+
+  -- 2. Hapus profil dan auth user
+  for u_id in select id from public.profiles where role = 'user' loop
+    delete from auth.identities where user_id = u_id;
+    delete from auth.sessions where user_id = u_id;
+    delete from auth.mfa_factors where user_id = u_id;
+    delete from auth.users where id = u_id;
+  end loop;
+
+  delete from public.profiles where role = 'user';
+end;
+$$;
+
+create or replace function public.reset_user_account(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+as $$
+declare
+  s_ids uuid[];
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid() and role = 'admin') then
+    raise exception 'Unauthorized: Only admin can reset users';
+  end if;
+
+  select array_agg(id) into s_ids from public.exam_sessions where user_id = target_user_id;
+  if s_ids is not null then
+    delete from public.answers where session_id = any(s_ids);
+    delete from public.exam_violations where session_id = any(s_ids);
+  end if;
+
+  delete from public.exam_results where user_id = target_user_id;
+  delete from public.exam_sessions where user_id = target_user_id;
+  delete from public.program_selections where user_id = target_user_id;
+end;
+$$;
 
 -- ============================================================
 -- SUBTESTS
@@ -381,7 +482,7 @@ begin
     coalesce(new.raw_user_meta_data->>'role', 'user'),
     new.raw_user_meta_data->>'nisn',
     new.raw_user_meta_data->>'tempat_lahir',
-    new.raw_user_meta_data->>'tanggal_lahir',
+    nullif(new.raw_user_meta_data->>'tanggal_lahir', '')::date,
     new.raw_user_meta_data->>'asal_sekolah',
     new.raw_user_meta_data->>'npsn',
     coalesce(new.raw_user_meta_data->>'nomor_peserta_utbk', gen_nomor)

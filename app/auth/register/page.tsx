@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import styles from '../auth.module.css';
@@ -100,9 +101,10 @@ export default function RegisterPage() {
     });
 
     if (authError) {
-      setError(authError.message === 'User already registered'
-        ? 'Email sudah terdaftar.'
-        : `Terjadi kesalahan: ${authError.message}`);
+      const msg = authError.message || (authError as any).error_description || (authError as any).msg || JSON.stringify(authError);
+      setError(msg === 'User already registered' || msg.includes('already registered')
+        ? 'Email sudah terdaftar. Silakan langsung login di halaman Masuk.'
+        : `Terjadi kesalahan: ${msg}`);
       setLoading(false);
       return;
     }
@@ -121,7 +123,7 @@ export default function RegisterPage() {
         <div className={styles.card}>
           <Link href="/" className={styles.backLink}>Kembali ke beranda</Link>
           <div className={styles.logo}>
-            <img src="/logo.png" alt="Logo" className={styles.logoImg} />
+            <Image src="/logo.png" alt="Logo TryoutSNBT" width={32} height={32} priority className={styles.logoImg} />
             <span className={styles.logoText}>TryoutSNBT</span>
           </div>
           <h1 className={styles.title}>Buat Akun Baru</h1>

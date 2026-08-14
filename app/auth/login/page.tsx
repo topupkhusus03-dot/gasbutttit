@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import styles from '../auth.module.css';
@@ -49,7 +50,7 @@ export default function LoginPage() {
         <div className={styles.card}>
           <Link href="/" className={styles.backLink}>Kembali ke beranda</Link>
           <div className={styles.logo}>
-            <img src="/logo.png" alt="Logo" className={styles.logoImg} />
+            <Image src="/logo.png" alt="Logo TryoutSNBT" width={32} height={32} priority className={styles.logoImg} />
             <span className={styles.logoText}>TryoutSNBT</span>
           </div>
           <h1 className={styles.title}>Masuk ke Akun</h1>

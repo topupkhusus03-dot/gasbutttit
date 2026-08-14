@@ -32,10 +32,25 @@ async function handleRequest(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  const publicPaths = ['/auth/login', '/auth/register', '/'];
-  const isPublic = publicPaths.some(
-    (p) => pathname === p || pathname.startsWith(p + '/')
-  );
+  const publicPaths = [
+    '/auth/login',
+    '/auth/register',
+    '/',
+    '/pengumuman',
+    '/seb',
+    '/robots.txt',
+    '/sitemap.xml',
+    '/llms.txt',
+  ];
+  const isPublic =
+    publicPaths.includes(pathname) ||
+    pathname.startsWith('/auth/') ||
+    pathname.startsWith('/pengumuman/') ||
+    pathname.endsWith('.txt') ||
+    pathname.endsWith('.xml') ||
+    pathname.endsWith('.ico') ||
+    pathname.endsWith('.png') ||
+    pathname.endsWith('.svg');
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
@@ -74,6 +89,6 @@ export default proxy;
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|logo.png|api/).*)',
+    '/((?!_next/static|_next/image|favicon.ico|logo.png|robots.txt|sitemap.xml|llms.txt|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)',
   ],
 };

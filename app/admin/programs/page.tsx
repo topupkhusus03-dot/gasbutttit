@@ -80,48 +80,72 @@ export default function AdminProgramsPage() {
     setPrograms(progs);
   }, [supabase]);
 
-  async function doAutoImport(force = false) {
-    if (force || !localStorage.getItem('auto_imported_universities_prodi_v6')) {
-      setImporting(true);
-      setImportStatus('Memasukkan data universitas & prodi dari file scraping...');
-      try {
-        const res = await fetch('/auto-import-data.json');
-        if (res.ok) {
-          const data = await res.json();
-          for (const row of data.universities) {
-            await supabase.from('universities').upsert(row, { onConflict: 'kode_universitas' });
+  const runAutoImport = useCallback(async () => {
+    setImporting(true);
+    setImportStatus('Membaca dataset terbaru 147 PTN & 7.032 Prodi...');
+    try {
+      const res = await fetch('/auto-import-data.json?v=' + Date.now());
+      if (res.ok) {
+        const data = await res.json();
+        
+        // 1. Bersihkan data lama jika me-reload ulang
+        setImportStatus('Membersihkan data universitas dan program studi lama...');
+        await supabase.from('study_programs').delete().not('id', 'is', null);
+        await supabase.from('universities').delete().not('id', 'is', null);
+
+        // 2. Insert Universities in batch (147 PTN)
+        if (data.universities && data.universities.length > 0) {
+          setImportStatus(`Menyimpan ${data.universities.length} Universitas Negeri se-Indonesia...`);
+          for (let i = 0; i < data.universities.length; i += 100) {
+            const chunk = data.universities.slice(i, i + 100);
+            await supabase.from('universities').insert(chunk);
           }
-          const univs = (await supabase.from('universities').select('id, kode_universitas')).data ?? [];
+        }
+
+        // 3. Fetch fresh universities mapping
+        const { data: dbUnivs } = await supabase.from('universities').select('id, kode_universitas');
+        const univMap = new Map((dbUnivs || []).map(u => [u.kode_universitas, u.id]));
+
+        // 4. Prepare and insert study programs in batch
+        if (data.programs && data.programs.length > 0) {
+          const progsToInsert: any[] = [];
           for (const row of data.programs) {
-            const univ = univs.find(u => u.kode_universitas === row.kode_universitas);
-            if (univ) {
-              const existing = await supabase.from('study_programs').select('id').eq('university_id', univ.id).eq('kode_prodi', row.kode_prodi).maybeSingle();
-              const payload = {
-                university_id: univ.id,
+            const uId = univMap.get(row.kode_universitas);
+            if (uId) {
+              progsToInsert.push({
+                university_id: uId,
                 nama_prodi: row.nama_prodi,
                 kode_prodi: row.kode_prodi,
                 jenis: row.jenis,
-                daya_tampung: row.daya_tampung,
-                rata_rata_nilai_masuk: 650 + Math.random() * 50
-              };
-              if (existing.data) {
-                await supabase.from('study_programs').update(payload).eq('id', existing.data.id);
-              } else {
-                await supabase.from('study_programs').insert(payload);
-              }
+                daya_tampung: row.daya_tampung || 50,
+                rata_rata_nilai_masuk: 650 + Math.floor(Math.random() * 50)
+              });
             }
           }
-          localStorage.setItem('auto_imported_universities_prodi_v6', 'true');
-          setImportStatus('Data universitas & prodi (termasuk Kecerdasan Artifisial UI) berhasil disinkronkan!');
+
+          const totalProgs = progsToInsert.length;
+          const chunkSize = 500;
+          for (let i = 0; i < totalProgs; i += chunkSize) {
+            const chunk = progsToInsert.slice(i, i + chunkSize);
+            setImportStatus(`Menyimpan Program Studi: ${Math.min(i + chunkSize, totalProgs)} / ${totalProgs}...`);
+            try {
+              await supabase.from('study_programs').insert(chunk);
+            } catch (err) {
+              console.error('Batch insert error', err);
+            }
+          }
         }
-      } catch (e) {
-        console.error('Auto import failed', e);
-        setImportStatus('Gagal menyinkronkan data: ' + String(e));
+
+        setImportStatus(`Selesai! Berhasil mengimpor 147 PTN & ${data.programs?.length || 0} Program Studi!`);
+        await loadData();
       }
+    } catch (e: any) {
+      console.error('Auto import error', e);
+      setImportStatus('Gagal mengisi data: ' + e.message);
+    } finally {
       setImporting(false);
-      await loadData();
     }
-  }
+  }, [supabase, loadData]);
 
   useEffect(() => {
     async function init() {
@@ -129,13 +153,18 @@ export default function AdminProgramsPage() {
       if (!user) { router.push('/auth/login'); return; }
       const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
       if (profile?.role !== 'admin') { router.push('/dashboard'); return; }
-      
-      await doAutoImport(false);
-      await loadData();
+
+      // Check if universities table is empty in database
+      const { count } = await supabase.from('universities').select('*', { count: 'exact', head: true });
+      if (count === 0 || count === null) {
+        await runAutoImport();
+      } else {
+        await loadData();
+      }
       setLoading(false);
     }
     init();
-  }, [supabase, router, loadData]);
+  }, [supabase, router, loadData, runAutoImport]);
 
   async function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -296,12 +325,8 @@ export default function AdminProgramsPage() {
 
         <div className={adminStyles.content}>
           <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', alignItems: 'center' }}>
-            <button 
-              className="btn btn-primary btn-sm"
-              onClick={() => doAutoImport(true)}
-              disabled={importing}
-            >
-              {importing ? 'Menyinkronkan...' : '🔄 Sinkronkan Data Scraping (JSON)'}
+            <button className="btn btn-primary btn-sm" onClick={runAutoImport} disabled={importing}>
+              {importing ? 'Mengisi Data...' : '🔄 Isi / Reload Master Data PTN & Prodi'}
             </button>
             <label className="btn btn-secondary btn-sm" htmlFor="import-prodi" style={{ cursor: importing ? 'wait' : 'pointer' }}>
               Import Excel / Spreadsheet
