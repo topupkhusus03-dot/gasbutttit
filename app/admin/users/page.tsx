@@ -134,12 +134,20 @@ export default function AdminUsersPage() {
         }
       }
 
-      await loadUsers();
+      // Re-fetch users from database to confirm actual deletion
+      const { data: remainingUsers } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('role', 'user')
+        .order('created_at', { ascending: false });
 
-      if (isSuccess) {
+      const currentCount = remainingUsers ? remainingUsers.length : 0;
+      setUsers(remainingUsers ?? []);
+
+      if (currentCount === 0) {
         alert('Semua user peserta berhasil dihapus.');
       } else {
-        alert(`Gagal menghapus semua user: ${errorMessage || 'Periksa izin RLS di Supabase.'}`);
+        alert(`Gagal: Masih terdapat ${currentCount} user di database. Pastikan script SQL delete_all_users_by_admin sudah dijalankan di Supabase SQL Editor atau hapus langsung via SQL Editor.`);
       }
     } catch (err: any) {
       alert('Gagal menghapus semua user: ' + err.message);
