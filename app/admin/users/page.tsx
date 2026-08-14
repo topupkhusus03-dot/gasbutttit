@@ -13,6 +13,7 @@ export default function AdminUsersPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
   const [search, setSearch] = useState('');
 
   const loadUsers = useCallback(async () => {
@@ -27,16 +28,63 @@ export default function AdminUsersPage() {
   const handleResetAccount = async (userId: string, userName: string) => {
     if (!window.confirm(`PERINGATAN: Anda yakin ingin meriset akun ${userName} dari awal?\n\nSemua data pilihan prodi, riwayat tryout, dan hasil ujian mereka akan dihapus permanen.`)) return;
     
+    setActionLoading(true);
     try {
       const { error } = await supabase.rpc('reset_user_account', { target_user_id: userId });
       if (error) {
         alert('Gagal mereset akun: ' + error.message);
       } else {
         alert(`Berhasil mereset akun ${userName}!`);
-        // We don't necessarily need to reload users if we aren't displaying their stats, but good to refresh.
       }
     } catch (err: any) {
       alert('Gagal mereset akun: ' + err.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleDeleteUser = async (userId: string, userName: string) => {
+    if (!window.confirm(`PERINGATAN: Anda yakin ingin MENGHAPUS user ${userName}?\n\nSemua data profil, pilihan prodi, dan hasil tryout user ini akan dihapus permanen.`)) return;
+
+    setActionLoading(true);
+    try {
+      const res = await fetch(`/api/admin/users?id=${userId}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const { error: err } = await supabase.from('profiles').delete().eq('id', userId);
+        if (err) throw new Error(data.error || err.message);
+      }
+      alert(`Berhasil menghapus user ${userName}!`);
+      await loadUsers();
+    } catch (err: any) {
+      alert('Gagal menghapus user: ' + err.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleDeleteAllUsers = async () => {
+    if (users.length === 0) {
+      alert('Tidak ada user untuk dihapus.');
+      return;
+    }
+
+    if (!window.confirm(`PERINGATAN KRUSIAL: Anda yakin ingin MENGHAPUS SEMUA USER (${users.length} akun peserta)?\n\nSemua data profil, riwayat tryout, dan hasil ujian mereka akan dihapus permanen.\nTindakan ini TIDAK DAPAT DIBATALKAN!`)) return;
+
+    setActionLoading(true);
+    try {
+      const res = await fetch('/api/admin/users?all=true', { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const { error: err } = await supabase.from('profiles').delete().eq('role', 'user');
+        if (err) throw new Error(data.error || err.message);
+      }
+      alert('Semua user peserta berhasil dihapus.');
+      await loadUsers();
+    } catch (err: any) {
+      alert('Gagal menghapus semua user: ' + err.message);
+    } finally {
+      setActionLoading(false);
     }
   };
 
@@ -98,14 +146,25 @@ export default function AdminUsersPage() {
         </header>
 
         <div className={adminStyles.content}>
-          <input
-            type="search"
-            className="form-input"
-            style={{ maxWidth: 400 }}
-            placeholder="Cari nama, email, NISN, atau nomor peserta..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <input
+              type="search"
+              className="form-input"
+              style={{ maxWidth: 400 }}
+              placeholder="Cari nama, email, NISN, atau nomor peserta..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {users.length > 0 && (
+              <button 
+                className="btn btn-danger btn-sm"
+                onClick={handleDeleteAllUsers}
+                disabled={actionLoading}
+              >
+                Hapus Semua User
+              </button>
+            )}
+          </div>
 
           <div className="table-wrapper">
             <table>
@@ -143,13 +202,24 @@ export default function AdminUsersPage() {
                       {new Date(u.created_at).toLocaleDateString('id-ID')}
                     </td>
                     <td>
-                      <button 
-                        className="btn btn-secondary btn-sm" 
-                        style={{ borderColor: 'var(--red-400)', color: 'var(--red-500)', fontSize: '11px', padding: '4px 8px' }}
-                        onClick={() => handleResetAccount(u.id, u.nama)}
-                      >
-                        Reset Akun
-                      </button>
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <button 
+                          className="btn btn-secondary btn-sm" 
+                          style={{ borderColor: 'var(--amber-400, #f59e0b)', color: 'var(--amber-500, #d97706)', fontSize: '11px', padding: '4px 8px' }}
+                          onClick={() => handleResetAccount(u.id, u.nama)}
+                          disabled={actionLoading}
+                        >
+                          Reset Akun
+                        </button>
+                        <button 
+                          className="btn btn-danger btn-sm" 
+                          style={{ fontSize: '11px', padding: '4px 8px' }}
+                          onClick={() => handleDeleteUser(u.id, u.nama)}
+                          disabled={actionLoading}
+                        >
+                          Hapus
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
