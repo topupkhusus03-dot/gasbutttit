@@ -12806,22 +12806,6 @@
     },
     {
       "kode_universitas": "1321",
-      "nama_prodi": "KECERDASAN BUATAN",
-      "kode_prodi": "1321-76",
-      "jenis": "Sarjana",
-      "daya_tampung": 30,
-      "rata_rata_nilai_masuk": 680
-    },
-    {
-      "kode_universitas": "1321",
-      "nama_prodi": "KECERDASAN ARTIFISIAL",
-      "kode_prodi": "1321-77",
-      "jenis": "Sarjana",
-      "daya_tampung": 30,
-      "rata_rata_nilai_masuk": 680
-    },
-    {
-      "kode_universitas": "1321",
       "nama_prodi": "TEKNIK INFORMATIKA",
       "kode_prodi": "1321-11",
       "jenis": "Sarjana",
