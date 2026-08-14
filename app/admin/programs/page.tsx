@@ -82,9 +82,9 @@ export default function AdminProgramsPage() {
 
   const runAutoImport = useCallback(async () => {
     setImporting(true);
-    setImportStatus('Membaca dataset 147 PTN & 7.000+ Prodi...');
+    setImportStatus('Membaca dataset terbaru 147 PTN & 7.032 Prodi...');
     try {
-      const res = await fetch('/auto-import-data.json');
+      const res = await fetch('/auto-import-data.json?v=' + Date.now());
       if (res.ok) {
         const data = await res.json();
         
@@ -101,7 +101,11 @@ export default function AdminProgramsPage() {
         const { data: dbUnivs } = await supabase.from('universities').select('id, kode_universitas');
         const univMap = new Map((dbUnivs || []).map(u => [u.kode_universitas, u.id]));
 
-        // 3. Prepare and insert study programs in batch
+        // 3. Clear old study programs if reloading
+        setImportStatus('Membersihkan data program studi lama...');
+        await supabase.from('study_programs').delete().not('id', 'is', null);
+
+        // 4. Prepare and insert study programs in batch
         if (data.programs && data.programs.length > 0) {
           const progsToInsert: any[] = [];
           for (const row of data.programs) {
@@ -131,7 +135,7 @@ export default function AdminProgramsPage() {
           }
         }
 
-        setImportStatus(`Berhasil mengimpor 147 PTN & ${data.programs?.length || 0} Program Studi!`);
+        setImportStatus(`Selesai! Berhasil mengimpor 147 PTN & ${data.programs?.length || 0} Program Studi!`);
         await loadData();
       }
     } catch (e: any) {
