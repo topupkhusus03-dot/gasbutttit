@@ -43,19 +43,54 @@ export default function AdminUsersPage() {
     }
   };
 
+  const getAuthHeader = async (): Promise<Record<string, string>> => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        return { 'Authorization': `Bearer ${session.access_token}` };
+      }
+    } catch (e) {}
+    return {};
+  };
+
   const handleDeleteUser = async (userId: string, userName: string) => {
     if (!window.confirm(`PERINGATAN: Anda yakin ingin MENGHAPUS user ${userName}?\n\nSemua data profil, pilihan prodi, dan hasil tryout user ini akan dihapus permanen.`)) return;
 
     setActionLoading(true);
+    let isSuccess = false;
+    let errorMessage = '';
+
     try {
-      const res = await fetch(`/api/admin/users?id=${userId}`, { method: 'DELETE' });
-      if (!res.ok) {
+      // 1. Try Supabase RPC first if available
+      const rpcRes = await supabase.rpc('delete_user_by_admin', { target_user_id: userId });
+      if (!rpcRes.error) {
+        isSuccess = true;
+      } else {
+        // 2. Call server API route with Bearer auth token
+        const headers = await getAuthHeader();
+        const res = await fetch(`/api/admin/users?id=${userId}`, { method: 'DELETE', headers });
         const data = await res.json().catch(() => ({}));
-        const { error: err } = await supabase.from('profiles').delete().eq('id', userId);
-        if (err) throw new Error(data.error || err.message);
+
+        if (res.ok && data.success) {
+          isSuccess = true;
+        } else {
+          // 3. Fallback to client-side direct delete
+          const { error: directErr } = await supabase.from('profiles').delete().eq('id', userId);
+          if (!directErr) {
+            isSuccess = true;
+          } else {
+            errorMessage = data.error || directErr.message || rpcRes.error.message;
+          }
+        }
       }
-      alert(`Berhasil menghapus user ${userName}!`);
+
       await loadUsers();
+
+      if (isSuccess) {
+        alert(`Berhasil menghapus user ${userName}!`);
+      } else {
+        alert(`Gagal menghapus user: ${errorMessage || 'Periksa izin RLS di Supabase.'}`);
+      }
     } catch (err: any) {
       alert('Gagal menghapus user: ' + err.message);
     } finally {
@@ -72,15 +107,40 @@ export default function AdminUsersPage() {
     if (!window.confirm(`PERINGATAN KRUSIAL: Anda yakin ingin MENGHAPUS SEMUA USER (${users.length} akun peserta)?\n\nSemua data profil, riwayat tryout, dan hasil ujian mereka akan dihapus permanen.\nTindakan ini TIDAK DAPAT DIBATALKAN!`)) return;
 
     setActionLoading(true);
+    let isSuccess = false;
+    let errorMessage = '';
+
     try {
-      const res = await fetch('/api/admin/users?all=true', { method: 'DELETE' });
-      if (!res.ok) {
+      // 1. Try Supabase RPC first if available
+      const rpcRes = await supabase.rpc('delete_all_users_by_admin');
+      if (!rpcRes.error) {
+        isSuccess = true;
+      } else {
+        // 2. Call server API route with Bearer auth token
+        const headers = await getAuthHeader();
+        const res = await fetch('/api/admin/users?all=true', { method: 'DELETE', headers });
         const data = await res.json().catch(() => ({}));
-        const { error: err } = await supabase.from('profiles').delete().eq('role', 'user');
-        if (err) throw new Error(data.error || err.message);
+
+        if (res.ok && data.success) {
+          isSuccess = true;
+        } else {
+          // 3. Fallback to client-side direct delete
+          const { error: directErr } = await supabase.from('profiles').delete().eq('role', 'user');
+          if (!directErr) {
+            isSuccess = true;
+          } else {
+            errorMessage = data.error || directErr.message || rpcRes.error.message;
+          }
+        }
       }
-      alert('Semua user peserta berhasil dihapus.');
+
       await loadUsers();
+
+      if (isSuccess) {
+        alert('Semua user peserta berhasil dihapus.');
+      } else {
+        alert(`Gagal menghapus semua user: ${errorMessage || 'Periksa izin RLS di Supabase.'}`);
+      }
     } catch (err: any) {
       alert('Gagal menghapus semua user: ' + err.message);
     } finally {
@@ -161,7 +221,7 @@ export default function AdminUsersPage() {
                 onClick={handleDeleteAllUsers}
                 disabled={actionLoading}
               >
-                Hapus Semua User
+                {actionLoading ? 'Memproses...' : 'Hapus Semua User'}
               </button>
             )}
           </div>

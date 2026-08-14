@@ -51,9 +51,60 @@ create policy "Admin can update all profiles"
     )
   );
 
+create policy "Admin can delete profiles"
+  on public.profiles for delete
+  using (
+    exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid() and p.role = 'admin'
+    )
+  );
+
 create policy "Allow insert on register"
   on public.profiles for insert
   with check (auth.uid() = id);
+
+-- ============================================================
+-- RPC: Admin delete user functions
+-- ============================================================
+create or replace function public.delete_user_by_admin(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+as $$
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid() and role = 'admin') then
+    raise exception 'Unauthorized: Only admin can delete users';
+  end if;
+
+  if exists (select 1 from public.profiles where id = target_user_id and role = 'admin') then
+    raise exception 'Cannot delete admin account';
+  end if;
+
+  delete from public.profiles where id = target_user_id and role = 'user';
+  delete from auth.users where id = target_user_id;
+end;
+$$;
+
+create or replace function public.delete_all_users_by_admin()
+returns void
+language plpgsql
+security definer
+as $$
+declare
+  u_id uuid;
+begin
+  if not exists (select 1 from public.profiles where id = auth.uid() and role = 'admin') then
+    raise exception 'Unauthorized: Only admin can delete users';
+  end if;
+
+  for u_id in select id from public.profiles where role = 'user' loop
+    delete from auth.users where id = u_id;
+  end loop;
+
+  delete from public.profiles where role = 'user';
+end;
+$$;
 
 -- ============================================================
 -- SUBTESTS
